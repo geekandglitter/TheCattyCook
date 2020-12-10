@@ -214,21 +214,96 @@ def show_db_list(request):
 #
 ######################################################################
 def db_results(request):
+    search_term = request.POST.getlist('label') # should change its name to user_choices
+    print("search_term is", search_term)
+    labeldict = (request.POST.getlist('dictmap'))
+    newdict = ast.literal_eval(labeldict[0])
+    print("newdict is", newdict)
+    # what I need to do here is translate the numbers into the names
+    
+    url1 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
+    url2 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
+    url3 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
+    url4 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=451&max-results=150"
+    feed1 = (feedparser.parse(url1))                
+    feed2 = (feedparser.parse(url2))
+    feed3 = (feedparser.parse(url3))
+    feed4 = (feedparser.parse(url4))
+    newfeed1 = list(feed1.entries)
+    newfeed2 = list(feed2.entries)
+    newfeed3 = list(feed3.entries)
+    newfeed4 = list(feed4.entries)
+    newfeed = newfeed1 + newfeed2 + newfeed3 + newfeed4  
+    new_list = []
+    final_list = []
+       
 
-    getchosenlabels = request.POST.getlist('label')
+    for eachrecipe in newfeed: # Now check each recipe for the user's search terms
+              
+        r = requests.get(eachrecipe.link)
+        soup = BeautifulSoup(r.text, 'html.parser')                
+        the_labels = str(soup.find("span", class_="post-labels"))                
+        the_title = eachrecipe.title       
+        the_contents = str(soup.find("div", class_="post-body entry-content"))   
+                
+        temp_list=[]
+        found=False
+        num_terms_found = 0
+        search_term_string=""
+        for term in search_term:   
+                    
+            if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
+                                               
+                found=True
+                newrec = SearchTerms.objects.update_or_create(searchterm=term)
+                num_terms_found+=1
+                search_term_string = search_term_string + " " + term    
+                thelink = ["(" + 
+                    str(num_terms_found) + 
+                      ")" +
+                      " " +
+                      "<a href=" + eachrecipe.link + 
+                      ">" + 
+                      "<b>" +
+                      eachrecipe.title +
+                      "</b>" + "</a>" + 
+                      " " +
+                      "<br>" +
+                      search_term_string +
+                      "<br><br>"]
+                        
+                if found:
+                    temp_list = thelink       
+                else:
+                    # QUESTION: Is this else ever happening?
+                    temp_list.append(thelink)
+        # Here manage the dupes in temp_list before adding it to final_list
+        final_list.extend(temp_list)     
+        if not final_list:
+            final_list.append("<b>none</b>")
+             
+        results = sorted(final_list, reverse=True)
+        final_string=""
+        for eachstring in search_term:
+            final_string += eachstring + " "
+        context={'results': results, 'search_term': final_string}
+        #print("results is ", results)
+
+    #return render(request, 'recipes/db_results', {'checkthem': search_term, 'numposts': i})
+    return render(request, 'recipes/results', context)
+######################################################################
+'''def db_results(request):
+
+    user_choices = request.POST.getlist('label')
     labeldict = (request.POST.getlist('dictmap'))
     newdict = ast.literal_eval(labeldict[0])
     userchoices = ""
     thelabels = "/"
     thestart = ""
-    print("Here we run through all the choices")
-    for choice in getchosenlabels:
-        print("the choice is", choice)
+    for choice in user_choices:
         intchoice = int(choice)
         newstring = str(newdict[intchoice])
-        print("newstring is", type(newstring))
-        newstring = requote_uri(newstring)  # i think this is unncessary code
-        print("and newstring is", type(newstring))
+        newstring = requote_uri(newstring)
         # Some labels are two words such as corned beef
         userchoices = userchoices + newstring
         thelabels = thelabels + newstring + '/'
@@ -236,7 +311,7 @@ def db_results(request):
     therest = '?start-index=1&max-results=1000'
     thelink = thestart + thelabels + therest
     tempfeed1 = (feedparser.parse(thelink))
-    tempfeed2 = sorted(tempfeed1.entries, key=itemgetter('title'))
+    tempfeed2 = sorted(tempfeed1.entries, key=itemgetter('title')) # this returns an empty list 
     newfeed = list(tempfeed2)
 
     i = 0
@@ -245,9 +320,13 @@ def db_results(request):
         i = i + 1
         feed_html = feed_html + "<p><a href=" + \
             post.link + ">" + post.title + "</a></p>"
-    return render(request, 'recipes/db_results', {'checkthem': getchosenlabels, 'getdict': feed_html, 'numposts': i})
+
+    return render(request, 'recipes/db_results', {'checkthem': user_choices, 'getdict': feed_html, 'numposts': i})
+'''
+####################################################   
 
 ####################################################
+
 # Now retrieve the urls in the model using a function-based view
 ####################################################
 
