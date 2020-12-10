@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <title>The Catty Cook by Linda (Driver) Moran</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  
+    
+     <link href='https://www.blogger.com/static/v1/widgets/2437439463-css_bundle_v2.css' rel='stylesheet' type='text/css'/>
+     <!--The above link belongs to Jason Morrow. I have to have it to get the CSS the way I want it. BUt I think the call to the birds
+     picture is somewhere in here or in a child css of this css. I can't find it. So I will always have the situation in which
+     the birds show up in my web app when they are cached.-->
+
+
+     <link rel="stylesheet" href="{% static "css/jasonmorrow.css" %}">
+    <!-- <link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=639737653225043728&amp;zx=0f6661a9-8118-451c-ab2a-9f98a4d75e5f' media='none' onload='if(media!=&#39;all&#39;)media=&#39;all&#39;' rel='stylesheet'/><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=639737653225043728&amp;zx=0f6661a9-8118-451c-ab2a-9f98a4d75e5f' rel='stylesheet'/></noscript>
+     -->
+     <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+    </head>
+    <body class='loading variant-hummingBirds2'>
+    <div class='navbar section' id='navbar' name='Navbar'><div class='widget Navbar' data-version='1' id='Navbar1'><script type="text/javascript">
+        function setAttributeOnload(object, attribute, val) {
+          if(window.addEventListener) {
+            window.addEventListener('load',
+              function(){ object[attribute] = val; }, false);
+          } else {
+            window.attachEvent('onload', function(){ object[attribute] = val; });
+          }
+        }
+      </script>
+    <div id="navbar-iframe-container"></div>
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+    <script type="text/javascript">
+          gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
+            if (gapi.iframes && gapi.iframes.getContext) {
+              gapi.iframes.getContext().openChild({
+                  url: 'https://www.blogger.com/navbar.g?targetBlogID\x3d639737653225043728\x26blogName\x3dI+Stay+Home+and+Bake+Cookies\x26publishMode\x3dPUBLISH_MODE_HOSTED\x26navbarType\x3dLIGHT\x26layoutType\x3dLAYOUTS\x26searchRoot\x3dhttps://www.istayhomeandbakecookies.com/search\x26blogLocale\x3den\x26v\x3d2\x26homepageUrl\x3dhttps://www.istayhomeandbakecookies.com/\x26targetPostID\x3d2263349074347897186\x26blogPostOrPageUrl\x3dhttps://www.istayhomeandbakecookies.com/2018/06/chicken-saag-made-with-heavy-cream-milk.html\x26vt\x3d6694615964563786339',
+                  where: document.getElementById("navbar-iframe-container"),
+                  id: "navbar-iframe"
+              });
+            }
+          });
+        </script><script type="text/javascript">
+    (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '//pagead2.googlesyndication.com/pagead/js/google_top_exp.js';
+    var head = document.getElementsByTagName('head')[0];
+    if (head) {
+    head.appendChild(script);
+    }})();
+    </script>
+    </div></div>
+    <div class='body-fauxcolumns'>
+    <div class='fauxcolumn-outer body-fauxcolumn-outer'>
+    <div class='cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left'>
+    <div class='fauxborder-right'></div>
+    <div class='fauxcolumn-inner'>
+    </div>
+    </div>
+    <div class='cap-bottom'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    </div>
+    </div>
+    <div class='content'>
+    <div class='content-fauxcolumns'>
+    <div class='fauxcolumn-outer content-fauxcolumn-outer'>
+    <div class='cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left'>
+    <div class='fauxborder-right'></div>
+    <div class='fauxcolumn-inner'>
+    </div>
+    </div>
+    <div class='cap-bottom'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    </div>
+    </div>
+    <div class='content-outer'>
+    <div class='content-cap-top cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left content-fauxborder-left'>
+    <div class='fauxborder-right content-fauxborder-right'></div>
+    <div class='content-inner'>
+    <header>
+    <div class='header-outer'>
+    <div class='header-cap-top cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left header-fauxborder-left'>
+    <div class='fauxborder-right header-fauxborder-right'></div>
+    <div class='region-inner header-inner'>
+    <div class='header section' id='header' name='Header'><div class='widget Header' data-version='1' id='Header1'>
+    <div id='header-inner'>
+    <div class='titlewrapper'>
+    <h1 class='title'>
+    <a href='https://thecattycook.blogspot.com/'>
+    The Catty Cook
+    </a>
+    </h1>
+    <span style="font-size: 24x; font-style: italic">Recipe blog extension written in Python/Django
+        because that's my idea of a good time. Extend me some grace; I am a backend developer trying to create 
+        a fullstack web app. (In plain English, I don't specialize in how things look on the screen.)
+
+           <br> <br><a href="https://thecattycook.blogspot.com/">Go directly to the blog</a></span>
+    </div>
+
+    </div>
+    </div>
+    </div></div>
+    </div>
+    </div>
+    <div class='header-cap-bottom cap-bottom'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    </div>
+    </header>
+    <div class='tabs-outer'>
+    <div class='tabs-cap-top cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left tabs-fauxborder-left'>
+    <div class='fauxborder-right tabs-fauxborder-right'></div>
+    <div class='region-inner tabs-inner'>
+    <div class='tabs no-items section' id='crosscol' name='Cross-Column'></div>
+    <div class='tabs no-items section' id='crosscol-overflow' name='Cross-Column 2'></div>
+    </div>
+    </div>
+    <div class='tabs-cap-bottom cap-bottom'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    </div>
+    <div class='main-outer'>
+    <div class='main-cap-top cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left main-fauxborder-left'>
+    <div class='fauxborder-right main-fauxborder-right'></div>
+    <div class='region-inner main-inner'>
+    <div class='columns fauxcolumns'>
+    <div class='fauxcolumn-outer fauxcolumn-center-outer'>
+    <div class='cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left'>
+    <div class='fauxborder-right'></div>
+    <div class='fauxcolumn-inner'>
+    </div>
+    </div>
+    <div class='cap-bottom'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    </div>
+    <div class='fauxcolumn-outer fauxcolumn-left-outer'>
+    <div class='cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left'>
+    <div class='fauxborder-right'></div>
+    <div class='fauxcolumn-inner'>
+    </div>
+    </div>
+    <div class='cap-bottom'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    </div>
+    <div class='fauxcolumn-outer fauxcolumn-right-outer'>
+    <div class='cap-top'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    <div class='fauxborder-left'>
+    <div class='fauxborder-right'></div>
+    <div class='fauxcolumn-inner'>
+    </div>
+    </div>
+    <div class='cap-bottom'>
+    <div class='cap-left'></div>
+    <div class='cap-right'></div>
+    </div>
+    </div>
+    <!-- corrects IE6 width calculation -->
+    <div class='columns-inner'>
+    <div class='column-center-outer'>
+    <div class='column-center-inner'>
+    <div class='main section' id='main' name='Main'><div class='widget Blog' data-version='1' id='Blog1'>
+    <div class='blog-posts hfeed'>
+    
+              <div class="date-outer">
+             
+    
+              <div class="date-posts">
+            
+    <div class='post-outer'>
+    <div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+    <meta content='//cdn.printfriendly.com/buttons/printfriendly-button-md.png' itemprop='image_url'/>
+    <meta content='639737653225043728' itemprop='blogId'/>
+    <meta content='2263349074347897186' itemprop='postId'/>
+     
+    
+ 
+     
+
+  
+         
+     {% if request.get_full_path == "/" %}
+      
+     {% else %}
+        <span style="font-size: 24x; font-style: italic"><a href="/">Return to main menu</a></span>
+        <p></p>
+        
+     {% endif %}    
+    {% block content %}
+    
+    {% endblock content %}
+     
+</body>
+</html>
+

@@ -1,0 +1,6 @@
+{% extends "base" %}
+
+{% block content %}
+  <h1>Error</h1>
+ <p>{{errorcode | safe}}</p>
+{% endblock content %}

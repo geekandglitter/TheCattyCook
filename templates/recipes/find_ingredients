@@ -1,0 +1,21 @@
+{% extends "base" %}
+
+{% block content %}
+ 
+  <h1>{{the_title}}</h1>
+  <p style="font-size: 20px">All Recipes containing your search term <b>{{search_term}}</b>:</p>
+     
+  <p>
+ 
+    {% for recipe in  feed_html_list%}
+     
+    <span style="margin-bottom: 25px">{{recipe | safe}}</span>
+    
+     
+    {% endfor %}
+  </p>   
+ 
+{% endblock content %}
+
+
+ 

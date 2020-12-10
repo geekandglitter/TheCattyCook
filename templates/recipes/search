@@ -1,0 +1,41 @@
+{% extends "base" %}
+
+{% block content %}
+<h3>Enter a search term or many search terms, separated by commas</h3>
+ 
+     
+</p> 
+
+{% if submitted %}
+<p class="success">
+ Your message was submitted successfully. Thank you.
+ </p>
+
+ {% else %}
+ <form action="" method="post" validate>
+ <table>
+ {{ form.as_table }}
+      <tr>
+     <td>&nbsp;</td>
+      </tr>
+      <tr>
+      <td>&nbsp;</td>
+      
+      <td><input type="submit" value="Send"></td>
+      </tr>
+ </table>
+ {% csrf_token %}
+ </form>
+{% endif %}
+
+{% comment %}   
+# I want to do something better with this, so for now it's commented out
+ <p><b>Some suggestions:</b></p>
+ {% for word in words %}
+     <span style="margin-bottom: 25px">{{word | safe}}<br></span>
+ 
+ {% endfor %}   
+ {% endcomment %}  
+{% endblock content %}
+
+ 

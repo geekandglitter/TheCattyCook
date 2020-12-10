@@ -1,0 +1,10 @@
+{% extends "base" %}
+
+{% block content %}
+  <h3>These recipes have fewer than 300 chars. </h3>
+  <p>Click through each one, and fix or revert to draft</p> 
+  <p style="font-size: 18px">{{feed_html | safe}}</p>
+
+     
+
+{% endblock content %}

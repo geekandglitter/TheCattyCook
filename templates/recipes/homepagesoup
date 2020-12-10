@@ -1,0 +1,11 @@
+{% extends "base" %}
+
+{% block content %}
+  <h1>{{title}}</h1>
+  <h2>{{count}} posts from my blog's Home Page</h2> 
+   <h3>As you can see, the list is not complete</h3>
+   <p>It seems that blogger has a limit on how many posts can exist on the home page, even with a settings override</p>
+   <p>{{mylist | safe}}</p>
+ 
+   
+{% endblock content %}

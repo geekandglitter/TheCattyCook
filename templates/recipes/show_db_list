@@ -1,0 +1,24 @@
+{% extends "base" %}
+
+{% block content %}
+
+
+
+  <p>Select more than one to help narrow down your recipe search. Only recipes with all selections will be in the results.      </p>
+  <span>
+
+  <form action="db_results"   method="POST" enctype= "multipart/form-data" >
+
+  <input type="hidden" name ="dictmap" value="{{ dictmap }}">
+
+  <button type="reset" value="Clear all checked boxes">Clear All Checked Boxes</button>
+  {{mylist | safe}}
+    {% csrf_token %}
+
+
+  </form>
+
+  </span>
+
+ <br><br>
+{% endblock content %}

@@ -1,0 +1,10 @@
+{% extends "base" %}
+
+{% block content %}
+
+  <h1>Click any title to find the recipe</h1>
+  <p style="font-size: 12px">{{count}} Posts from Google Blogger API Json Alphabetical</p>
+
+  <p>{{allofit  | safe}}</p>
+
+{% endblock content %}
