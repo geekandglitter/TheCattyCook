@@ -63,39 +63,6 @@ def homepagesoup(request):
 # VIEW
 ###################################################
 """ This view uses the Google Blogger API to scrape all the posts. All I needed was an API key. 
-
-I then wanted to write code in this view that would update each post with a print button, 
-but I learned that an API key is not enough for updating a post. I would need an OAuth Client
-ID, which turned out to be too complicated. So in the end, all this view does is fetch the
-posts. See my experiments view called "request_one_post" for my attempts to update even just 
-one post without an OAuth. It fails with a 401.
-
-Info:
-  #1) My Google API Dashboard is 
-      https://console.developers.google.com/apis/credentials?pli=1&creatingProject=true&project=addprintbuttontoexistingposts&folder&organizationId
-  #2) My Api key=AIzaSyAJUzDRE0vfQFXPMmJ52W6YNRgxkj_lmg
-  #3) My Project Name is AddPrintButtonToExistingPosts
-  #4) My Project ID is addprintbuttontoexistingposts
-  #5) My recipe blog is 639737653225043728 (istayhomeandbakecookies.com)
-  #6) Here's the code suggested by the API documentation:
-      GET https://www.googleapis.com/blogger/v3/blogs/2399953/posts?key=YOUR-API-KEY
-  #7) Here's my code. It works in the browser, too: 
-      https://www.googleapis.com/blogger/v3/blogs/639737653225043728/posts?key=AIzaSyAJUzDRE0vfQFXPMmJ52W6YNRgxkj_lmg8
-"""
-
-"""
-# Note: I had to lower the number of maxPosts above because the requests.get was throwing a server 500 error with too
- many posts. It
-# turns out that requests is much slower than urllib.request.urlopen. This is because
-# it doesn't use persistent connections: that is, it sends the header
-# "Connection: close". This forces the server to close the connection immediately, so that TCP FIN comes quickly. 
-You can reproduce
-# this in Requests by sending that same header. Like this: r = requests.post(url=url, data=body, 
-headers={'Connection':'close'})
-#
-# Note: I was able to improve the api call to fetchbodies = false, which speeds up the loading to some degree.
- Now I can allow for 200 posts
-# instead of 100 posts.  
 """
 
 
@@ -254,10 +221,14 @@ def db_results(request):
     userchoices = ""
     thelabels = "/"
     thestart = ""
+    print("Here we run through all the choices")
     for choice in getchosenlabels:
+        print("the choice is", choice)
         intchoice = int(choice)
         newstring = str(newdict[intchoice])
-        newstring = requote_uri(newstring)
+        print("newstring is", type(newstring))
+        newstring = requote_uri(newstring)  # i think this is unncessary code
+        print("and newstring is", type(newstring))
         # Some labels are two words such as corned beef
         userchoices = userchoices + newstring
         thelabels = thelabels + newstring + '/'
