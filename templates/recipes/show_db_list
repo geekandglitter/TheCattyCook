@@ -4,7 +4,7 @@
 
 
 
-  <p>Select more than one to help narrow down your recipe search. Only recipes with all selections will be in the results.      </p>
+  <p>Results will be shown in order of relevance (the number of search criteria met) </p>
   <span>
 
   <form action="db_results"   method="POST" enctype= "multipart/form-data" >

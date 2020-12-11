@@ -220,7 +220,21 @@ def db_results(request):
     newdict = ast.literal_eval(labeldict[0])
     print("newdict is", newdict)
     # what I need to do here is translate the numbers into the names
+    print(newdict.values())
+
     
+
+
+    new_search_term=[]
+    for key in newdict.keys():
+        if str(key) in search_term:
+            new_search_term.append(newdict[key])
+    print ("new search term is", new_search_term)
+    search_term=new_search_term
+
+
+
+
     url1 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
     url2 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
     url3 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
@@ -279,8 +293,8 @@ def db_results(request):
                     temp_list.append(thelink)
         # Here manage the dupes in temp_list before adding it to final_list
         final_list.extend(temp_list)     
-        if not final_list:
-            final_list.append("<b>none</b>")
+        #if not final_list:
+         #   final_list.append("<b>none</b>")
              
         results = sorted(final_list, reverse=True)
         final_string=""
