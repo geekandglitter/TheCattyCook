@@ -24,34 +24,28 @@ represents a Django view.   </p>
     <ol>
 
 
-    <li><b><a href="/search">Type in any word(s) that might be in a recipe, separated by commas.</b> 
-    </a><br><small>Want to know if it will be "and" or an "or"? I did you one better. 
-    Returns all recipes with any or all of the search terms. This view uses Blogger API, Django Models and ModelForm. 
+    <li><b><a href="/search">Type in any word(s) that might be in a recipe, separated by commas</b> 
+    </a><br><small>Shows results in order of relevance, which is based on number of criteria met.
+     This view uses Blogger API, Django Models and ModelForm. 
      </small></li>
 
 
-    <li><b><a href="/modelfun_with_rss">Find all Recipes in reverse order in which I wrote them </a></b><br><small>Get all
+    <li><b><a href="/modelfun_with_rss">Find all Recipes in, most recent first </a></b><br><small>Get all
      the post urls from three RSS feeds, then store them each in one record in a model. It does not use Google Blogger API.
       (a mysql database)</small></li>
 
   <li><b><a href="/modelfun">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
    all the post urls from Google Blogger API,
    then store them each in one record in a model
-      (a mysql or postgres database)</small></li>
+      (a mysql or postgres database).</small></li>
 
     <li><b><a href="/show_db_list">Select ingredients from suggestions</a></b><br>
-    <small>Shows all database keywords with checkboxes. Results are ordered by relevance (number of search criteria met)   </small> </li>
-
-    
-
-  
-      
+    <small>Shows all database keywords with checkboxes. Results are ordered by relevance (number of search criteria met).   </small> </li>
+     
       
       
      <li><a href="/count_words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
-      Google Adsense, as they expect a minium of around 300 characters</small></li>
-     
-    
+      Google Adsense, as they expect a minium of around 300 characters.</small></li> 
  
 
  
@@ -59,23 +53,17 @@ represents a Django view.   </p>
     <li><a href="/bloggerapigetalpha">View all Recipes Alphabetically   </a><br><small>Uses Google Blogger API and requests to get 
       the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
       Does not store them in a model.</small>  </li>
-    <li><a href="/bloggerapigetchron">View all Recipes Chronologically  </a><br><small>Uses Google Blogger API and requests to get
-       the feed, one year at a time to prevent a timeout, then loads the json chronologically</small> </li>
+    <li><a href="/bloggerapigetchron">View all Recipes Chronologically  </a><br><small>Uses Google Blogger API and requests
+     to get the feed, one year at a time to prevent a timeout, then loads the json chronologically.</small> </li>
 
 
     <li><a href="/homepagesoup">View Recipes scraped from the home page  </a><br><small>Uses requests and beautifulSoup to scrape
-      recipes only from the home page. The results are limited</small></li>
-
-   
-
-
-
-      
+      recipes only from the home page. The results are limited.</small></li>     
 
     <! --  The next two views are attempting to be the same. The first is a functional view; the second a class-based view -->
-     <li><a href="/get_the_model_data">NOT WORKING Retrieve the URL's from the model</a><br><small>Uses a functional view, 
+     <li><a href="/get_the_model_data">NOT CURRENTLY WORKING Retrieve the URL's from the model</a><br><small>Uses a functional view, 
      works with the new database model</small></li>
-     <li><a href="/BlogUrls_list">NOT WORKING Retrieve the URL's from the model</a> <br><small>Uses a class based view, still 
+     <li><a href="/BlogUrls_list">NOT CURRENTLY WORKING Retrieve the URL's from the model</a> <br><small>Uses a class based view, still 
      works with the old database model
        because I would have to relearn how to use this class based view to repurpose it. I have no idea how it works and it looks 
        cryptic</small></li>

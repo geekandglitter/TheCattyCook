@@ -28,10 +28,10 @@ class SearchAdmin(admin.ModelAdmin): # I think this overrides Admin defaults
 	"""
 	Here's where I customize Admin for the SearchTerms model
 	"""
-	list_display = ['searchterm', id]
+	list_display = ['searchterm', 'id']
 	list_filter = ('searchterm', 'id')
-	list_max_show_all = 500
-	list_per_page = 500
+	list_max_show_all = 1000
+	list_per_page = 1000
 
 admin.site.register(AllRecipes, RecipeAdmin)
 admin.site.register(BlogUrls)  # register on the actual admin site

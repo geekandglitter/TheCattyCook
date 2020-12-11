@@ -177,7 +177,7 @@ def show_db_list(request):
         for num, label in enumerate(somehtml.find_all('a'), start=0):
             if not (str(label.text[0])).isalnum():
                 break  # the last label is a long blank! 
-            newrec = SearchTerms.objects.update_or_create(searchterm=label.text) # add any new labels to the db  
+            newrec = SearchTerms.objects.update_or_create(searchterm=label.text.lower()) # add any new labels to the db  
 
         # Next we want to fetch whatever is in the database. Those items will become the checkboxes
         instance = SearchTerms.objects.values_list(
@@ -215,21 +215,17 @@ def show_db_list(request):
 ######################################################################
 def db_results(request):
     search_term = request.POST.getlist('label') # should change its name to user_choices
-    print("search_term is", search_term)
+ 
     labeldict = (request.POST.getlist('dictmap'))
     newdict = ast.literal_eval(labeldict[0])
-    print("newdict is", newdict)
+ 
     # what I need to do here is translate the numbers into the names
-    print(newdict.values())
-
-    
-
-
     new_search_term=[]
     for key in newdict.keys():
         if str(key) in search_term:
+             
             new_search_term.append(newdict[key])
-    print ("new search term is", new_search_term)
+    
     search_term=new_search_term
 
 
@@ -269,7 +265,7 @@ def db_results(request):
             if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
                                                
                 found=True
-                newrec = SearchTerms.objects.update_or_create(searchterm=term)
+                newrec = SearchTerms.objects.update_or_create(searchterm=term.lower())
                 num_terms_found+=1
                 search_term_string = search_term_string + " " + term    
                 thelink = ["(" + 
@@ -301,7 +297,7 @@ def db_results(request):
         for eachstring in search_term:
             final_string += eachstring + " "
         context={'results': results, 'search_term': final_string}
-        #print("results is ", results)
+         
 
     #return render(request, 'recipes/db_results', {'checkthem': search_term, 'numposts': i})
     return render(request, 'recipes/results', context)
@@ -518,11 +514,9 @@ def user_search_view(request):
     '''
     The first time this view is run, it shows a form to the user. The user is asked to input some search terms,
     separated by commas.
-    The second time this view is run, it proceses the form
-    Returns all recipes with any or all of the search terms. This view uses Django Models and ModelForm. I've started the code
-     for storing the search terms and hyperlinks in a model for later retrieval, but this code works standalone 
-     without the model code. (User can even type in a kitchen gadget or a name of someone who I might mentioned in the recipe 
-     because they like it.) 
+    The second time this view is run, it processes the form.
+    It returns all recipes with any or all of the search terms.  
+     
     ''' 
     # Below is some setup
     url1 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
@@ -533,15 +527,13 @@ def user_search_view(request):
     final_list = []
     if request.method == 'POST': # this means the user has filled out the form
          
-        form = RecipeForm(request.POST)         
-         
+        form = RecipeForm(request.POST)               
         search_term=""
         if form.is_valid():
             cd = form.cleaned_data  # Clean the user input
             search_term = cd['user_search_terms']    
             #for oneterm in search_term: # now run through the current serach terms and save them to the database
-                #newrec = SearchTerms.objects.update_or_create(searchterm=oneterm.title())                  
-           
+                #newrec = SearchTerms.objects.update_or_create(searchterm=oneterm.title())   
             
             # Note about code below: Blogger limits RSS feeds to 150
             # So I get the lists and put them together     
@@ -572,7 +564,7 @@ def user_search_view(request):
                     if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
                                                
                         found=True
-                        newrec = SearchTerms.objects.update_or_create(searchterm=term)
+                        newrec = SearchTerms.objects.update_or_create(searchterm=term.lower())
                         num_terms_found+=1
                         search_term_string = search_term_string + " " + term    
                         thelink = ["(" + 
@@ -604,11 +596,11 @@ def user_search_view(request):
         for eachstring in search_term:
             final_string += eachstring + " "
         context={'results': results, 'search_term': final_string}
-        print("results is ", results)
+         
         return render(request, 'recipes/results', context)
     else: # This code executes the first time this view is run 
         form = RecipeForm() 
-    # Here is where I want to pull suggestions from a special database that has labels plus
+  
      
     instance = SearchTerms.objects.values_list('searchterm', flat=True).distinct()
      
