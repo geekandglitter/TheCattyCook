@@ -39,7 +39,7 @@ represents a Django view.   </p>
    then store them each in one record in a model
       (a mysql or postgres database).</small></li>
 
-    <li><b><a href="/show_db_list">Select ingredients from suggestions</a></b><br>
+    <li><b><a href="/searchsuggestions">Select ingredients from suggestions</a></b><br>
     <small>Shows all database keywords with checkboxes. Results are ordered by relevance (number of search criteria met).   </small> </li>
      
       

@@ -165,7 +165,7 @@ def errors(request):
 ########################################################
 # Show Label List#
 ########################################################
-def show_db_list(request):
+def searchsuggestions(request):
     def update_the_database_with_labels():
         r = requests.get("https://thecattycook.blogspot.com")
         soup = BeautifulSoup(r.text, 'html.parser')
@@ -206,7 +206,7 @@ def show_db_list(request):
 
         # Now get ready to send the data to the template
         title = soup.title.text
-        return render(request, 'recipes/show_db_list',
+        return render(request, 'recipes/searchsuggestions',
                       {'title': title, 'mylist': results_list, 'dictmap': dictmap})
     except requests.ConnectionError:
         return render(request, 'recipes/error_page')

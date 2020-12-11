@@ -35,7 +35,7 @@ urlpatterns = [
   url('bloggerapigetalpha', views.bloggerapigetalpha),
   url('bloggerapigetchron', views.bloggerapigetchron),
  
-  path('show_db_list', views.show_db_list),
+  path('searchsuggestions', views.searchsuggestions),
   path('db_results', views.db_results),  
   path('get_the_model_data', views.get_the_model_data),
   path('BlogUrls_list', ModelList.as_view(model=BlogUrls)),
