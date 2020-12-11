@@ -166,18 +166,21 @@ def errors(request):
 # Show Label List#
 ########################################################
 def show_db_list(request):
-    try:
-        
-        dictmap = dict()
+    def update_the_database_with_labels():
         r = requests.get("https://thecattycook.blogspot.com")
         soup = BeautifulSoup(r.text, 'html.parser')
         somehtml = soup.find("div", {"class": "widget Label"})
 
-        results_list = "<table><br><br>"
+       
         for num, label in enumerate(somehtml.find_all('a'), start=0):
             if not (str(label.text[0])).isalnum():
                 break  # the last label is a long blank! 
             newrec = SearchTerms.objects.update_or_create(searchterm=label.text.lower()) # add any new labels to the db  
+        return(soup)    
+    try:
+        results_list = "<table><br><br>"
+        soup = update_the_database_with_labels() 
+        dictmap = dict()       
 
         # Next we want to fetch whatever is in the database. Those items will become the checkboxes
         instance = SearchTerms.objects.values_list(
@@ -227,10 +230,6 @@ def db_results(request):
             new_search_term.append(newdict[key])
     
     search_term=new_search_term
-
-
-
-
     url1 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
     url2 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
     url3 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
@@ -245,8 +244,7 @@ def db_results(request):
     newfeed4 = list(feed4.entries)
     newfeed = newfeed1 + newfeed2 + newfeed3 + newfeed4  
     new_list = []
-    final_list = []
-       
+    final_list = []       
 
     for eachrecipe in newfeed: # Now check each recipe for the user's search terms
               
@@ -296,44 +294,10 @@ def db_results(request):
         final_string=""
         for eachstring in search_term:
             final_string += eachstring + " "
-        context={'results': results, 'search_term': final_string}
-         
+        context={'results': results, 'search_term': final_string}         
 
     #return render(request, 'recipes/db_results', {'checkthem': search_term, 'numposts': i})
-    return render(request, 'recipes/results', context)
-######################################################################
-'''def db_results(request):
-
-    user_choices = request.POST.getlist('label')
-    labeldict = (request.POST.getlist('dictmap'))
-    newdict = ast.literal_eval(labeldict[0])
-    userchoices = ""
-    thelabels = "/"
-    thestart = ""
-    for choice in user_choices:
-        intchoice = int(choice)
-        newstring = str(newdict[intchoice])
-        newstring = requote_uri(newstring)
-        # Some labels are two words such as corned beef
-        userchoices = userchoices + newstring
-        thelabels = thelabels + newstring + '/'
-        thestart = 'https://www.blogger.com/feeds/639737653225043728/posts/default/-'
-    therest = '?start-index=1&max-results=1000'
-    thelink = thestart + thelabels + therest
-    tempfeed1 = (feedparser.parse(thelink))
-    tempfeed2 = sorted(tempfeed1.entries, key=itemgetter('title')) # this returns an empty list 
-    newfeed = list(tempfeed2)
-
-    i = 0
-    feed_html = ""
-    for i, post in enumerate(newfeed):
-        i = i + 1
-        feed_html = feed_html + "<p><a href=" + \
-            post.link + ">" + post.title + "</a></p>"
-
-    return render(request, 'recipes/db_results', {'checkthem': user_choices, 'getdict': feed_html, 'numposts': i})
-'''
-####################################################   
+    return render(request, 'recipes/results', context) 
 
 ####################################################
 

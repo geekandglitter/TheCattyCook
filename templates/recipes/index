@@ -30,7 +30,7 @@ represents a Django view.   </p>
      </small></li>
 
 
-    <li><b><a href="/modelfun_with_rss">Find all Recipes in, most recent first </a></b><br><small>Get all
+    <li><b><a href="/modelfun_with_rss">Find all Recipes, most recent first </a></b><br><small>Get all
      the post urls from three RSS feeds, then store them each in one record in a model. It does not use Google Blogger API.
       (a mysql database)</small></li>
 
