@@ -307,7 +307,7 @@ def get_the_model_data(request):
 
     instance = BlogUrls.objects.values_list('website', flat=True).distinct()
     counter = BlogUrls.objects.values_list('numurls', flat=True).distinct()
-    #return render(request, 'recipes/get_the_model_data', {'allofit': instance[0], 'counter': counter[0]})
+     
 
     instance = AllRecipes.objects.values_list(
         'hyperlink', flat=True).distinct()
@@ -315,7 +315,7 @@ def get_the_model_data(request):
     allofit = ""
     for i in range(instance.count()):
         allofit = allofit+instance[i]
-    return render(request, 'recipes/get_the_model_data', {'allofit': allofit, 'counter': instance.count()})
+    return render(request, 'recipes/get-the-model-data', {'allofit': allofit, 'counter': instance.count()})
 
 
 ####################################################
@@ -560,7 +560,7 @@ def user_search_view(request):
         final_string=""
         for eachstring in search_term:
             final_string += eachstring + " "
-        final_string = "Showing Results for: " + final_string    
+        final_string = "<br>" + "Showing Results for: " + final_string    
         context={'results': results, 'search_term': final_string, 'form': form}
          
      

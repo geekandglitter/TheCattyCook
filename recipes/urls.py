@@ -37,13 +37,9 @@ urlpatterns = [
  
   path('searchsuggestions', views.searchsuggestions),
   path('db_results', views.db_results),  
-  path('get_the_model_data', views.get_the_model_data),
-  path('BlogUrls_list', ModelList.as_view(model=BlogUrls)),
-  #path('find_ingredients', views.find_ingredients),
-  #path('find_ingredients', views.find_ingredients_improved),
-  #path('find_ingredients_in_all', views.find_ingredients_in_all),  
-  path('count_words', views.count_words),
-   
+  path('get-the-model-data', views.get_the_model_data),
+  path('BlogUrls_list', ModelList.as_view(model=BlogUrls)), 
+  path('count_words', views.count_words),   
   path('modelfun', views.modelfun),
   path('modelfun_with_rss', views.modelfun_with_rss), 
   path('search', views.user_search_view),

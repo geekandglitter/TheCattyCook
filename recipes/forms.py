@@ -7,7 +7,7 @@ class RecipeForm(forms.ModelForm):
         model = AllRecipes
         fields = [
              
-            'user_search_terms',
+            'user_search_terms'
         ]
 
 
