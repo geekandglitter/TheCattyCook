@@ -1,17 +1,14 @@
 {% extends "base" %}
 
 {% block content %}
-<h3>Enter a search term or many search terms, separated by commas</h3>
- 
-     
-</p> 
 
-{% if submitted %}
+ 
+ 
 <p class="success">
  Your message was submitted successfully. Thank you.
  </p>
 
- {% else %}
+ 
  <form action="" method="post" validate>
  <table>
  {{ form.as_table }}
@@ -26,9 +23,21 @@
  </table>
  {% csrf_token %}
  </form>
-{% endif %}
+ 
 
+ 
+  <h1>{{the_title}}</h1>
+  
+  <b style="font-size: 15px">{{search_term | safe}}</b></p><p>
+ 
+ 
+    {% for recipe in  results%}
+     
+    <span style="margin-bottom: 25px">{{recipe | safe}}</span>
+
+     
+     
+    {% endfor %}
+  </p>   
  
 {% endblock content %}
-
- 

@@ -488,14 +488,15 @@ def user_search_view(request):
     url4 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=451&max-results=150"
     new_list = []
     final_list = []
+    form = RecipeForm(request.POST)       
     if request.method == 'POST': # this means the user has filled out the form
          
-        form = RecipeForm(request.POST)               
+              
         search_term=""
         if form.is_valid():
             print("I guess this means it's valid?")
             cd = form.cleaned_data  # Clean the user input
-            search_term = cd['user_search_terms']    
+            search_term = cd['user_search_terms']     
             #for oneterm in search_term: # now run through the current serach terms and save them to the database
                 #newrec = SearchTerms.objects.update_or_create(searchterm=oneterm.title())   
             
@@ -559,21 +560,12 @@ def user_search_view(request):
         final_string=""
         for eachstring in search_term:
             final_string += eachstring + " "
-        context={'results': results, 'search_term': final_string}
+        final_string = "Showing Results for: " + final_string    
+        context={'results': results, 'search_term': final_string, 'form': form}
          
-        return render(request, 'recipes/results', context)
-    else: # This code executes the first time this view is run 
-        form = RecipeForm() 
-  
-    # Now we will fetch all the search terms from the database and display them 
-    instance = SearchTerms.objects.values_list('searchterm', flat=True).distinct()     
-    words_from_database=""
-    for i in range(instance.count()):
-        words_from_database = words_from_database + instance[i] + "<br>" 
-    # breakdown the string into a list of words
-    words = [word.lower() for word in words_from_database.split("<br>")]
-    # sort the list
-    words.sort()  
-    context = {'form': form,  'words': words}    
-    print("context is ", context)
+     
+    else: # This code executes the first time this view is run        
+        context = {'form': form}    
+   
+     
     return render(request, 'recipes/search', context)
