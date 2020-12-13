@@ -5,7 +5,7 @@ from django.views.generic.list import ListView
 from .models import BlogUrls
 from django.http import HttpResponseRedirect
 import sys
-from recipes.forms import SimpleForm
+#from recipes.forms import SimpleForm
 from .models import AllRecipes
 from operator import itemgetter
 import json
@@ -166,12 +166,8 @@ def errors(request):
 # Show Label List#
 ########################################################
 def searchsuggestions(request):
-    def update_the_database_with_labels():
-        r = requests.get("https://thecattycook.blogspot.com")
-        soup = BeautifulSoup(r.text, 'html.parser')
-        somehtml = soup.find("div", {"class": "widget Label"})
-
-       
+    def update_the_database_with_labels(soup):        
+        somehtml = soup.find("div", {"class": "widget Label"})       
         for num, label in enumerate(somehtml.find_all('a'), start=0):
             if not (str(label.text[0])).isalnum():
                 break  # the last label is a long blank! 
@@ -179,7 +175,10 @@ def searchsuggestions(request):
         return(soup)    
     try:
         results_list = "<table><br><br>"
-        soup = update_the_database_with_labels() 
+        results_list = results_list + '<input type="submit" value="Send Your Choices"><br><br>'  
+        r = requests.get("https://thecattycook.blogspot.com")
+        soup = BeautifulSoup(r.text, 'html.parser')
+        #update_the_database_with_labels(soup) 
         dictmap = dict()       
 
         # Next we want to fetch whatever is in the database. Those items will become the checkboxes
@@ -494,6 +493,7 @@ def user_search_view(request):
         form = RecipeForm(request.POST)               
         search_term=""
         if form.is_valid():
+            print("I guess this means it's valid?")
             cd = form.cleaned_data  # Clean the user input
             search_term = cd['user_search_terms']    
             #for oneterm in search_term: # now run through the current serach terms and save them to the database
@@ -565,18 +565,15 @@ def user_search_view(request):
     else: # This code executes the first time this view is run 
         form = RecipeForm() 
   
-     
-    instance = SearchTerms.objects.values_list('searchterm', flat=True).distinct()
-     
+    # Now we will fetch all the search terms from the database and display them 
+    instance = SearchTerms.objects.values_list('searchterm', flat=True).distinct()     
     words_from_database=""
     for i in range(instance.count()):
-        words_from_database = words_from_database + instance[i] + "<br>"
-     
+        words_from_database = words_from_database + instance[i] + "<br>" 
     # breakdown the string into a list of words
     words = [word.lower() for word in words_from_database.split("<br>")]
-
     # sort the list
-    words.sort() 
- 
+    words.sort()  
     context = {'form': form,  'words': words}    
+    print("context is ", context)
     return render(request, 'recipes/search', context)

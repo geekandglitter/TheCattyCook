@@ -12,8 +12,8 @@ class RecipeForm(forms.ModelForm):
 
 
 
-class SimpleForm(forms.Form):
-    searchterm = forms.CharField(help_text="", max_length=100)
+#class SimpleForm(forms.Form):
+    #searchterm = forms.CharField(help_text="", max_length=100)
     
      
          

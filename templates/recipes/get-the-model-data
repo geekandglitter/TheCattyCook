@@ -1,0 +1,13 @@
+{% extends "base" %}
+
+{% block content %}
+  <h1>I Stay Home and Bake Cookies</h1>
+  <h2>Get the Model Data</h2>
+  <!--<h2> {{count}} recipes chosen by label </h2>-->
+  <h2>{{counter }} recipes retrieved from the database</h2>
+  <p>Retrieving the URL's that I stored in the model</p>
+   {{allofit | safe}}
+  
+{% endblock content %}
+
+

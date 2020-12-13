@@ -28,14 +28,7 @@
  </form>
 {% endif %}
 
-{% comment %}   
-# I want to do something better with this, so for now it's commented out
- <p><b>Some suggestions:</b></p>
- {% for word in words %}
-     <span style="margin-bottom: 25px">{{word | safe}}<br></span>
  
- {% endfor %}   
- {% endcomment %}  
 {% endblock content %}
 
  
