@@ -33,7 +33,7 @@ urlpatterns = [
   path('gotten', views.get_view),
   path('gottenchron', views.getchron_view), 
   path('searchsuggestions', views.searchsuggestions),
-  path('db_results', views.db_results),  
+  path('searchresults', views.searchinput),  
   path('get-the-model-data', views.get_the_model_data),
   path('blogurls-list', ModelList.as_view(model=BlogUrls)), 
   path('count-words', views.count_words_view),   

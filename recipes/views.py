@@ -167,7 +167,7 @@ def errors(request):
 ########################################################
 def searchsuggestions(request):
     def update_the_database_with_labels(soup):        
-        somehtml = soup.find("div", {"class": "widget Label"})       
+        somehtml = soup.find("div", {"class": "widget Label"})      
         for num, label in enumerate(somehtml.find_all('a'), start=0):
             if not (str(label.text[0])).isalnum():
                 break  # the last label is a long blank! 
@@ -215,7 +215,7 @@ def searchsuggestions(request):
 # Purpose: See what boxes the user checked and display all the recipes
 #
 ######################################################################
-def db_results(request):
+def searchinput(request):
     search_term = request.POST.getlist('label') # should change its name to user_choices
  
     labeldict = (request.POST.getlist('dictmap'))
@@ -236,7 +236,7 @@ def db_results(request):
     feed1 = (feedparser.parse(url1))                
     feed2 = (feedparser.parse(url2))
     feed3 = (feedparser.parse(url3))
-    feed4 = (feedparser.parse(url4))
+    feed4 = (feedparser.parse(url4))    
     newfeed1 = list(feed1.entries)
     newfeed2 = list(feed2.entries)
     newfeed3 = list(feed3.entries)
