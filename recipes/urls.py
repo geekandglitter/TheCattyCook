@@ -29,17 +29,17 @@ urlpatterns = [
   path("admin/", admin.site.urls),  # Activates the admin interface 
   path('', views.home, name='home'),   
   path('error_page', views.errors),
-  path('homepagesoup', views.homepagesoup),   
-  path('bloggerapigetalpha', views.bloggerapigetalpha),
-  path('bloggerapigetchron', views.bloggerapigetchron), 
+  path('scraped', views.scrape_view),   
+  path('gotten', views.get_view),
+  path('gottenchron', views.getchron_view), 
   path('searchsuggestions', views.searchsuggestions),
   path('db_results', views.db_results),  
   path('get-the-model-data', views.get_the_model_data),
   path('blogurls-list', ModelList.as_view(model=BlogUrls)), 
   path('count_words', views.count_words),   
   path('modelfun', views.modelfun),
-  path('modelfun_with_rss', views.modelfun_with_rss), 
-  path('search', views.user_search_view),
+  path('feedparsed', views.feedparse_view), 
+  path('searchedinput', views.searchinput_view),
   
 
   

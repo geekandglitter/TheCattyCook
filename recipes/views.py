@@ -33,7 +33,7 @@ def home(request):
 ###################################################
 # VIEW
 ###################################################
-def homepagesoup(request):
+def scrape_view(request):
     """ Demonstrates scraping posts from the home page"""
     try:
         r = requests.get("https://thecattycook.blogspot.com")
@@ -49,7 +49,7 @@ def homepagesoup(request):
                 counter += 1
                 anchlinklist = anchlinklist + str(anchlink) + "<br>"
 
-        return render(request, 'recipes/homepagesoup',
+        return render(request, 'recipes/scraped',
                       {'title': title, 'mylist': anchlinklist, 'count': counter})
     except requests.ConnectionError:
 
@@ -62,11 +62,11 @@ def homepagesoup(request):
 ###################################################
 # VIEW
 ###################################################
-""" This view uses the Google Blogger API to scrape all the posts. All I needed was an API key. 
+""" This view uses the Google Blogger API to retreive all the posts. All I needed was an API key. 
 """
 
 
-def bloggerapigetalpha(request):
+def get_view(request):
 
     def request_by_year(edate, sdate):
 
@@ -106,11 +106,11 @@ def bloggerapigetalpha(request):
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
 
-    return render(request, 'recipes/bloggerapigetalpha', {'allofit': newstring, 'count': counter})
+    return render(request, 'recipes/gotten', {'allofit': newstring, 'count': counter})
 
 
 ###############################
-# BLOGGERAPIGETCHRON
+# GETCHRON_VIEW
 ###############################
 
 
@@ -122,7 +122,7 @@ def bloggerapigetalpha(request):
 #
 # Note: I was able to improve the api call to fetchbodies = false, which speeds up the loading to some degree. Now I can allow for 200 posts
 # instead of 100 posts.
-def bloggerapigetchron(request):
+def getchron_view(request):
     def request_by_year(edate, sdate):
         # Initially I did the entire request at once, but I had to chunk it into years because it was timing out in windows.
 
@@ -153,7 +153,7 @@ def bloggerapigetchron(request):
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
 
-    return render(request, 'recipes/bloggerapigetchron', {'allofit': newstring, 'count': counter})
+    return render(request, 'recipes/gottenchron', {'allofit': newstring, 'count': counter})
  
 ###################################################
 # ERRORS: puts up a generic error page
@@ -419,19 +419,18 @@ def modelfun(request):
     return render(request, 'recipes/modelfun', {'allofit': newstring, 'count': counter})
 
 ####################################################
-# Model_fun_with_rss
+# FEEDPARSE_VIEW
 ###################################################
 
 
-def modelfun_with_rss(request):
+def feedparse_view(request):
     '''
     Gets the RSS feed for Catty Cook, 150 results at a time because that is the RSS limit
     Stores one recipe per record in the database
     This is a rewrite of the original model_fun because I wanted code that uses the RSS feed. Even though
     I have to run it 150 results at a time, it's easier than using the blogger API which times out and is the
     reason why my blogger API code runs one year at a time.
-    This changeover to using the RSS feed is preparation for the new view (request_input) which will search 
-    for user input results
+     
     '''
     global i
 
@@ -467,15 +466,15 @@ def modelfun_with_rss(request):
         )
         newrec.save()
 
-    return render(request, 'recipes/modelfun_with_rss', {'myfeed': feed_html, 'numposts': i})
+    return render(request, 'recipes/feedparsed', {'myfeed': feed_html, 'numposts': i})
 
    
 
 #############################################
 #############################################
-def user_search_view(request):
+def searchinput_view(request):
     '''
-    The first time this view is run, it shows a form to the user. The user is asked to input some search terms,
+    The first time this view is run, it shows a text input box to the user. The user is asked to input some search terms,
     separated by commas.
     The second time this view is run, it processes the form.
     It returns all recipes with any or all of the search terms.  
@@ -568,4 +567,4 @@ def user_search_view(request):
         context = {'form': form}    
    
      
-    return render(request, 'recipes/search', context)
+    return render(request, 'recipes/searchedinput', context)
