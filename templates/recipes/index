@@ -61,12 +61,9 @@ represents a Django view.   </p>
       recipes only from the home page. The results are limited.</small></li>     
 
     <! --  The next two views are attempting to be the same. The first is a functional view; the second a class-based view -->
-     <li><a href="/get-the-model-data">NOT CURRENTLY WORKING Retrieve the URL's from the model</a><br><small>Uses a functional view, 
-     works with the new database model</small></li>
-     <li><a href="/BlogUrls_list">NOT CURRENTLY WORKING Retrieve the URL's from the model</a> <br><small>Uses a class based view, still 
-     works with the old database model
-       because I would have to relearn how to use this class based view to repurpose it. I have no idea how it works and it looks 
-       cryptic</small></li>
+     <li><a href="/get-the-model-data">Retrieve the URL's from the model</a><br><small>Uses a functional view.</small></li>
+     <li><a href="/blogurls-list">NOT CURRENTLY WORKING Retrieve the URL's from the model</a> <br><small>Uses a class based view. 
+      </small></li>
     
     <! -- this is how ListView names the list -->
 
