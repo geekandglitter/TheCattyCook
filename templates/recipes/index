@@ -44,7 +44,7 @@ represents a Django view.   </p>
      
       
       
-     <li><a href="/count_words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
+     <li><a href="/count-words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
       Google Adsense, as they expect a minium of around 300 characters.</small></li> 
  
 

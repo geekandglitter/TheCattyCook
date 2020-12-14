@@ -36,7 +36,7 @@ urlpatterns = [
   path('db_results', views.db_results),  
   path('get-the-model-data', views.get_the_model_data),
   path('blogurls-list', ModelList.as_view(model=BlogUrls)), 
-  path('count_words', views.count_words),   
+  path('count-words', views.count_words_view),   
   path('modelfun', views.modelfun),
   path('feedparsed', views.feedparse_view), 
   path('searchedinput', views.searchinput_view),

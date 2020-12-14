@@ -330,7 +330,7 @@ class ModelList(ListView):
 ##########################################
 
 
-def count_words(request):
+def count_words_view(request):
     '''
     # get the recipes from the RSS feed
     # loop through each recipe and count its words.
@@ -361,7 +361,7 @@ def count_words(request):
     if not feed_html:
         feed_html = "none"
 
-    return render(request, 'recipes/count_words', {'feed_html': feed_html})
+    return render(request, 'recipes/count-words', {'feed_html': feed_html})
   
 
 ####################################################
@@ -493,7 +493,7 @@ def searchinput_view(request):
               
         search_term=""
         if form.is_valid():
-            print("I guess this means it's valid?")
+            
             cd = form.cleaned_data  # Clean the user input
             search_term = cd['user_search_terms']     
             #for oneterm in search_term: # now run through the current serach terms and save them to the database
