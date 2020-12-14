@@ -25,16 +25,13 @@ from .views import ModelList # this is for the new class-based view
 from recipes.models import BlogUrls
 
 urlpatterns = [
-  #url(r'^admin/', admin.site.urls),
-  path("admin/", admin.site.urls),  # Activates the admin interface
-  url(r'^$', views.home, name='home'),
-  url('error_page', views.errors),
-  url('homepagesoup', views.homepagesoup),
-  #url('getfeedalpha', views.getfeedalpha),
-  #path('getfeedchron', views.getfeedchron),
-  url('bloggerapigetalpha', views.bloggerapigetalpha),
-  url('bloggerapigetchron', views.bloggerapigetchron),
  
+  path("admin/", admin.site.urls),  # Activates the admin interface 
+  path('', views.home, name='home'),   
+  path('error_page', views.errors),
+  path('homepagesoup', views.homepagesoup),   
+  path('bloggerapigetalpha', views.bloggerapigetalpha),
+  path('bloggerapigetchron', views.bloggerapigetchron), 
   path('searchsuggestions', views.searchsuggestions),
   path('db_results', views.db_results),  
   path('get-the-model-data', views.get_the_model_data),
