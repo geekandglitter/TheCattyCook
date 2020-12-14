@@ -162,53 +162,6 @@ def errors(request):
     return (render(request, 'recipes/error_page'))
 
 
-########################################################
-# Show Label List#
-########################################################
-def searchsuggestions(request):
-    def update_the_database_with_labels(soup):        
-        somehtml = soup.find("div", {"class": "widget Label"})      
-        for num, label in enumerate(somehtml.find_all('a'), start=0):
-            if not (str(label.text[0])).isalnum():
-                break  # the last label is a long blank! 
-            newrec = SearchTerms.objects.update_or_create(searchterm=label.text.lower()) # add any new labels to the db  
-        return(soup)    
-    try:
-        results_list = "<table><br><br>"
-        results_list = results_list + '<input type="submit" value="Send Your Choices"><br><br>'  
-        r = requests.get("https://thecattycook.blogspot.com")
-        soup = BeautifulSoup(r.text, 'html.parser')
-        #update_the_database_with_labels(soup) 
-        dictmap = dict()       
-
-        # Next we want to fetch whatever is in the database. Those items will become the checkboxes
-        instance = SearchTerms.objects.values_list(
-            'searchterm', flat=True).distinct().order_by('searchterm')  # alphabetize this queryset
-
-        for mynum, search_term_in_db in enumerate(instance, start=1): 
-            results_list = results_list + \
-                 "<td>" '''<input type="checkbox" name="label" value=''' + \
-                 str(mynum) + ">" + \
-                 str(search_term_in_db) + \
-                 "    " + \
-                 "</td>"
-
-            if mynum % 4 == 0 and mynum != 0:  # this modulo is for formatting on the screen
-                results_list = results_list + "</tr><tr>"
-            dictmap[mynum] = str(search_term_in_db)  
-         
-        results_list = results_list + "</table>"
-        results_list = results_list + \
-            '<br>' '''<input type="hidden" name="dictmap" value=''' + \
-            str(dictmap) + ">"
-        results_list = results_list + '<input type="submit" value="Send Your Choices">'
-
-        # Now get ready to send the data to the template
-        title = soup.title.text
-        return render(request, 'recipes/searchsuggestions',
-                      {'title': title, 'mylist': results_list, 'dictmap': dictmap})
-    except requests.ConnectionError:
-        return render(request, 'recipes/error_page')
 
 
 ######################################################################
@@ -568,3 +521,52 @@ def searchinput_view(request):
    
      
     return render(request, 'recipes/searchedinput', context)
+
+
+########################################################
+# Show Label List#
+########################################################
+def searchsuggestions(request):
+    def update_the_database_with_labels(soup):        
+        somehtml = soup.find("div", {"class": "widget Label"})      
+        for num, label in enumerate(somehtml.find_all('a'), start=0):
+            if not (str(label.text[0])).isalnum():
+                break  # the last label is a long blank! 
+            newrec = SearchTerms.objects.update_or_create(searchterm=label.text.lower()) # add any new labels to the db  
+        return(soup)    
+    try:
+        results_list = "<table><br><br>"
+        results_list = results_list + '<input type="submit" value="Search"><br><br>'  
+        r = requests.get("https://thecattycook.blogspot.com")
+        soup = BeautifulSoup(r.text, 'html.parser')
+        #update_the_database_with_labels(soup) 
+        dictmap = dict()       
+
+        # Next we want to fetch whatever is in the database. Those items will become the checkboxes
+        instance = SearchTerms.objects.values_list(
+            'searchterm', flat=True).distinct().order_by('searchterm')  # alphabetize this queryset
+
+        for mynum, search_term_in_db in enumerate(instance, start=1): 
+            results_list = results_list + \
+                 "<td>" '''<input type="checkbox" name="label" value=''' + \
+                 str(mynum) + ">" + \
+                 str(search_term_in_db) + \
+                 "    " + \
+                 "</td>"
+
+            if mynum % 4 == 0 and mynum != 0:  # this modulo is for formatting on the screen
+                results_list = results_list + "</tr><tr>"
+            dictmap[mynum] = str(search_term_in_db)  
+         
+        results_list = results_list + "</table>"
+        results_list = results_list + \
+            '<br>' '''<input type="hidden" name="dictmap" value=''' + \
+            str(dictmap) + ">"
+        results_list = results_list + '<input type="submit" value="Search">'
+
+        # Now get ready to send the data to the template
+        title = soup.title.text
+        return render(request, 'recipes/searchsuggestions',
+                      {'title': title, 'mylist': results_list, 'dictmap': dictmap})
+    except requests.ConnectionError:
+        return render(request, 'recipes/error_page')
