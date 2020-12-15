@@ -19,12 +19,12 @@ urlpatterns = [
   path('getchron', views.getchron_view), 
   path('searchsuggestions', views.searchsuggestions_view),
   path('searchresults', views.searchboxes_view),  
-  path('get-the-model-data', views.get_the_model_data_view),
+  path('retrieve-recipes', views.retrieve_recipes_view),
   path('go-here', ModelList.as_view(model=AllRecipes)), 
   path('count-words', views.count_words_view),   
-  path('get-store', views.get_and_store_view),
-  path('feedparsed', views.feedparse_view), 
-  path('searchedinput', views.searchinput_view), 
+  path('get-and-store', views.get_and_store_view),
+  path('feedparse', views.feedparse_view), 
+  path('searchinput', views.searchinput_view), 
   
 ]
 

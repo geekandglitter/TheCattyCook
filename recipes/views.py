@@ -164,6 +164,7 @@ def errors_view(request):
 # Purpose: See what boxes the user checked and display all the recipes
 ######################################################################
 def searchboxes_view(request):
+    print("now we are in searchboxes_view")
     search_term = request.POST.getlist('label') # should change its name to user_choices 
     labeldict = (request.POST.getlist('dictmap'))
     newdict = ast.literal_eval(labeldict[0])
@@ -243,20 +244,21 @@ def searchboxes_view(request):
         context={'results': results, 'search_term': final_string}         
 
     #return render(request, 'recipes/db_results', {'checkthem': search_term, 'numposts': i})
-    return render(request, 'recipes/results', context) 
+    print("about to render")
+    return render(request, 'recipes/searchbox-results', context) 
 
 ####################################################
 # Now retrieve the urls in the model using a function-based view, and renders them
 ####################################################
 
-def get_the_model_data_view(request):
+def retrieve_recipes_view(request):
      
     instance = AllRecipes.objects.values_list(
         'hyperlink', flat=True).distinct()
     allofit = ""
     for i in range(instance.count()):
         allofit = allofit+instance[i]
-    return render(request, 'recipes/get-the-model-data', {'allofit': allofit, 'counter': instance.count()})
+    return render(request, 'recipes/retrieve-recipes', {'allofit': allofit, 'counter': instance.count()})
 
 #################################################################################
 # CLASS BASED VIEW Now retrieve the models using class-based views (ListView) 
@@ -352,7 +354,7 @@ def get_and_store_view(request):
         )
         newrec.save()
 
-    return render(request, 'recipes/get-store', {'allofit': newstring, 'count': counter})
+    return render(request, 'recipes/get-and-store', {'allofit': newstring, 'count': counter})
 
 ####################################################
 # FEEDPARSE_VIEW
@@ -402,7 +404,7 @@ def feedparse_view(request):
         )
         newrec.save()
 
-    return render(request, 'recipes/feedparsed', {'myfeed': feed_html, 'numposts': i})
+    return render(request, 'recipes/feedparse', {'myfeed': feed_html, 'numposts': i})
 
    
 
@@ -503,7 +505,7 @@ def searchinput_view(request):
         context = {'form': form}    
    
      
-    return render(request, 'recipes/searchedinput', context)
+    return render(request, 'recipes/searchinput', context)
 
 
 ########################################################
