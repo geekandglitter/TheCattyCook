@@ -33,15 +33,10 @@ class SearchAdmin(admin.ModelAdmin): # I think this overrides Admin defaults
 	list_max_show_all = 1000
 	list_per_page = 1000
 
-admin.site.register(AllRecipes, RecipeAdmin)
- 
+admin.site.register(AllRecipes, RecipeAdmin) 
 admin.site.register(SearchTerms, SearchAdmin)
  
-
-
-
- 
-
+######################################################
 # all other models, this is kind of a catchall to register all models
 models = apps.get_models()
 

@@ -34,7 +34,7 @@ represents a Django view.   </p>
      the post urls from three RSS feeds, then store them each in one record in a model. It does not use Google Blogger API.
       (a mysql database)</small></li>
 
-  <li><b><a href="/modelfun">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
+  <li><b><a href="/get-store">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
    all the post urls from Google Blogger API,  then store them each in one record in a model
       (a mysql or postgres database).</small></li>
 

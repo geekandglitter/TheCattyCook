@@ -10,19 +10,7 @@ class RecipeForm(forms.ModelForm):
             'user_search_terms'
         ]
 
-
-
-#class SimpleForm(forms.Form):
-    #searchterm = forms.CharField(help_text="", max_length=100)
-    
-     
-         
-        
-
-       # Check stuff here
-    
-
-       # Remember to always return the cleaned data.
+ 
     
 
 

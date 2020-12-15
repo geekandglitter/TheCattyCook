@@ -31,7 +31,7 @@ def home(request):
 
 
 ###################################################
-# VIEW
+# Uses beautifulsoup, only to scrape the homepage
 ###################################################
 def scrape_view(request):
     """ Demonstrates scraping posts from the home page"""
@@ -60,7 +60,7 @@ def scrape_view(request):
 
 
 ###################################################
-# VIEW
+# This view GETS the posts using Google Blogger API and "request.get"
 ###################################################
 """ This view uses the Google Blogger API to retreive all the posts. All I needed was an API key. 
 """
@@ -110,9 +110,8 @@ def get_view(request):
 
 
 ###############################
-# GETCHRON_VIEW
+# This view does the same as get_view but orders the results by date instead of alphabetically
 ###############################
-
 
 # Note: I had to lower the number of maxPosts above because the requests.get was throwing a server 500 error with too many posts. It
 # turns out that requests is much slower than urllib.request.urlopen. This is because
@@ -156,21 +155,16 @@ def getchron_view(request):
     return render(request, 'recipes/gottenchron', {'allofit': newstring, 'count': counter})
  
 ###################################################
-# ERRORS: puts up a generic error page
+# ERRORS: puts up a generic error page. Maybe I have to turn off debug to see this? I don't know.
 ###################################################
-def errors(request):
+def errors_view(request):
     return (render(request, 'recipes/error_page'))
-
-
-
 
 ######################################################################
 # Purpose: See what boxes the user checked and display all the recipes
-#
 ######################################################################
-def searchinput(request):
-    search_term = request.POST.getlist('label') # should change its name to user_choices
- 
+def searchboxes_view(request):
+    search_term = request.POST.getlist('label') # should change its name to user_choices 
     labeldict = (request.POST.getlist('dictmap'))
     newdict = ast.literal_eval(labeldict[0])
  
@@ -252,10 +246,10 @@ def searchinput(request):
     return render(request, 'recipes/results', context) 
 
 ####################################################
-# Now retrieve the urls in the model using a function-based view
+# Now retrieve the urls in the model using a function-based view, and renders them
 ####################################################
 
-def get_the_model_data(request):
+def get_the_model_data_view(request):
      
     instance = AllRecipes.objects.values_list(
         'hyperlink', flat=True).distinct()
@@ -264,9 +258,9 @@ def get_the_model_data(request):
         allofit = allofit+instance[i]
     return render(request, 'recipes/get-the-model-data', {'allofit': allofit, 'counter': instance.count()})
 
-####################################################
-# Now retrieve the models using class-based views (ListView) 
-####################################################
+#################################################################################
+# CLASS BASED VIEW Now retrieve the models using class-based views (ListView) 
+#################################################################################
 class ModelList(ListView): # ListView doesn't have a template
 
     model = AllRecipes  # This tells Django which model to create listview for
@@ -275,8 +269,6 @@ class ModelList(ListView): # ListView doesn't have a template
     # The default template becomes allrecipes_list.html
  
 ##########################################
-
-
 def count_words_view(request):
     '''
     # get the recipes from the RSS feed
@@ -312,15 +304,12 @@ def count_words_view(request):
   
 
 ####################################################
-# Work with models
-#
+# This view uses the blogger API to get all the posts and stores them in the db
 ###################################################
 
-
-def modelfun(request):
+def get_and_store_view(request):
     '''
-    Uses the blogger API and the requests module to get all the posts, and stores one recipe per record in the database
-   
+    Uses the blogger API and the requests module to get all the posts, and stores one recipe per record in the database   
     '''
     def request_by_year(edate, sdate):
         # Initially I did the entire request at once, but I had to chunk it into years because it was timing out in windows.
@@ -363,7 +352,7 @@ def modelfun(request):
         )
         newrec.save()
 
-    return render(request, 'recipes/modelfun', {'allofit': newstring, 'count': counter})
+    return render(request, 'recipes/get-store', {'allofit': newstring, 'count': counter})
 
 ####################################################
 # FEEDPARSE_VIEW
@@ -520,7 +509,7 @@ def searchinput_view(request):
 ########################################################
 # Show Label List#
 ########################################################
-def searchsuggestions(request):
+def searchsuggestions_view(request):
     def update_the_database_with_labels(soup):        
         somehtml = soup.find("div", {"class": "widget Label"})      
         for num, label in enumerate(somehtml.find_all('a'), start=0):
