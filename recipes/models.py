@@ -10,18 +10,7 @@ from django.contrib.postgres.fields import ArrayField
   #  def __str__(self):
   #     return self.first_name, self.last_name
 
-class BlogUrls(models.Model):
-    '''
-    This model holds hyperlinks (hrefs with anchor text)
-    '''
-    website=models.TextField(max_length=9000)
-    numurls=models.IntegerField(0)
-
-    class Meta:  # this eliminates the extra "s" added to the model namez
-        verbose_name_plural = "BlogUrls"
-    def __str__(self):
-        return self.website
-
+ 
 
 class AllRecipes(models.Model):
     '''

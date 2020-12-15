@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from django.apps import apps # this will allow me to auto-register all models not already registered (at the end)
-from .models import BlogUrls  # import the class we just created
+ 
 from .models import SearchTerms
 from .models import AllRecipes
 
@@ -34,7 +34,7 @@ class SearchAdmin(admin.ModelAdmin): # I think this overrides Admin defaults
 	list_per_page = 1000
 
 admin.site.register(AllRecipes, RecipeAdmin)
-admin.site.register(BlogUrls)  # register on the actual admin site
+ 
 admin.site.register(SearchTerms, SearchAdmin)
  
 

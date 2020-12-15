@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from .models import BlogUrls
+ 
 from django.http import HttpResponseRedirect
 import sys
 #from recipes.forms import SimpleForm
@@ -256,23 +256,22 @@ def searchinput(request):
 ####################################################
 
 def get_the_model_data(request):
-    #instance = BlogUrls.objects.values_list('website', flat=True).distinct()
-    #counter = BlogUrls.objects.values_list('numurls', flat=True).distinct() 
+     
     instance = AllRecipes.objects.values_list(
         'hyperlink', flat=True).distinct()
     allofit = ""
     for i in range(instance.count()):
         allofit = allofit+instance[i]
     return render(request, 'recipes/get-the-model-data', {'allofit': allofit, 'counter': instance.count()})
+
 ####################################################
-# Now retrieve the models using class-based views (ListView) this still goes to the old BlogUrls
+# Now retrieve the models using class-based views (ListView) 
 ####################################################
 class ModelList(ListView):
 
     model = AllRecipes  # This tells Django which model to create listview for
-    # This tells Django what to name the queryset:
-    # context_object_name = 'all_model_recipes'
-    # I have decided to leave it at the default, which is object_list
+    # This tells Django what to name the queryset: # context_object_name = 'all_model_recipes' but I left the default
+ 
 ##########################################
 
 
