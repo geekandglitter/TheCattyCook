@@ -39,10 +39,7 @@ class AllRecipes(models.Model):
 
     class Meta: # this eliminates the extra "s" added to the model name
         verbose_name_plural = "AllRecipes"
-        ordering = ['anchortext']    # alphabetical order
-
-  
-    
+        ordering = ['anchortext']    # alphabetical order    
      
     def __str__(self):
         return self.hyperlink
