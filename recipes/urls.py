@@ -22,7 +22,7 @@ from django.urls import path
 from .views import ModelList # this is for the new class-based view
 
 #The new django.urls.path() function allows a simpler, more readable URL routing syntax.
-from recipes.models import BlogUrls
+from recipes.models import AllRecipes
 
 urlpatterns = [
  
@@ -35,7 +35,7 @@ urlpatterns = [
   path('searchsuggestions', views.searchsuggestions),
   path('searchresults', views.searchinput),  
   path('get-the-model-data', views.get_the_model_data),
-  path('blogurls-list', ModelList.as_view(model=BlogUrls)), 
+  path('blogurls-list', ModelList.as_view(model=AllRecipes)), 
   path('count-words', views.count_words_view),   
   path('modelfun', views.modelfun),
   path('feedparsed', views.feedparse_view), 
@@ -45,7 +45,4 @@ urlpatterns = [
   
 ]
 
-
-
-
-
+ 

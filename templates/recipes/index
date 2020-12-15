@@ -35,8 +35,7 @@ represents a Django view.   </p>
       (a mysql database)</small></li>
 
   <li><b><a href="/modelfun">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
-   all the post urls from Google Blogger API,
-   then store them each in one record in a model
+   all the post urls from Google Blogger API,  then store them each in one record in a model
       (a mysql or postgres database).</small></li>
 
     <li><b><a href="/searchsuggestions">Select ingredients from suggestions</a></b><br>
@@ -62,8 +61,10 @@ represents a Django view.   </p>
 
     <! --  The next two views are attempting to be the same. The first is a functional view; the second a class-based view -->
      <li><a href="/get-the-model-data">Retrieve the URL's from the model</a><br><small>Uses a functional view.</small></li>
-     <li><a href="/blogurls-list">NOT CURRENTLY WORKING Retrieve the URL's from the model</a> <br><small>Uses a class based view. 
-      </small></li>
+
+   
+     <li><a href="/blogurls-list">Retrieve the URL's from the model</a> <br><small>Uses a class based view. 
+      </small></li> 
     
     <! -- this is how ListView names the list -->
 

@@ -1,0 +1,22 @@
+{% extends "base" %}
+
+{% block content %}
+  <h1>I Stay Home and Bake Cookies</h1>
+   
+
+  <h2>Recipes retrieved from the database, using a class-based view</h2>
+  <p>Retrieving the URL's that I stored in the model</p>
+   
+  <p> 
+    <!-- Iterate over object_list. (Object_list is the default name given by Listview)-->
+    {% for object in object_list %} 
+    <!-- Display Objects -->
+   {{ object.hyperlink | safe }} 
+      
+    {% endfor %} 
+</p> 
+ 
+  
+{% endblock content %}
+
+

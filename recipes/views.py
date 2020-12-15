@@ -13,7 +13,7 @@ import requests
 import datetime as d
 from requests.utils import requote_uri
 import ast
-from .models import BlogUrls
+
 from .models import SearchTerms
 import feedparser
 from .forms import RecipeForm
@@ -252,34 +252,27 @@ def searchinput(request):
     return render(request, 'recipes/results', context) 
 
 ####################################################
-
 # Now retrieve the urls in the model using a function-based view
 ####################################################
 
 def get_the_model_data(request):
-
-    instance = BlogUrls.objects.values_list('website', flat=True).distinct()
-    counter = BlogUrls.objects.values_list('numurls', flat=True).distinct()
-     
-
+    #instance = BlogUrls.objects.values_list('website', flat=True).distinct()
+    #counter = BlogUrls.objects.values_list('numurls', flat=True).distinct() 
     instance = AllRecipes.objects.values_list(
         'hyperlink', flat=True).distinct()
-
     allofit = ""
     for i in range(instance.count()):
         allofit = allofit+instance[i]
     return render(request, 'recipes/get-the-model-data', {'allofit': allofit, 'counter': instance.count()})
-
-
 ####################################################
 # Now retrieve the models using class-based views (ListView) this still goes to the old BlogUrls
 ####################################################
 class ModelList(ListView):
 
-    model = BlogUrls  # This tells Django what model to use for the view
-    # This tells Django what to name the queryset
-    context_object_name = 'all_model_recipes' 
-
+    model = AllRecipes  # This tells Django which model to create listview for
+    # This tells Django what to name the queryset:
+    # context_object_name = 'all_model_recipes'
+    # I have decided to leave it at the default, which is object_list
 ##########################################
 
 
@@ -325,7 +318,7 @@ def count_words_view(request):
 
 def modelfun(request):
     '''
-    Uses the blogger API for Cattycook and requests to get all the posts, and stores one recipe per record in the database
+    Uses the blogger API and the requests module to get all the posts, and stores one recipe per record in the database
    
     '''
     def request_by_year(edate, sdate):

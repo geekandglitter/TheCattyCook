@@ -17,7 +17,7 @@ class BlogUrls(models.Model):
     website=models.TextField(max_length=9000)
     numurls=models.IntegerField(0)
 
-    class Meta:  # this eliminates the extra "s" added to the model name
+    class Meta:  # this eliminates the extra "s" added to the model namez
         verbose_name_plural = "BlogUrls"
     def __str__(self):
         return self.website
@@ -39,6 +39,10 @@ class AllRecipes(models.Model):
 
     class Meta: # this eliminates the extra "s" added to the model name
         verbose_name_plural = "AllRecipes"
+        ordering = ['anchortext']    # alphabetical order
+
+  
+    
      
     def __str__(self):
         return self.hyperlink
