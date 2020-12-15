@@ -63,7 +63,8 @@ represents a Django view.   </p>
      <li><a href="/get-the-model-data">Retrieve the URL's from the model</a><br><small>Uses a functional view.</small></li>
 
    
-     <li><a href="/blogurls-list">Retrieve the URL's from the model</a> <br><small>Uses a class based view. 
+     <li><a href="go-here">Retrieve the URL's from the model</a> <br><small>Uses a class based view. This view has no path,
+      so it's "go-here".
       </small></li> 
     
     <! -- this is how ListView names the list -->

@@ -35,7 +35,7 @@ urlpatterns = [
   path('searchsuggestions', views.searchsuggestions),
   path('searchresults', views.searchinput),  
   path('get-the-model-data', views.get_the_model_data),
-  path('blogurls-list', ModelList.as_view(model=AllRecipes)), 
+  path('go-here', ModelList.as_view(model=AllRecipes)), 
   path('count-words', views.count_words_view),   
   path('modelfun', views.modelfun),
   path('feedparsed', views.feedparse_view), 

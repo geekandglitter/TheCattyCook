@@ -267,10 +267,12 @@ def get_the_model_data(request):
 ####################################################
 # Now retrieve the models using class-based views (ListView) 
 ####################################################
-class ModelList(ListView):
+class ModelList(ListView): # ListView doesn't have a template
 
     model = AllRecipes  # This tells Django which model to create listview for
-    # This tells Django what to name the queryset: # context_object_name = 'all_model_recipes' but I left the default
+    # I left all the defaults.
+    # The default name of the queryset is object_list. It can be changed like this: context_object_name='all_model_recipes' 
+    # The default template becomes allrecipes_list.html
  
 ##########################################
 
