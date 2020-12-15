@@ -13,10 +13,10 @@ urlpatterns = [
   path("admin/", admin.site.urls),  # Activates the admin interface 
   path('', views.home, name='home'),  
    
-  path('error_page', views.errors_view),
-  path('scraped', views.scrape_view),   
-  path('gotten', views.get_view),
-  path('gottenchron', views.getchron_view), 
+  path('error', views.errors_view),
+  path('scrape', views.scrape_view),   
+  path('get', views.get_view),
+  path('getchron', views.getchron_view), 
   path('searchsuggestions', views.searchsuggestions_view),
   path('searchresults', views.searchboxes_view),  
   path('get-the-model-data', views.get_the_model_data_view),

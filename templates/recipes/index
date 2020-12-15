@@ -49,14 +49,14 @@ represents a Django view.   </p>
 
  
 
-    <li><a href="/gotten">View all Recipes Alphabetically   </a><br><small>Uses Google Blogger API and requests to get 
+    <li><a href="/get">View all Recipes Alphabetically   </a><br><small>Uses Google Blogger API and requests to get 
       the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
       Does not store them in a model.</small>  </li>
-    <li><a href="/gottenchron">View all Recipes Chronologically  </a><br><small>Uses Google Blogger API and requests
+    <li><a href="/getchron">View all Recipes Chronologically  </a><br><small>Uses Google Blogger API and requests
      to get the feed, one year at a time to prevent a timeout, then loads the json chronologically.</small> </li>
 
 
-    <li><a href="/scraped">View Recipes scraped from the home page  </a><br><small>Uses requests and beautifulSoup to scrape
+    <li><a href="/scrape">View Recipes scraped from the home page  </a><br><small>Uses requests and beautifulSoup to scrape
       recipes only from the home page. The results are limited.</small></li>     
 
     <! --  The next two views are attempting to be the same. The first is a functional view; the second a class-based view -->

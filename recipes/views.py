@@ -49,7 +49,7 @@ def scrape_view(request):
                 counter += 1
                 anchlinklist = anchlinklist + str(anchlink) + "<br>"
 
-        return render(request, 'recipes/scraped',
+        return render(request, 'recipes/scrape',
                       {'title': title, 'mylist': anchlinklist, 'count': counter})
     except requests.ConnectionError:
 
@@ -106,7 +106,7 @@ def get_view(request):
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
 
-    return render(request, 'recipes/gotten', {'allofit': newstring, 'count': counter})
+    return render(request, 'recipes/get', {'allofit': newstring, 'count': counter})
 
 
 ###############################
@@ -152,7 +152,7 @@ def getchron_view(request):
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
 
-    return render(request, 'recipes/gottenchron', {'allofit': newstring, 'count': counter})
+    return render(request, 'recipes/getchron', {'allofit': newstring, 'count': counter})
  
 ###################################################
 # ERRORS: puts up a generic error page. Maybe I have to turn off debug to see this? I don't know.
