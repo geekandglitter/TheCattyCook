@@ -25,7 +25,7 @@ class SearchTerms(models.Model):
     In the search view, the user is inputting a search term or search terms. The search term(s) will be permanently stored
     here in this model, after weeding out dupes
     ''' 
-    searchterm= models.TextField(max_length=50, null=True, blank=True)
+    searchterm= models.TextField(max_length=150, null=True, blank=True)
 
     class Meta:  # this eliminates the extra "s" added to the model name
         verbose_name_plural = "SearchTerms"

@@ -164,7 +164,7 @@ def errors_view(request):
 # Purpose: See what boxes the user checked and display all the recipes
 ######################################################################
 def searchboxes_view(request):
-    print("now we are in searchboxes_view")
+    
     search_term = request.POST.getlist('label') # should change its name to user_choices 
     labeldict = (request.POST.getlist('dictmap'))
     newdict = ast.literal_eval(labeldict[0])
@@ -190,9 +190,9 @@ def searchboxes_view(request):
     newfeed3 = list(feed3.entries)
     newfeed4 = list(feed4.entries)
     newfeed = newfeed1 + newfeed2 + newfeed3 + newfeed4  
-    new_list = []
+ 
     final_list = []       
-
+    count=0
     for eachrecipe in newfeed: # Now check each recipe for the user's search terms
               
         r = requests.get(eachrecipe.link)
@@ -210,6 +210,7 @@ def searchboxes_view(request):
             if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
                                                
                 found=True
+                count+=1
                 newrec = SearchTerms.objects.update_or_create(searchterm=term.lower())
                 num_terms_found+=1
                 search_term_string = search_term_string + " " + term    
@@ -241,10 +242,10 @@ def searchboxes_view(request):
         final_string=""
         for eachstring in search_term:
             final_string += eachstring + " "
-        context={'results': results, 'search_term': final_string}         
+        context={'count': count, 'results': results, 'search_term': final_string}         
 
     #return render(request, 'recipes/db_results', {'checkthem': search_term, 'numposts': i})
-    print("about to render")
+ 
     return render(request, 'recipes/searchbox-results', context) 
 
 ####################################################
@@ -423,8 +424,9 @@ def searchinput_view(request):
     url2 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
     url3 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
     url4 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=451&max-results=150"
-    new_list = []
+  
     final_list = []
+    count = 0
     form = RecipeForm(request.POST)       
     if request.method == 'POST': # this means the user has filled out the form
          
@@ -464,7 +466,7 @@ def searchinput_view(request):
                 for term in search_term:   
                     
                     if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
-                                               
+                        count += 1                       
                         found=True
                         newrec = SearchTerms.objects.update_or_create(searchterm=term.lower())
                         num_terms_found+=1
@@ -497,8 +499,8 @@ def searchinput_view(request):
         final_string=""
         for eachstring in search_term:
             final_string += eachstring + " "
-        final_string = "<br>" + "Showing Results for: " + final_string    
-        context={'results': results, 'search_term': final_string, 'form': form}
+        #final_string = "<br>" + "Showing Results for: " + final_string    
+        context={'count': count, 'results': results, 'search_term': final_string, 'form': form}
          
      
     else: # This code executes the first time this view is run        
@@ -551,7 +553,8 @@ def searchsuggestions_view(request):
 
         # Now get ready to send the data to the template
         title = soup.title.text
-        return render(request, 'recipes/searchsuggestions',
+        return render(request, 'recipes/suggestions',
                       {'title': title, 'mylist': results_list, 'dictmap': dictmap})
     except requests.ConnectionError:
         return render(request, 'recipes/error_page')
+ 

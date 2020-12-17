@@ -3,6 +3,7 @@
 {% block content %}
    <h1>Click any title to find the recipe</h1>
   <h2> {{numposts}} recipes chosen by label </h2>
+  <p> We are in suggestionresults </p>
 
   <p>{{getdict | safe}}</p>
 {% endblock content %}

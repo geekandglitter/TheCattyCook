@@ -2,11 +2,11 @@
 
 {% block content %}
 <div style=width:600px;>
-<p><b>If you're a cook</b>
+<p><b>For Cooks</b><br>
 Use this interface to my recipe blog. The links in bold will be most useful to you.
 Find what you want, click through, and you can even print the recipes!</p>
 
-<p><b>If you're a developer</b>
+<p><b>For Developers (which can, of course, include cooks)</b><br>
  
 I'm both a cook and a nerd. I wrote this Python/Django web app to experiment with scraping, RSS Feeds and API's. Those are three different
 ways to get content from a website or blog. Its concept is that it serves as a front end to allow various ways to 
@@ -38,7 +38,7 @@ represents a Django view.   </p>
    all the post urls from Google Blogger API,  then store them each in one record in a model
       (a mysql or postgres database).</small></li>
 
-    <li><b><a href="/searchsuggestions">Select ingredients from suggestions</a></b><br>
+    <li><b><a href="/suggestions">Select ingredients from suggestions</a></b><br>
     <small>Shows all database keywords with checkboxes. Results are ordered by relevance (number of search criteria met).   </small> </li>
      
       
