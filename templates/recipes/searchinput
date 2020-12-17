@@ -14,7 +14,7 @@
   
   
   <h1>{{the_title}}</h1>
-  <p style="font-size: 25px">{{count}} recipe(s) containing your search term(s): <br>
+  
   <b style="font-size: 15px">{{search_term | safe}}</b></p>    
   
   

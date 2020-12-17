@@ -246,7 +246,7 @@ def searchboxes_view(request):
 
     #return render(request, 'recipes/db_results', {'checkthem': search_term, 'numposts': i})
  
-    return render(request, 'recipes/searchbox-results', context) 
+    return render(request, 'recipes/suggestionresults', context) 
 
 ####################################################
 # Now retrieve the urls in the model using a function-based view, and renders them
@@ -499,7 +499,7 @@ def searchinput_view(request):
         final_string=""
         for eachstring in search_term:
             final_string += eachstring + " "
-        #final_string = "<br>" + "Showing Results for: " + final_string    
+        final_string = "<br>" + "Showing Results for: " + final_string    
         context={'count': count, 'results': results, 'search_term': final_string, 'form': form}
          
      

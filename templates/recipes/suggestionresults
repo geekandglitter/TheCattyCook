@@ -1,9 +1,19 @@
+
 {% extends "base" %}
 
 {% block content %}
-   <h1>Click any title to find the recipe</h1>
-  <h2> {{numposts}} recipes chosen by label </h2>
-  <p> We are in suggestionresults </p>
-
-  <p>{{getdict | safe}}</p>
+ 
+  <h1>{{the_title}}</h1>
+  
+  <p style="font-size: 25px">{{count}} recipe(s) containing your search term(s): <br>
+  <b style="font-size: 15px">{{search_term | safe}}</b></p>   
+  <p>    
+ 
+    {% for recipe in  results%}
+    
+       <span style="margin-bottom: 25px">{{recipe | safe}}</span> 
+     
+    {% endfor %}
+  </p>   
+ 
 {% endblock content %}
