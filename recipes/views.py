@@ -499,7 +499,7 @@ def searchinput_view(request):
         final_string=""
         for eachstring in search_term:
             final_string += eachstring + " "
-        final_string = "<br>" + "Showing Results for: " + final_string    
+        final_string = "<br>" + "Showing " + str(count) + " results for: " + final_string    
         context={'count': count, 'results': results, 'search_term': final_string, 'form': form}
          
      
@@ -513,7 +513,7 @@ def searchinput_view(request):
 ########################################################
 # Show Label List#
 ########################################################
-def searchsuggestions_view(request):
+def suggestions_view(request):
     def update_the_database_with_labels(soup):        
         somehtml = soup.find("div", {"class": "widget Label"})      
         for num, label in enumerate(somehtml.find_all('a'), start=0):
