@@ -1,6 +1,9 @@
 # Create your models here
 from django.db import models 
 from django.contrib.postgres.fields import ArrayField
+#from django_elastic_appsearch.orm import AppSearchModel
+#from django_elastic_appsearch import serialisers
+
  
 
 class AllRecipes(models.Model):
@@ -31,3 +34,29 @@ class SearchTerms(models.Model):
         verbose_name_plural = "SearchTerms"
     def _str_(self):
         return self.searchterm
+
+ 
+
+
+from django_elastic_appsearch.orm import AppSearchModel
+from django_elastic_appsearch import serialisers
+
+class CarSerialiser(serialisers.AppSearchSerialiser):
+    full_name = serialisers.MethodField()
+    make = serialisers.StrField()
+    model = serialisers.StrField()
+    manufactured_year = serialisers.Field()
+
+    def get_full_name(self, instance):
+        return '{} {}'.format(make, model)
+
+
+class Car(AppSearchModel):
+
+    class AppsearchMeta:
+        appsearch_engine_name = 'cars'
+        appsearch_serialiser_class = CarSerialiser
+
+    make = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+    manufactured_year = models.CharField(max_length=4)

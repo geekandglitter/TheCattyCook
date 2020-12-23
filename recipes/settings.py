@@ -17,7 +17,8 @@ from django.core.exceptions import ImproperlyConfigured  # used by get_secret
 # BASE_DIR: This is always needed in settings. Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # this line is always needed in settings.py.
 # It shows where manage.py is.
-print("The BASE_DIR is", BASE_DIR)
+#print("The BASE_DIR is", BASE_DIR)
+
 
 
 # OPEN SECRETS: This loads the secret json file. Found this solution on SO.###############
@@ -34,6 +35,18 @@ def get_secret(setting, my_secrets=secrets):  # Get secret setting or fail with 
 
 SECRET_KEY = get_secret("SECRET_KEY")  # SECRET_KEY is always in settings.py. Get its contents
 
+
+APPSEARCH_USE_HTTPS = False
+APPSEARCH_HOST = 'localhost:3002'
+APPSEARCH_API_KEY = 'private-key'
+APPSEARCH_CHUNK_SIZE = 50
+APPSEARCH_INDEXING_ENABLED = True
+ 
+
+
+
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -49,6 +62,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'recipes',
+    'django_elastic_appsearch',
+  
 
 ]
 
