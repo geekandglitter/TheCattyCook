@@ -41,6 +41,7 @@ class SearchTerms(models.Model):
 from django_elastic_appsearch.orm import AppSearchModel
 from django_elastic_appsearch import serialisers
 
+# the serializer converts to and from json
 class CarSerialiser(serialisers.AppSearchSerialiser):
     full_name = serialisers.MethodField()
     make = serialisers.StrField()
@@ -52,7 +53,6 @@ class CarSerialiser(serialisers.AppSearchSerialiser):
 
 
 class Car(AppSearchModel):
-
     class AppsearchMeta:
         appsearch_engine_name = 'cars'
         appsearch_serialiser_class = CarSerialiser
