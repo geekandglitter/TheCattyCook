@@ -1,8 +1,7 @@
 # Create your models here
 from django.db import models 
 from django.contrib.postgres.fields import ArrayField
-#from django_elastic_appsearch.orm import AppSearchModel
-#from django_elastic_appsearch import serialisers
+ 
 
  
 

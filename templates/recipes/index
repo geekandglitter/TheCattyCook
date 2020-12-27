@@ -64,8 +64,8 @@ represents a Django view.   </p>
      <li><a href="/retrieve-recipes">Retrieve the URL's from the model</a><br><small>Uses a functional view.</small></li>
 
    
-     <li><a href="go-here">Retrieve the URL's from the model</a> <br><small>Uses a class based view. This view has no path,
-      so it's "go-here".
+     <li><a href="retrieve-recipes-classbased">Retrieve the URL's from the model</a> <br><small>Uses a class based view. This view has no path,
+      so it's "retrieve-recipes-classbased".
       </small></li> 
     
     <! -- this is how ListView names the list -->

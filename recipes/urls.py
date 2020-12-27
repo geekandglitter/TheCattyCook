@@ -20,7 +20,7 @@ urlpatterns = [
   path('suggestions', views.suggestions_view),
   path('suggestionresults', views.searchboxes_view),  
   path('retrieve-recipes', views.retrieve_recipes_view),
-  path('go-here', ModelList.as_view(model=AllRecipes)), 
+  path('retrieve-recipes-classbased', ModelList.as_view(model=AllRecipes)), 
   path('count-words', views.count_words_view),   
   path('get-and-store', views.get_and_store_view),
   path('feedparse', views.feedparse_view), 
