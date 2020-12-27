@@ -417,6 +417,7 @@ def searchinput_view(request):
     separated by commas.
     The second time this view is run, it processes the form.
     It returns all recipes with any or all of the search terms.  
+    It also updates the database with all the valid search terms (terms which had been found)
      
     ''' 
     # Below is some setup
@@ -436,9 +437,7 @@ def searchinput_view(request):
             
             cd = form.cleaned_data  # Clean the user input
             search_term = cd['user_search_terms']     
-            #for oneterm in search_term: # now run through the current serach terms and save them to the database
-                #newrec = SearchTerms.objects.update_or_create(searchterm=oneterm.title())   
-            
+             
             # Note about code below: Blogger limits RSS feeds to 150
             # So I get the lists and put them together     
             feed1 = (feedparser.parse(url1))                
@@ -464,7 +463,7 @@ def searchinput_view(request):
                 num_terms_found = 0
                 search_term_string=""
                 for term in search_term:   
-                    
+                    # if the search terms(s) are found, add them to the search term database
                     if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
                         count += 1                       
                         found=True
@@ -511,7 +510,7 @@ def searchinput_view(request):
 
 
 ########################################################
-# Show Label List#
+# Show Label List plus all other search terms that have been stored by the user
 ########################################################
 def suggestions_view(request):
     def update_the_database_with_labels(soup):        
@@ -526,7 +525,7 @@ def suggestions_view(request):
         results_list = results_list + '<input type="submit" value="Search"><br><br>'  
         r = requests.get("https://thecattycook.blogspot.com")
         soup = BeautifulSoup(r.text, 'html.parser')
-        #update_the_database_with_labels(soup) 
+        update_the_database_with_labels(soup) # this line can be turned off
         dictmap = dict()       
 
         # Next we want to fetch whatever is in the database. Those items will become the checkboxes

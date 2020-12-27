@@ -25,7 +25,8 @@ represents a Django view.   </p>
 
 
     <li><b><a href="/searchinput">Type in any word(s) that might be in a recipe, separated by commas</b> 
-    </a><br><small>Shows results in order of relevance, which is based on number of criteria met.
+    </a><br><small>Shows results in order of relevance, which is based on number of criteria met. If your search terms
+    are found in one or more recipes, they will be added to the database
      This view uses Blogger API, Django Models and ModelForm. 
      </small></li>
 
