@@ -18,6 +18,10 @@ from .models import SearchTerms
 import feedparser
 from .forms import RecipeForm
 import os   
+from googleapiclient.discovery import build
+
+from .models import AllContents
+ 
 
  
 ###################################################
@@ -106,8 +110,7 @@ def get_view(request):
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
 
-    return render(request, 'recipes/get', {'allofit': newstring, 'count': counter})
-
+    return render(request, 'recipes/get', {'allofit': newstring, 'count': counter}) 
 
 ###############################
 # This view does the same as get_view but orders the results by date instead of alphabetically
@@ -249,7 +252,7 @@ def searchboxes_view(request):
     return render(request, 'recipes/suggestionresults', context) 
 
 ####################################################
-# Now retrieve the urls in the model using a function-based view, and renders them
+# Now retrieve the urls from the model using a function-based view, and renders them
 ####################################################
 
 def retrieve_recipes_view(request):
@@ -344,14 +347,14 @@ def get_and_store_view(request):
     # Now we get ready to update the database
     AllRecipes.objects.all().delete()  # clear the table
     for mylink in sorteditems:
-
+         
         counter += 1
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
         newrec = AllRecipes.objects.create(
             anchortext=mylink['title'],
-            hyperlink="<a href=" + mylink['url'] + ">" +
-            mylink['title'] + "</a>" + "<br>"
+            hyperlink="<a href=" + mylink['url'] + ">" + mylink['title'] + "</a>" + "<br>",
+            url=mylink['url']
         )
         newrec.save()
 
@@ -556,4 +559,85 @@ def suggestions_view(request):
                       {'title': title, 'mylist': results_list, 'dictmap': dictmap})
     except requests.ConnectionError:
         return render(request, 'recipes/error_page')
+ 
+#############
+def allcontents_view(request):
+    '''
+    I figured this out with the help of a youtube video about google blogger API with Python.   
+    https://youtu.be/6nAnSi0yAM8
+    Or go into youbute and look for this: shah google blogger api #1
+    NOT IN USE. I'M GIVING UP ON THIS VIEW
+    '''
+    Key="AIzaSyDleLQNXOzdCSTGhu5p6CPyBm92we3balg"
+    BlogId="639737653225043728"
+    blog=build('blogger', 'v3', developerKey=Key)
+    print("blog is", blog)
+         
+    #r = requests.get(url, stream=True)
+    resp = blog.blogs().get(blogId=BlogId).execute()
+    #print("resp is", resp)
+     
+    print(resp['name'])
+    print(resp.get("name"))
+    print(resp['updated'])
+    print(resp['posts'])
+    print(resp['posts']['totalItems'])
+    numitems = resp['posts']['totalItems']
+    print(resp['posts']['selfLink'])
+
+
+
+    resp = blog.posts().list(blogId=BlogId).execute()
+    
+    print("now resp is", resp)
+    print("And here we go")
+    #print(resp)
+    out_to_screen = resp["items"][0]["content"]
+    print("Zero:")
+    #print(resp["items"][0]["content"])
+    print("One:")
+    #print(resp["items"][1]["content"])
+    print("Two:")
+    #print(resp["items"][2]["content"])
+    print(resp["items"][2]["url"])
+    """
+    for i in range(0,11):
+        print("Number", i)
+        print(resp["items"][i]["content"])
+        print("*********************************************")
+    """    
+    print("numitems is", numitems)       
+         
+    return render(request, 'recipes/allcontents')
+#############
+def scrapecontents_view(request):
+    '''
+    1. Go into the allrecipes model
+    2. Retrieve all the hyperlinks and put them in a list
+    3. Loop through the hyperlinks
+        a. Get post and find everything inside post-body, eliminate all html
+        b. Store all contents in the new model AllContents.Fullpost
+        c. Also update AllContents.Anchortext
+        d. Also update AllCOntents.Hyperlink
+        e. Also update AllContents.Title
+    4. Put something out to the template 
+    '''
+    #instance = AllRecipes.objects.all().values_list('hyperlink')
+     
+
+    instance = AllRecipes.objects.filter().values_list('url', flat=True)
+    #print(instance)
+    for hyper in instance:
+        #print(hyper,"\n")
+        getpost = requests.get(hyper)
+        soup = BeautifulSoup(getpost.text, 'html.parser')
+        # Examples of what we're looking for:
+        # <div class='post-body entry-content' id='post-body-5858122903732271900' itemprop='description articleBody'>
+        # <div class='post-body entry-content' id='post-body-6450619777393005693' itemprop='description articleBody'>        
+        soup_contents = soup.find("div", class_="post-body entry-content") 
+        stripped = soup_contents.get_text()
+        stripped = ' '.join(stripped.split())
+        print(stripped)
+             
+    return render(request, 'recipes/scrapecontents')
  

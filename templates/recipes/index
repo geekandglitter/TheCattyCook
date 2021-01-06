@@ -22,9 +22,15 @@ represents a Django view.   </p>
     
      
     <ol>
+    <li><b><a href = "/scrapecontents">NEW! Trying to scrape all post contents and stuff them in a model.</a><small>
+    The goal will be to have a searchable database from which I can do
+    queries. Hopefully this will result in being able to rewrite a faster search.</small></li>
+    <li><b><a href="/allcontents">DEFUNCT And not yet working. </a><small>This view will retrieve the contents 
+    of all the recipe posts,
+    and store the contents in a model (a database). The goal will be to have a searchable database from which I can do
+    queries. Hopefully this will result in being able to rewrite a faster search.</small></li>
 
-
-    <li><b><a href="/searchinput">Type in any word(s) that might be in a recipe, separated by commas</b> 
+    <li><b><a href="/searchinput">THIS IS SLOW RIGHT NOW Type in any word(s) that might be in a recipe, separated by commas</b> 
     </a><br><small>Shows results in order of relevance, which is based on number of criteria met. If your search terms
     are found in one or more recipes, they will be added to the database
      This view uses Blogger API, Django Models and ModelForm. 
@@ -32,14 +38,14 @@ represents a Django view.   </p>
 
 
     <li><b><a href="/feedparse">Find all Recipes, most recent first </a></b><br><small>Get all
-     the post urls from three RSS feeds, then store them each in one record in a model. It does not use Google Blogger API.
-      (a mysql database)</small></li>
+     the post urls from three RSS feeds, then store them each in one record in a model (a mysql database). It does not use Google Blogger API.
+      </small></li>
 
   <li><b><a href="/get-and-store">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
    all the post urls from Google Blogger API,  then store them each in one record in a model
       (a mysql or postgres database).</small></li>
 
-    <li><b><a href="/suggestions">Select ingredients from suggestions</a></b><br>
+    <li><b><a href="/suggestions">THIS IS SLOW RIGHT NOW Select ingredients from suggestions</a></b><br>
     <small>Shows all database keywords with checkboxes. Results are ordered by relevance (number of search criteria met).   </small> </li>
      
       

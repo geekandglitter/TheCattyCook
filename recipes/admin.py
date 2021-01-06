@@ -17,8 +17,8 @@ class RecipeAdmin(admin.ModelAdmin): # I think this overrides Admin defaults
 	"""
  
 	
-	list_display = ['anchortext', 'hyperlink', 'id', 'user_search_terms']
-	list_filter = ('anchortext', 'hyperlink','id')
+	list_display = ['url','anchortext', 'hyperlink', 'id', 'user_search_terms']
+	list_filter = ('url', 'anchortext', 'hyperlink','id')
 	search_fields = ('anchortext', 'hyperlink', 'id')
 	list_max_show_all = 500
 	list_per_page = 500
