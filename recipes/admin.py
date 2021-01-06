@@ -5,8 +5,7 @@ from django.apps import apps # this will allow me to auto-register all models no
  
 from .models import SearchTerms
 from .models import AllRecipes
-
-
+from .models import AllContents
 
 
 # Below, I am telling the Django admin site that we are using a custom class. It shows how to display the model in
@@ -33,8 +32,16 @@ class SearchAdmin(admin.ModelAdmin): # I think this overrides Admin defaults
 	list_max_show_all = 1000
 	list_per_page = 1000
 
+
+
+class AllContentsAdmin(admin.ModelAdmin):
+	list_display = ['anchortext', 'hyperlink', 'title', 'fullpost']
+	#list_filter = ['anchortext', 'hyperlink', 'title', 'fullpost']
+
+
 admin.site.register(AllRecipes, RecipeAdmin) 
 admin.site.register(SearchTerms, SearchAdmin)
+admin.site.register(AllContents, AllContentsAdmin)
  
 ######################################################
 # all other models, this is kind of a catchall to register all models

@@ -612,15 +612,16 @@ def allcontents_view(request):
 #############
 def scrapecontents_view(request):
     '''
-    1. Go into the allrecipes model
-    2. Retrieve all the hyperlinks and put them in a list
+    1. X Go into the allrecipes model
+    2. X Retrieve all the hyperlinks and put them in a list
     3. Loop through the hyperlinks
-        a. Get post and find everything inside post-body, eliminate all html
-        b. Store all contents in the new model AllContents.Fullpost
+        a. X Get post and find everything inside post-body, eliminate all html
+        b. X Store all contents in the new model AllContents.Fullpost
         c. Also update AllContents.Anchortext
         d. Also update AllCOntents.Hyperlink
         e. Also update AllContents.Title
     4. Put something out to the template 
+    5. Query the database for a hard-coded search term
     '''
     #instance = AllRecipes.objects.all().values_list('hyperlink')
      
@@ -638,6 +639,10 @@ def scrapecontents_view(request):
         stripped = soup_contents.get_text()
         stripped = ' '.join(stripped.split())
         print(stripped)
+        newrec = AllContents.objects.create(
+            fullpost=stripped,             
+        )
+        newrec.save()
              
     return render(request, 'recipes/scrapecontents')
  
