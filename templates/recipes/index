@@ -4,80 +4,79 @@
 <div style=width:600px;>
 <p><b>For Cooks</b><br>
 Use this interface to my recipe blog. The links in bold will be most useful to you.
-Find what you want, click through, and you can even print the recipes!</p>
+Find what you want, click through, and you can print the recipes on your printer, or include your laptop as a kitchen item. 
+Note: Just as this web app is under development, so are my recipes.</p>
 
 <p><b>For Developers (which can, of course, include cooks)</b><br>
  
 I'm both a cook and a nerd. I wrote this Python/Django web app to experiment with scraping, RSS Feeds and API's. Those are three different
 ways to get content from a website or blog. Its concept is that it serves as a front end to allow various ways to 
 find recipes in my blogspot recipe blog, <a href="https://thecattycook.blogspot.com/">The Catty Cook</a>. Each link here
-represents a Django view.   </p>
+represents a Django view.  </p>
 
 <p>
 
 </p>
-<h1>Select any link below and have fun!</h1>
+<br>
+<h1>    For Cooks</h1>
  <span style="font-size:15px">
+ <ol>
+    <li><a href="/get"><b>Find all Recipes Alphabetically </b>  </a><br><small>Uses Google Blogger API and requests to get 
+	the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
+	Does not store them in a model.</small>  </li>
+
+	<li><b><a href="/feedparse">Find all Recipes, most recent first </a></b><br>
+	<small>
+	Get all the post urls from three RSS feeds, then store them each in one record in a model (a mysql database). It does not use Google Blogger API.
+	</small></li>	 
+
+	<li><b><a href="/searchinput">Type in any word(s) that might be in a recipe, separated by commas</a></b><br>
+	(This is slow and will be replaced. See the developer section.)
+	<br><small>Shows results in order of relevance, which is based on number of criteria met. If your search terms
+	are found in one or more recipes, they will be added to the database
+	This view uses Blogger API, Django Models and ModelForm. 
+	</small></li>
+
+	<li><b><a href="/suggestions">Select ingredients from suggestions</a></b><br>
+	(This is slow right now)<br>
+	<small>Shows all database keywords with checkboxes. Results are ordered by relevance 
+	(number of search criteria met). </small> </li>
+</ol>   
+</span>   
+<br><br>
+<h1>For Developers</h1>
+<h2>And don't worry if you break something</h2>
+<span style="font-size:15px">
+<ol> 			
+	<li><a href="/count-words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
+	Google Adsense, as they expect a minium of around 300 characters.</small></li>    
+
+	<li><a href="/getchron">View all Recipes Chronologically  </a><br><small>Uses Google Blogger API and requests
+	to get the feed, one year at a time to prevent a timeout, then loads the json chronologically.</small> </li>
+
+	<li><a href="/scrape">View Recipes scraped from the home page  </a><br><small>Uses requests and beautifulSoup to scrape
+	recipes only from the home page. The results are limited.</small></li>     
+
+	<! --  The next two views are attempting to be the same. The first is a functional view; the second a class-based view -->
+    <li><a href="/retrieve-recipes">Retrieve the URL's from the model</a><br><small>Uses a functional view.</small></li>   
+	<li><a href="retrieve-recipes-classbased">Retrieve the URL's from the model</a> <br><small>Uses a class based view. This 
+	view has no path, so it's "retrieve-recipes-classbased". Note that class-based is faster than functional.
+	</small></li>    
+
+	<li><a href="/get-and-store">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
+	all the post urls from Google Blogger API,  then store them each in one record in a model
+	(a mysql or postgres database).</small></li>
+
+	<li><a href = "/scrapecontents">Scrape all post contents and stuff them in a model.</a><small>
+	<br>This will create a searchable database from which I can do search
+	queries. Hopefully this will result in being able to rewrite a faster search. This view relies on the recipes
+	retrieved in the above view.</small></li>    
+
+	<li><a href="/modelsearch">Queries the database with a dummied up search term ("cheese") 
+	for now.</a><br><small>Under construction.</small></li> 		
  
-    
-     
-    <ol>
-    <li><b><a href = "/scrapecontents">NEW! Trying to scrape all post contents and stuff them in a model.</a><small>
-    The goal will be to have a searchable database from which I can do
-    queries. Hopefully this will result in being able to rewrite a faster search.</small></li>
-    <li><b><a href="/allcontents">DEFUNCT And not yet working. </a><small>This view will retrieve the contents 
-    of all the recipe posts,
-    and store the contents in a model (a database). The goal will be to have a searchable database from which I can do
-    queries. Hopefully this will result in being able to rewrite a faster search.</small></li>
-
-    <li><b><a href="/searchinput">THIS IS SLOW RIGHT NOW Type in any word(s) that might be in a recipe, separated by commas</b> 
-    </a><br><small>Shows results in order of relevance, which is based on number of criteria met. If your search terms
-    are found in one or more recipes, they will be added to the database
-     This view uses Blogger API, Django Models and ModelForm. 
-     </small></li>
-
-
-    <li><b><a href="/feedparse">Find all Recipes, most recent first </a></b><br><small>Get all
-     the post urls from three RSS feeds, then store them each in one record in a model (a mysql database). It does not use Google Blogger API.
-      </small></li>
-
-  <li><b><a href="/get-and-store">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
-   all the post urls from Google Blogger API,  then store them each in one record in a model
-      (a mysql or postgres database).</small></li>
-
-    <li><b><a href="/suggestions">THIS IS SLOW RIGHT NOW Select ingredients from suggestions</a></b><br>
-    <small>Shows all database keywords with checkboxes. Results are ordered by relevance (number of search criteria met).   </small> </li>
-     
-      
-      
-     <li><a href="/count-words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
-      Google Adsense, as they expect a minium of around 300 characters.</small></li> 
- 
-
- 
-
-    <li><a href="/get">View all Recipes Alphabetically   </a><br><small>Uses Google Blogger API and requests to get 
-      the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
-      Does not store them in a model.</small>  </li>
-    <li><a href="/getchron">View all Recipes Chronologically  </a><br><small>Uses Google Blogger API and requests
-     to get the feed, one year at a time to prevent a timeout, then loads the json chronologically.</small> </li>
-
-
-    <li><a href="/scrape">View Recipes scraped from the home page  </a><br><small>Uses requests and beautifulSoup to scrape
-      recipes only from the home page. The results are limited.</small></li>     
-
-    <! --  The next two views are attempting to be the same. The first is a functional view; the second a class-based view -->
-     <li><a href="/retrieve-recipes">Retrieve the URL's from the model</a><br><small>Uses a functional view.</small></li>
-
-   
-     <li><a href="retrieve-recipes-classbased">Retrieve the URL's from the model</a> <br><small>Uses a class based view. This view has no path,
-      so it's "retrieve-recipes-classbased".
-      </small></li> 
-    
-    <! -- this is how ListView names the list -->
-
-   </ol>
-</span></ol>
+</ol>
+</span> 
 
 </div>
 {% endblock content %}

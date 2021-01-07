@@ -18,7 +18,7 @@ from .models import SearchTerms
 import feedparser
 from .forms import RecipeForm
 import os   
-from googleapiclient.discovery import build
+
 
 from .models import AllContents
  
@@ -560,76 +560,29 @@ def suggestions_view(request):
     except requests.ConnectionError:
         return render(request, 'recipes/error_page')
  
-#############
-def allcontents_view(request):
-    '''
-    I figured this out with the help of a youtube video about google blogger API with Python.   
-    https://youtu.be/6nAnSi0yAM8
-    Or go into youbute and look for this: shah google blogger api #1
-    NOT IN USE. I'M GIVING UP ON THIS VIEW
-    '''
-    Key="AIzaSyDleLQNXOzdCSTGhu5p6CPyBm92we3balg"
-    BlogId="639737653225043728"
-    blog=build('blogger', 'v3', developerKey=Key)
-    print("blog is", blog)
-         
-    #r = requests.get(url, stream=True)
-    resp = blog.blogs().get(blogId=BlogId).execute()
-    #print("resp is", resp)
-     
-    print(resp['name'])
-    print(resp.get("name"))
-    print(resp['updated'])
-    print(resp['posts'])
-    print(resp['posts']['totalItems'])
-    numitems = resp['posts']['totalItems']
-    print(resp['posts']['selfLink'])
 
-
-
-    resp = blog.posts().list(blogId=BlogId).execute()
-    
-    print("now resp is", resp)
-    print("And here we go")
-    #print(resp)
-    out_to_screen = resp["items"][0]["content"]
-    print("Zero:")
-    #print(resp["items"][0]["content"])
-    print("One:")
-    #print(resp["items"][1]["content"])
-    print("Two:")
-    #print(resp["items"][2]["content"])
-    print(resp["items"][2]["url"])
-    """
-    for i in range(0,11):
-        print("Number", i)
-        print(resp["items"][i]["content"])
-        print("*********************************************")
-    """    
-    print("numitems is", numitems)       
-         
-    return render(request, 'recipes/allcontents')
 #############
 def scrapecontents_view(request):
     '''
+    Scrape the contents of every recipe post
+    Here's the psuedocode:
     1. X Go into the allrecipes model
     2. X Retrieve all the hyperlinks and put them in a list
     3. Loop through the hyperlinks
         a. X Get post and find everything inside post-body, eliminate all html
-        b. X Store all contents in the new model AllContents.Fullpost
-        c. Also update AllContents.Anchortext
-        d. Also update AllCOntents.Hyperlink
-        e. Also update AllContents.Title
-    4. Put something out to the template 
-    5. Query the database for a hard-coded search term
+        b. X Store all contents in the new model AllContents.Fullpost    
+        c. X Also update AllCOntents.Hyperlink        
+    4. X Put something out to the template 
+ 
     '''
     #instance = AllRecipes.objects.all().values_list('hyperlink')
      
 
     instance = AllRecipes.objects.filter().values_list('url', flat=True)
-    #print(instance)
+    AllContents.objects.all().delete()  # clear the table
+     
     for hyper in instance:
-        #print(hyper,"\n")
+         
         getpost = requests.get(hyper)
         soup = BeautifulSoup(getpost.text, 'html.parser')
         # Examples of what we're looking for:
@@ -638,11 +591,26 @@ def scrapecontents_view(request):
         soup_contents = soup.find("div", class_="post-body entry-content") 
         stripped = soup_contents.get_text()
         stripped = ' '.join(stripped.split())
-        print(stripped)
+         
         newrec = AllContents.objects.create(
-            fullpost=stripped,             
+            fullpost=stripped,       
+            hyperlink=hyper      
         )
         newrec.save()
              
     return render(request, 'recipes/scrapecontents')
+
+
+def modelsearch_view(request):
+    search_term = 'cheese'
+    answer=AllContents.objects.filter(fullpost__icontains=search_term)
+    count=0  
+    stringof_urls=""
+    for elem in answer:  
+         
+        stringof_urls = stringof_urls + "<a href=" + str(elem) + ">" + "<b>" + str(elem) + "</b>" + "</a>" + " " + "<br><br>"  
+        count+=1
+        
+    context={'count': count, 'answer': stringof_urls}    
+    return render(request, 'recipes/modelsearch', context)    
  

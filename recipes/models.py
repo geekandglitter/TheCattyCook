@@ -40,14 +40,14 @@ class AllContents(models.Model):
     This model holds hyperlinks (hrefs with anchor text)
     These hyperlinks are then easily displayed in a template
     ''' 
-    anchortext = models.TextField(max_length=500, null=True, blank=True)
-    hyperlink = models.TextField(max_length=500, null=True, blank=True)
-    title = models.TextField(max_length=50, null=True, blank=True )     
-    fullpost = models.TextField(max_length=1000, null=True, blank=True)
+    #anchortext = models.TextField(max_length=500, null=True, blank=True)
+    hyperlink = models.TextField(max_length=500, null=True, blank=True, unique=True)
+    #title = models.TextField(max_length=50, null=True, blank=True )     
+    fullpost = models.TextField(max_length=5000, null=True, blank=True)
     
     class Meta: # this eliminates the extra "s" added to the model name
         verbose_name_plural = "AllContents"
-        ordering = ['anchortext']    # alphabetical order    
+        ordering = ['hyperlink']    # alphabetical order    
      
     def __str__(self):
         return self.hyperlink

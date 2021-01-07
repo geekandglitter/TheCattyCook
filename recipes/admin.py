@@ -35,8 +35,11 @@ class SearchAdmin(admin.ModelAdmin): # I think this overrides Admin defaults
 
 
 class AllContentsAdmin(admin.ModelAdmin):
-	list_display = ['anchortext', 'hyperlink', 'title', 'fullpost']
-	#list_filter = ['anchortext', 'hyperlink', 'title', 'fullpost']
+	list_display = ['hyperlink', 'fullpost']
+	 
+	search_fields = ('fullpost', 'hyperlink')
+	list_max_show_all = 1000
+	list_per_page = 1000
 
 
 admin.site.register(AllRecipes, RecipeAdmin) 

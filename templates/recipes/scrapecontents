@@ -3,7 +3,7 @@
 {% block content %}  
   
   
-  <h1>This page will show that all contents have been saved</h1>
+  <h1>Post Contents Scraped and Stored</h1>
   
  
  
