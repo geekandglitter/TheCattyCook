@@ -477,9 +477,8 @@ def searchinput_view(request):
                         num_terms_found+=1
                         search_term_string = search_term_string + " " + term    
                         thelink = ["(" + 
-                                 str(num_terms_found) + 
+                                  str(num_terms_found) + 
                                   ")" +
-                                   
                                   " " +
                                   "<a href=" + eachrecipe.link + 
                                   ">" + 
@@ -489,7 +488,7 @@ def searchinput_view(request):
                                   " " +
                                   "<br>" +
                                   search_term_string +
-                                  "<br><br>"]
+                                  "<br><br>"] 
                         
                         if found:
                             temp_list = thelink       
@@ -587,17 +586,14 @@ def scrapecontents_view(request):
     # For now, I'm starting over each time, by emptying out AllContents
     AllContents.objects.all().delete()  # clear the table 
     for hyper, title in instance:
-        #print("title is", title) 
-        #print("hyper is", hyper)
+         
          
         getpost = requests.get(hyper)
-        soup = BeautifulSoup(getpost.text, 'html.parser')
-        # Examples of what we're looking for:
-        # <div class='post-body entry-content' id='post-body-5858122903732271900' itemprop='description articleBody'>
-        # <div class='post-body entry-content' id='post-body-6450619777393005693' itemprop='description articleBody'>        
+        soup = BeautifulSoup(getpost.text, 'html.parser')            
         soup_contents = soup.find("div", class_="post-body entry-content") 
         stripped = soup_contents.get_text()
-        stripped = ' '.join(stripped.split())
+        stripped = ' '.join(stripped.split()) # remove all multiple blanks, leave single blanks
+         
          
         newrec = AllContents.objects.create(
             fullpost=stripped,       
@@ -609,20 +605,33 @@ def scrapecontents_view(request):
              
     return render(request, 'recipes/scrapecontents')
 
-
+ 
 def modelsearch_view(request):
-    user_search_term = 'tart cherry juice'
-    answer=AllContents.objects.filter(fullpost__icontains=user_search_term).values_list() | AllContents.objects.filter(title__icontains=user_search_term).values_list()  
-    #print("answer is")
-    #print(answer)
-    # Example of how to add multiples is below. I can do a loop of all the search terms and use() this pipe char. 
-    # query = t.objects.filter(Q(id__icontains=q) | Q(title__icontains=q) | Q(url__icontains=q))
+    '''
+    I found out how to loop through all the search terms from the brilliant guy who
+    answered it in stackoverflow:
+    https://stackoverflow.com/questions/43549479/how-to-search-for-multiple-keywords-over-multiple-columns-in-django
+
+    '''
+    from django.db.models import Q
+    user_search_list = ["tart cherry juice", "ice cream", "snow pea leaves"]
+    q_object = Q(fullpost__icontains=user_search_list[0])| \
+               Q(title__icontains=user_search_list[0])  
+
+    for item in user_search_list:
+        q_object.add((Q(fullpost__icontains=item)| \
+                      Q(title__icontains=item)), q_object.connector) 
+    queryset = AllContents.objects.filter(q_object).values_list()   
+     
+     
     count=0  
     stringof_urls=""
-    for elem in answer:          
-        stringof_urls = stringof_urls + "<a href=" + str(elem[1]) + ">" + "<b>" + str(elem[2]) + "</b>" + "</a>" + " " + "<br><br>"  
-        count+=1
-        
-    context={'count': count, 'answer': stringof_urls, 'search_term': user_search_term}    
-    return render(request, 'recipes/modelsearch', context)    
+    for elem in queryset:          
+        stringof_urls = stringof_urls + "<a href=" + str(elem[1]) + ">" + \
+            "<b>" + str(elem[2]) + "</b>" + "</a>" + " " + "<br><br>"  
+        count+=1        
+    context={'count': count, 'answer': stringof_urls, 'user_search_list': user_search_list}    
+    return render(request, 'recipes/modelsearch', context) 
+ 
+##################################
  
