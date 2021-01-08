@@ -213,30 +213,33 @@ def searchboxes_view(request):
             if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
                                                
                 found=True
-                count+=1
+                
                 newrec = SearchTerms.objects.update_or_create(searchterm=term.lower())
                 num_terms_found+=1
                 search_term_string = search_term_string + " " + term    
+                 
                 thelink = ["(" + 
-                    str(num_terms_found) + 
-                      ")" +
-                      " " +
-                      "<a href=" + eachrecipe.link + 
-                      ">" + 
-                      "<b>" +
-                      eachrecipe.title +
-                      "</b>" + "</a>" + 
-                      " " +
-                      "<br>" +
-                      search_term_string +
-                      "<br><br>"]
-                        
+                               str(num_terms_found) + 
+                                ")" +
+                                
+                                " " +
+                                "<a href=" + eachrecipe.link + 
+                                ">" + 
+                                "<b>" +
+                                eachrecipe.title +
+                                "</b>" + "</a>" + 
+                                " " +
+                                "<br>" +
+                                search_term_string +
+                                "<br><br>"]
                 if found:
                     temp_list = thelink       
                 else:
                     # QUESTION: Is this else ever happening?
                     temp_list.append(thelink)
         # Here manage the dupes in temp_list before adding it to final_list
+        if found:
+            count+=1
         final_list.extend(temp_list)     
         #if not final_list:
          #   final_list.append("<b>none</b>")
@@ -468,7 +471,7 @@ def searchinput_view(request):
                 for term in search_term:   
                     # if the search terms(s) are found, add them to the search term database
                     if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
-                        count += 1                       
+                        #count += 1                       
                         found=True
                         newrec = SearchTerms.objects.update_or_create(searchterm=term.lower())
                         num_terms_found+=1
@@ -476,6 +479,7 @@ def searchinput_view(request):
                         thelink = ["(" + 
                                  str(num_terms_found) + 
                                   ")" +
+                                   
                                   " " +
                                   "<a href=" + eachrecipe.link + 
                                   ">" + 
@@ -493,6 +497,8 @@ def searchinput_view(request):
                             # QUESTION: Is this else ever happening?
                             temp_list.append(thelink)
                 # Here manage the dupes in temp_list before adding it to final_list
+                if found:
+                    count +=1
                 final_list.extend(temp_list)     
         if not final_list:
             final_list.append("<b>none</b>")
