@@ -35,9 +35,8 @@ class SearchAdmin(admin.ModelAdmin): # I think this overrides Admin defaults
 
 
 class AllContentsAdmin(admin.ModelAdmin):
-	list_display = ['hyperlink', 'fullpost']
-	 
-	search_fields = ('fullpost', 'hyperlink')
+	list_display = ['title', 'hyperlink', 'fullpost']	 
+	search_fields = ('title', 'hyperlink', 'fullpost')
 	list_max_show_all = 1000
 	list_per_page = 1000
 

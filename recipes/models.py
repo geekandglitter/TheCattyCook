@@ -42,7 +42,7 @@ class AllContents(models.Model):
     ''' 
     #anchortext = models.TextField(max_length=500, null=True, blank=True)
     hyperlink = models.TextField(max_length=500, null=True, blank=True, unique=True)
-    #title = models.TextField(max_length=50, null=True, blank=True )     
+    title = models.TextField(max_length=100, null=True, blank=True )     
     fullpost = models.TextField(max_length=5000, null=True, blank=True)
     
     class Meta: # this eliminates the extra "s" added to the model name

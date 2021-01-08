@@ -568,20 +568,21 @@ def scrapecontents_view(request):
     Here's the psuedocode:
     1. X Go into the allrecipes model
     2. X Retrieve all the hyperlinks and put them in a list
-    3. Loop through the hyperlinks
+    3. X Loop through the hyperlinks
         a. X Get post and find everything inside post-body, eliminate all html
         b. X Store all contents in the new model AllContents.Fullpost    
         c. X Also update AllCOntents.Hyperlink        
     4. X Put something out to the template 
  
     '''
-    #instance = AllRecipes.objects.all().values_list('hyperlink')
-     
+    # First, get all the urls from AllRecipes
+    instance = AllRecipes.objects.filter().values_list('url', 'anchortext')
 
-    instance = AllRecipes.objects.filter().values_list('url', flat=True)
-    AllContents.objects.all().delete()  # clear the table
-     
-    for hyper in instance:
+    # For now, I'm starting over each time, by emptying out AllContents
+    AllContents.objects.all().delete()  # clear the table 
+    for hyper, title in instance:
+        #print("title is", title) 
+        #print("hyper is", hyper)
          
         getpost = requests.get(hyper)
         soup = BeautifulSoup(getpost.text, 'html.parser')
@@ -594,7 +595,9 @@ def scrapecontents_view(request):
          
         newrec = AllContents.objects.create(
             fullpost=stripped,       
-            hyperlink=hyper      
+            hyperlink=hyper,
+            title=title
+
         )
         newrec.save()
              
@@ -602,15 +605,18 @@ def scrapecontents_view(request):
 
 
 def modelsearch_view(request):
-    search_term = 'cheese'
-    answer=AllContents.objects.filter(fullpost__icontains=search_term)
+    user_search_term = 'tart cherry juice'
+    answer=AllContents.objects.filter(fullpost__icontains=user_search_term).values_list() | AllContents.objects.filter(title__icontains=user_search_term).values_list()  
+    #print("answer is")
+    #print(answer)
+    # Example of how to add multiples is below. I can do a loop of all the search terms and use() this pipe char. 
+    # query = t.objects.filter(Q(id__icontains=q) | Q(title__icontains=q) | Q(url__icontains=q))
     count=0  
     stringof_urls=""
-    for elem in answer:  
-         
-        stringof_urls = stringof_urls + "<a href=" + str(elem) + ">" + "<b>" + str(elem) + "</b>" + "</a>" + " " + "<br><br>"  
+    for elem in answer:          
+        stringof_urls = stringof_urls + "<a href=" + str(elem[1]) + ">" + "<b>" + str(elem[2]) + "</b>" + "</a>" + " " + "<br><br>"  
         count+=1
         
-    context={'count': count, 'answer': stringof_urls}    
+    context={'count': count, 'answer': stringof_urls, 'search_term': user_search_term}    
     return render(request, 'recipes/modelsearch', context)    
  

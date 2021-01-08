@@ -72,7 +72,7 @@ represents a Django view.  </p>
 	queries. Hopefully this will result in being able to rewrite a faster search. This view relies on the recipes
 	retrieved in the above view.</small></li>    
 
-	<li><a href="/modelsearch">Queries the database with a dummied up search term ("cheese") 
+	<li><a href="/modelsearch">Queries the database with a dummied up (hard coded) search term  
 	for now.</a><br><small>Under construction.</small></li> 		
  
 </ol>

@@ -1,7 +1,7 @@
 {% extends "base" %}
 
 {% block content %}
-  <h1>Total recipes found: {{count}}</h1>
+  <h1>Total recipes for {{search_term}} found: {{count}}</h1>
   <br>
   {{answer | safe}}
  
