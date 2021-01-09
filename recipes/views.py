@@ -435,14 +435,14 @@ def searchinput_view(request):
     final_list = []
     count = 0
     form = RecipeForm(request.POST)       
-    if request.method == 'POST': # this means the user has filled out the form
-         
+    if request.method == 'POST': # this means the user has filled out the form  
               
-        search_term=""
+        user_terms=""
         if form.is_valid():
             
             cd = form.cleaned_data  # Clean the user input
-            search_term = cd['user_search_terms']     
+            user_terms = cd['user_search_terms']     
+             
              
             # Note about code below: Blogger limits RSS feeds to 150
             # So I get the lists and put them together     
@@ -468,7 +468,7 @@ def searchinput_view(request):
                 found=False
                 num_terms_found = 0
                 search_term_string=""
-                for term in search_term:   
+                for term in user_terms:   
                     # if the search terms(s) are found, add them to the search term database
                     if term.lower() in the_contents.lower() or term.lower() in the_labels.lower() or term.lower() in the_title.lower():
                         #count += 1                       
@@ -504,10 +504,10 @@ def searchinput_view(request):
              
         results = sorted(final_list, reverse=True)
         final_string=""
-        for eachstring in search_term:
+        for eachstring in user_terms:
             final_string += eachstring + " "
         final_string = "<br>" + "Showing " + str(count) + " results for: " + final_string    
-        context={'count': count, 'results': results, 'search_term': final_string, 'form': form}
+        context={'count': count, 'results': results, 'user_terms': final_string, 'form': form}
          
      
     else: # This code executes the first time this view is run        
@@ -611,27 +611,27 @@ def modelsearch_view(request):
     I found out how to loop through all the search terms from the brilliant guy who
     answered it in stackoverflow:
     https://stackoverflow.com/questions/43549479/how-to-search-for-multiple-keywords-over-multiple-columns-in-django
+    Also:
+    https://stackoverflow.com/questions/43549479/how-to-search-for-multiple-keywords-over-multiple-columns-in-django
+    https://docs.djangoproject.com/en/3.1/ref/models/conditional-expressions/
+    https://bradmontgomery.net/blog/adding-q-objects-in-django/
+    https://riptutorial.com/django/example/4565/advanced-queries-with-q-objects    
+    Case(When(q_object.add((Q(fullpost__icontains=item)| \
+                      Q(title__icontains=item)), q_object.connector) ))
 
     '''
-    from django.db.models import Q
-    user_search_list = ["tart cherry juice", "ice cream", "snow pea leaves"]
-    q_object = Q(fullpost__icontains=user_search_list[0])| \
-               Q(title__icontains=user_search_list[0])  
-
-    for item in user_search_list:
-        q_object.add((Q(fullpost__icontains=item)| \
-                      Q(title__icontains=item)), q_object.connector) 
-    queryset = AllContents.objects.filter(q_object).values_list()   
-     
-     
+    search_term = 'cheese'
+    answer=AllContents.objects.filter(fullpost__icontains=search_term, ).values_list()
+ 
     count=0  
     stringof_urls=""
-    for elem in queryset:          
-        stringof_urls = stringof_urls + "<a href=" + str(elem[1]) + ">" + \
-            "<b>" + str(elem[2]) + "</b>" + "</a>" + " " + "<br><br>"  
-        count+=1        
-    context={'count': count, 'answer': stringof_urls, 'user_search_list': user_search_list}    
-    return render(request, 'recipes/modelsearch', context) 
- 
+    for elem in answer:  
+         
+   
+        stringof_urls = stringof_urls + "<a href=" + str(elem[1]) + ">" + "<b>" + str(elem[2]) + "</b>" + "</a>" + " " + "<br><br>"  
+        count+=1
+        
+    context={'count': count, 'answer': stringof_urls}    
+    return render(request, 'recipes/modelsearch', context)    
 ##################################
  
