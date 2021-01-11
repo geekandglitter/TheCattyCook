@@ -354,6 +354,7 @@ def get_and_store_view(request):
         counter += 1
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
+            # Below, notice I stuff the title in with the body. It makes the title search part of the contents search.
         newrec = AllRecipes.objects.create(
             anchortext=mylink['title'],
             hyperlink="<a href=" + mylink['url'] + ">" + mylink['title'] + "</a>" + "<br>",
@@ -591,8 +592,10 @@ def scrapecontents_view(request):
         getpost = requests.get(hyper)
         soup = BeautifulSoup(getpost.text, 'html.parser')            
         soup_contents = soup.find("div", class_="post-body entry-content") 
-        stripped = soup_contents.get_text()
+        stripped = title + soup_contents.get_text()
+     
         stripped = ' '.join(stripped.split()) # remove all multiple blanks, leave single blanks
+       
          
          
         newrec = AllContents.objects.create(
@@ -618,20 +621,68 @@ def modelsearch_view(request):
     https://riptutorial.com/django/example/4565/advanced-queries-with-q-objects    
     Case(When(q_object.add((Q(fullpost__icontains=item)| \
                       Q(title__icontains=item)), q_object.connector) ))
-
     '''
-    search_term = 'cheese'
-    answer=AllContents.objects.filter(fullpost__icontains=search_term, ).values_list()
+    from operator import itemgetter
+    term1 = "soy sauce"
+    term2 = "shrimp" 
+    term3 = "stir fry"
+    user_search_terms = "<br>" + term1 + "<br>" + term2 + "<br>" + term3
+    # Note: to get an "and" condition instead of "or", just add one filter after another
+  
+    q1 = list(AllContents.objects.filter(fullpost__icontains=term1).values_list())    
+    q2 = list(AllContents.objects.filter(fullpost__icontains=term2).values_list())
+    q3 = list(AllContents.objects.filter(fullpost__icontains=term3).values_list())
+    # Next, convert each list of tuples into a list of lists
+    q1_converted = list(map(list, q1)) 
+    q2_converted = list(map(list, q2)) 
+    q3_converted = list(map(list, q3)) 
  
-    count=0  
-    stringof_urls=""
-    for elem in answer:  
-         
+    for recipe in q1_converted:
+        recipe.insert(0, term1)  
+    for recipe in q2_converted:
+        recipe.insert(0, term2)
+    for recipe in q3_converted:
+        recipe.insert(0, term3)        
+    full_list = q1_converted + q2_converted + q3_converted    
+    # Now sort by id or url so that the duplicates are grouped together   
+    new_list=sorted(full_list, key=itemgetter(2))  # sort the list by the url (or could have used the id)
+    #print(new_list[0]) 
+    trimmed_list=[] 
    
-        stringof_urls = stringof_urls + "<a href=" + str(elem[1]) + ">" + "<b>" + str(elem[2]) + "</b>" + "</a>" + " " + "<br><br>"  
-        count+=1
-        
-    context={'count': count, 'answer': stringof_urls}    
+    
+    trimmed_list.append(new_list[0]) # put the first entire recipe into trimmed_list    
+    previous_record=trimmed_list[0]     
+    # in the for loop, I use the sortedness (done above) which groups the duplicate recipes together
+    recipe_counter = 1
+    for next_recipe in new_list[1:]: # we need to start at the second element
+        if next_recipe[2] == previous_record[2]:
+            recipe_counter += 1 
+            #print("found a dupe")
+            #print("search term in next recipe is", next_recipe[0]) 
+            #print("search term already in trimmed list is", previous_record[0])
+            new_string = next_recipe[0] + ", " + previous_record[0] # Might also need to alphabetize and count them
+            #print("new string is", new_string)
+            trimmed_list[-1][0]= new_string
+            # then replace the string only in the new list
+            print("recipe counter is",  recipe_counter)
+        else:
+            # put the recipe_counter at the end of next_recipe
+            previous_record.append(', ' + str(recipe_counter)) 
+            recipe_counter = 1 # reset the recipe counter
+            trimmed_list.append(next_recipe)  
+            #print("appended ")
+        previous_record = trimmed_list[-1] 
+    
+    for this in trimmed_list:
+        print(this[0]) # search terms
+        print(this[1]) # id
+        print(this[2]) # url
+        print(this[3]) # title
+        #print(this[4]) # recipe contents   
+
+    count=len(trimmed_list)    
+    almost_final_list=sorted(trimmed_list, key=itemgetter(0)) # sort by secondary key which will alphabetize the search terms
+    final_list=sorted(almost_final_list, key=itemgetter(-1), reverse=True) # then, sort by primary key which will order the list by how many search terms were found for each recipe. We reverse this seond sort for relevance ranking
+    context={'count': count, 'final_list': final_list, 'user_search_terms': user_search_terms}    
     return render(request, 'recipes/modelsearch', context)    
-##################################
  

@@ -1,16 +1,18 @@
 {% extends "base" %}
 
 {% block content %}
-  <h1>Total recipes:  {{count}} </h1>
-  <p style="font-size: 14px"><b>Your search terms:</b> <br>
-  {% for term in user_search_list%}
+  <h1>Total recipes found:  {{count}} </h1>
+  <p>Your search terms were: {{user_search_terms | safe}} </>
+
+  <p>
+  {% for item in final_list%}
      
-    <span style="margin-bottom: 25px">{{term | safe}}<br></span>     
+    <span style="margin-bottom: 25px"><b>{{item.0}}</b><br><a href= "{{item.2}}"> {{item.3}}</a> <br></span> <br>
      
     {% endfor %}
    </p> 
   <br>
   {{answer | safe}}
- 
+ </p>
    
 {% endblock content %}
