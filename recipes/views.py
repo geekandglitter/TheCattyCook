@@ -593,8 +593,9 @@ def scrapecontents_view(request):
         soup = BeautifulSoup(getpost.text, 'html.parser')            
         soup_contents = soup.find("div", class_="post-body entry-content") 
         stripped = title + soup_contents.get_text()
-     
+        stripped=stripped.replace('\n',' ') # need to replace newline with a blank
         stripped = ' '.join(stripped.split()) # remove all multiple blanks, leave single blanks
+     
        
          
          
