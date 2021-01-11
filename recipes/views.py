@@ -667,7 +667,7 @@ def modelsearch_view(request):
             recipe_counter = 1 # reset the recipe counter because we are in the else
             trimmed_list.append(next_recipe)               
         previous_recipe = trimmed_list[-1] # now advance previous_recipe for the next time thru the loop
-        print("previous recipe is", previous_recipe[2])
+         
      
     previous_recipe.append(', ' + str(recipe_counter)) # The last recipe needs its counter
     # Now get ready for the template
