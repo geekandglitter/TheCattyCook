@@ -441,7 +441,7 @@ def searchinput_view(request):
         user_terms=""
         if form.is_valid():
             
-            cd = form.cleaned_data  # Clean the user input
+            cd = form.cleaned_data  # Clean the user inpu
             user_terms = cd['user_search_terms']     
              
              
@@ -586,33 +586,28 @@ def scrapecontents_view(request):
 
     # For now, I'm starting over each time, by emptying out AllContents
     AllContents.objects.all().delete()  # clear the table 
-    for hyper, title in instance:
-         
+    for hyper, title in instance: 
          
         getpost = requests.get(hyper)
         soup = BeautifulSoup(getpost.text, 'html.parser')            
         soup_contents = soup.find("div", class_="post-body entry-content") 
         stripped = title + soup_contents.get_text()
         stripped=stripped.replace('\n',' ') # need to replace newline with a blank
-        stripped = ' '.join(stripped.split()) # remove all multiple blanks, leave single blanks
-     
-       
-         
+        stripped = ' '.join(stripped.split()) # remove all multiple blanks, leave single blanks      
          
         newrec = AllContents.objects.create(
             fullpost=stripped,       
             hyperlink=hyper,
             title=title
-
         )
         newrec.save()
              
     return render(request, 'recipes/scrapecontents')
 
- 
+
+############# 
 def modelsearch_view(request):
-    '''
-      
+    '''      
     Below I query using values_list(). The alternative would have been values() which creates a nice dictionary,
     which should be easier because I can see the keywords, but whatever. So instead I am referring to the indices:
     [0] # search terms
@@ -622,60 +617,30 @@ def modelsearch_view(request):
     [4] # recipe contents   
     [-1] # the number of search terms found per recipe
     '''
-    from operator import itemgetter
-    term1 = "shrimp"
-    term2 = "heavy cream" 
-    term3 = "vodka"
-   
-    # Note: to get an "and" condition instead of "or", just add one filter after another"
-    # But I want an "or" condition which I will later rank in order of number of search hits for each recipe
-    # values() would have produced a dictionary.
-    # I could have used an "or" pipe character with just one filter, but then I can't easily retrieve which search hits
-    # were found. So instead I am doing multiple queries, one for each search term.
-    q1 = list(AllContents.objects.filter(fullpost__icontains=term1).values_list())  
-    q2 = list(AllContents.objects.filter(fullpost__icontains=term2).values_list())
-    q3 = list(AllContents.objects.filter(fullpost__icontains=term3).values_list())
-    # Note about above: I am keeping the search contents, but maybe I don't need to. I only need the hyperlink and the title.
+    from recipes.utils import search_func
 
-    # Next, convert each list of tuples into a list of lists
-    q1_converted = list(map(list, q1)) 
-    q2_converted = list(map(list, q2)) 
-    q3_converted = list(map(list, q3)) 
-    # Now stick the term in each query result
-    for recipe in q1_converted:
-        recipe.insert(0, term1)  
-    for recipe in q2_converted:
-        recipe.insert(0, term2)
-    for recipe in q3_converted:
-        recipe.insert(0, term3)        
-    combined_list = q1_converted + q2_converted + q3_converted  # now we finally have one query result
+    final_list = []
+    count = 0
+    form = RecipeForm(request.POST)       
+    if request.method == 'POST': # this means the user has filled out the form       
+        user_terms=""
+        if form.is_valid():
+             
+            cd = form.cleaned_data  # Clean the user input
+            user_terms = cd['user_search_terms']     
+            context = search_func(user_terms) # The function does all the query heavy lifting
+        
+             
+            temp_dict = {'form': form}
+            context.update(temp_dict)
+             
+            # context={'count': count, 'trimmed_list': trimmed_list, 'user_search_terms': user_search_terms, 'form':form} 
+            #sys.exit()
+             
+    else: # This code executes the first time this view is run     
+          
+        context = {'form': form}    
 
-    # Now sort by id or url so that the duplicates are grouped together   
-    combined_list.sort(key=itemgetter(2))  # sort the list by the url (or could have used the id, doesn't matter)    
-    trimmed_list=[]     # trimmed means the dupes are removed, and the search hits are properly recorded for each recipe
-    trimmed_list.append(combined_list[0]) # put the first entire recipe into trimmed_list    
-    previous_recipe=trimmed_list[0]         
-    recipe_counter = 1
-    # I designed my for loop to use the sortedness (done above) which groups the duplicate recipes together
-    for next_recipe in combined_list[1:]: # we need to start at the second element
-        if next_recipe[2] == previous_recipe[2]:
-            recipe_counter += 1 # we are counting duplicates here             
-            new_string = next_recipe[0] + ", " + previous_recipe[0] # Might also need to alphabetize and count them             
-            trimmed_list[-1][0]= new_string # replace the string in the trimmed_list            
-        else:
-            # put the recipe_counter at the end of the previous record
-            previous_recipe.append(', ' + str(recipe_counter)) 
-            recipe_counter = 1 # reset the recipe counter because we are in the else
-            trimmed_list.append(next_recipe)               
-        previous_recipe = trimmed_list[-1] # now advance previous_recipe for the next time thru the loop
-         
      
-    previous_recipe.append(', ' + str(recipe_counter)) # The last recipe needs its counter
-    # Now get ready for the template
-    user_search_terms = "<br>" + term1 + "<br>" + term2 + "<br>" + term3
-    count=len(trimmed_list)  
-    trimmed_list.sort(key=itemgetter(0)) # sort by secondary key which will alphabetize the search terms
-    trimmed_list.sort(key=itemgetter(-1), reverse=True) # then, sort by primary key which will order the list by how many search terms were found for each recipe. We reverse this seond sort for relevance ranking
-    context={'count': count, 'trimmed_list': trimmed_list, 'user_search_terms': user_search_terms}    
-    return render(request, 'recipes/modelsearch', context)    
- 
+    return render(request, 'recipes/modelsearch', context)  
+     

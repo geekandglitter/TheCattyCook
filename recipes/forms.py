@@ -21,4 +21,3 @@ class RecipeForm(forms.ModelForm):
         widgets = { # this provides a placeholder
             'user_search_terms': forms.TextInput(attrs={'placeholder': 'examples: chicken, olive oil, food processor'}),
         }
-     

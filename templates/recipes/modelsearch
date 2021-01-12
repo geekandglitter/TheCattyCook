@@ -1,18 +1,29 @@
 {% extends "base" %}
 
 {% block content %}
-  <h1>Total recipes found:  {{count}} </h1>
-  <p>Your search terms were: {{user_search_terms | safe}} </>
+ <form action="" method="post" validate>
+   {{ form }}
+  &nbsp;
+  <input style=float: right; type="submit" value="Search"> 
 
+ {% csrf_token %}
+ </form> 
+   
+  <h1>{{the_title}}</h1>
+ 
+ 
   <p>
   {% for item in trimmed_list%}
      
-    <span style="margin-bottom: 25px"><b>{{item.0}}</b><br><a href= "{{item.2}}"> {{item.3}}</a> <br></span> <br>
+    <span style="margin-bottom: 25px"><b>{{item.0}}</b><br><a href= "{{item.1}}"> {{item.2}}</a> <br></span> <br>
      
     {% endfor %}
    </p> 
-  <br>
-  {{answer | safe}}
+  
  </p>
    
 {% endblock content %}
+
+
+
+ 
