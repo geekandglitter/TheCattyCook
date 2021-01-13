@@ -24,7 +24,7 @@ urlpatterns = [
   path('count-words', views.count_words_view),   
   path('get-and-store', views.get_and_store_view),
   path('feedparse', views.feedparse_view), 
-  path('searchinput', views.searchinput_view),    
+  path('searchinput', views.searchinput_view),    # No longer in use
   path('scrapecontents', views.scrapecontents_view),
   path('modelsearch', views.modelsearch_view),
   

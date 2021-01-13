@@ -21,19 +21,13 @@ import os
 
 
 from .models import AllContents
- 
-
- 
+from recipes.utils import search_func # this function does the model query heavy lifting for modelsearch_view    
 ###################################################
-# VIEW
-###################################################
-
-
+# Home (Index page)
+################################################### 
 def home(request):
     """ Shows a menu of views for the user to try """
-    return render(request, 'recipes/index')
-
-
+    return render(request, 'recipes/index') 
 ###################################################
 # Uses beautifulsoup, only to scrape the homepage
 ###################################################
@@ -237,12 +231,11 @@ def searchboxes_view(request):
                 else:
                     # QUESTION: Is this else ever happening?
                     temp_list.append(thelink)
-        # Here manage the dupes in temp_list before adding it to final_list
+         
         if found:
             count+=1
         final_list.extend(temp_list)     
-        #if not final_list:
-         #   final_list.append("<b>none</b>")
+       
              
         results = sorted(final_list, reverse=True)
         final_string=""
@@ -344,7 +337,8 @@ def get_and_store_view(request):
         t = request_by_year(enddate, startdate)
         accum_list = accum_list + t
 
-    sorteditems = sorted(accum_list, key=itemgetter('title'), reverse=True)
+    #sorteditems = sorted(accum_list, key=itemgetter('title'), reverse=True)
+    sorteditems = sorted(accum_list, key=itemgetter('title'))
     counter = 0
     newstring = " "
     # Now we get ready to update the database
@@ -417,6 +411,7 @@ def feedparse_view(request):
    
 
 #############################################
+# Note: this view is no longer in use
 #############################################
 def searchinput_view(request):
     '''
@@ -496,7 +491,7 @@ def searchinput_view(request):
                         else:
                             # QUESTION: Is this else ever happening?
                             temp_list.append(thelink)
-                # Here manage the dupes in temp_list before adding it to final_list
+              
                 if found:
                     count +=1
                 final_list.extend(temp_list)     
@@ -611,36 +606,28 @@ def modelsearch_view(request):
     Below I query using values_list(). The alternative would have been values() which creates a nice dictionary,
     which should be easier because I can see the keywords, but whatever. So instead I am referring to the indices:
     [0] # search terms
-    [1] # id
-    [2] # url
-    [3] # title
-    [4] # recipe contents   
+    [1] # url
+    [2] # title    
     [-1] # the number of search terms found per recipe
-    '''
-    from recipes.utils import search_func
-
-    final_list = []
-    count = 0
+    ''' 
+    
     form = RecipeForm(request.POST)       
     if request.method == 'POST': # this means the user has filled out the form       
         user_terms=""
-        if form.is_valid():
+        if form.is_valid():     
+            try:        
+                cd = form.cleaned_data  # Clean the user input
+                user_terms = cd['user_search_terms']  # See forms.py
+                user_terms = [each_string.lower() for each_string in user_terms] # I like them to all be lowercase               
+                context = search_func(user_terms) # The function does all the query heavy lifting                 
+                context.update({'form': form}) 
+            except:
+                pass
+        else:
+            
+            context = {'form': form} 
+        return render(request, 'recipes/modelsearch', context)    
              
-            cd = form.cleaned_data  # Clean the user input
-            user_terms = cd['user_search_terms']     
-            context = search_func(user_terms) # The function does all the query heavy lifting
-        
-             
-            temp_dict = {'form': form}
-            context.update(temp_dict)
-             
-            # context={'count': count, 'trimmed_list': trimmed_list, 'user_search_terms': user_search_terms, 'form':form} 
-            #sys.exit()
-             
-    else: # This code executes the first time this view is run     
-          
-        context = {'form': form}    
-
-     
-    return render(request, 'recipes/modelsearch', context)  
-     
+    else: # This code executes the first time this view is run   
+        context = {'form': form}     
+    return render(request, 'recipes/modelsearch', context)   

@@ -9,10 +9,8 @@ class RecipeForm(forms.ModelForm):
             'user_search_terms'
         ]
         labels = {
-        "user_search_terms": ""  # This lets me override the model field name with something nicer
-        }
-
-
+        "user_search_terms": ""  # This lets me override the model field name with something nicer or with nothing
+        } 
         ### NOTE ####
         # I haven't figured out yet how to have both of these widgets combined
         widgets = { # this makes the text input box longer

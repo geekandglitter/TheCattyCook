@@ -21,26 +21,22 @@ represents a Django view.  </p>
 <h1>    For Cooks</h1>
  <span style="font-size:15px">
  <ol>
+    <li><b><a href="/modelsearch">Fast Search! Type in any word(s), separated by commas</a></b>	 
+	<br><small>Shows results in order of relevance, which is based on number of criteria met. Can type ingredients or even
+	 kitchen tools. Note: this is a work in progress. If you add a trailing comma, it will crap out.
+	</small></li>
+
     <li><a href="/get"><b>Find all Recipes Alphabetically </b>  </a><br><small>Uses Google Blogger API and requests to get 
 	the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
 	Does not store them in a model.</small>  </li>
 
 	<li><b><a href="/feedparse">Find all Recipes, most recent first </a></b><br>
-	<small>
-	Get all the post urls from three RSS feeds, then store them each in one record in a model (a mysql database). It does not use Google Blogger API.
+	<small>	Get all the post urls from three RSS feeds, then store them each in one record in a model (a mysql database). It does not use Google Blogger API.
 	</small></li>	 
 
-	<li><b><a href="/searchinput">Type in any word(s) that might be in a recipe, separated by commas</a></b><br>
-	(This is slow and will be replaced. See the developer section.)
-	<br><small>Shows results in order of relevance, which is based on number of criteria met. If your search terms
-	are found in one or more recipes, they will be added to the database
-	This view uses Blogger API, Django Models and ModelForm. 
-	</small></li>
 
-	<li><b><a href="/suggestions">Select ingredients from suggestions</a></b><br>
-	(This is slow right now)<br>
-	<small>Shows all database keywords with checkboxes. Results are ordered by relevance 
-	(number of search criteria met). </small> </li>
+
+
 </ol>   
 </span>   
 <br><br>
@@ -72,8 +68,11 @@ represents a Django view.  </p>
 	queries. Hopefully this will result in being able to rewrite a faster search. This view relies on the recipes
 	retrieved in the above view.</small></li>    
 
-	<li><a href="/modelsearch">Queries the database with a dummied up (hard coded) search term  
-	for now.</a><br><small>Under construction.</small></li> 		
+    <li><a href="/suggestions">Select ingredients from suggestions</a><br>
+	(This is a slow rifle search for demo purposes only.)<br>
+	<small>Shows all database keywords with checkboxes. Results are ordered by relevance 
+	(number of search criteria met). </small> </li>
+ 		
  
 </ol>
 </span> 
