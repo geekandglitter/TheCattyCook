@@ -339,6 +339,7 @@ def get_and_store_view(request):
 
     #sorteditems = sorted(accum_list, key=itemgetter('title'), reverse=True)
     sorteditems = sorted(accum_list, key=itemgetter('title'))
+    sorteditems.reverse()
     counter = 0
     newstring = " "
     # Now we get ready to update the database
