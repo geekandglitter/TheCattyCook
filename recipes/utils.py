@@ -5,6 +5,9 @@ from .models import AllContents
 
 def search_func(user_terms): 
     num_terms = len(user_terms) 
+    user_search_terms=""
+    for term in user_terms:
+        user_search_terms = user_search_terms + "<br>" + term
  
     # Note: to get an "and" condition instead of "or", just add one filter after another"
     # But I want an "or" condition which I will later rank in order of number of search hits for each recipe
@@ -15,25 +18,40 @@ def search_func(user_terms):
     q_converted=[None] * num_terms     
      
     for i, term in enumerate(user_terms):
-        q[i] = list(AllContents.objects.filter(fullpost__icontains=term).values_list('hyperlink', 'title'))         
-
+        q[i] = list(AllContents.objects.filter(fullpost__icontains=term).values_list('hyperlink', 'title')) 
+                
+     
+    
+    # Right here, we could have an empty queryset
+  
     # So now we have q which contains num_terms number of tuples 
     for j in range(0, num_terms): # convert to a list of lists
         q_converted[j]=list(map(list, q[j]))  
-    
+
     # Now stick the term(s) in each query result
     for i, term in enumerate(reversed(user_terms)): # this shows the search terms in the user's order
         for recipe in q_converted[i]:
             recipe.insert(0, term)         
-  
+    
     combined_list=[] # and finally, combine the query results into one list
+
+
     for i in range(0,num_terms):
         combined_list = combined_list + q_converted[i] 
-
+    if not combined_list:
+        count = 0
+         
+        trimmed_list = [['None']]
+        context={'count': count, 'trimmed_list': trimmed_list, 'user_search_terms': user_search_terms}   
+        return(context)      
+     
     # Now sort the query results list by url so that the duplicates are grouped together   
     combined_list.sort(key=itemgetter(1))  # sort the list by the url   
+ 
     trimmed_list=[]     # trimmed means the dupes will be removed, and the search hits are properly recorded for each recipe
+     
     trimmed_list.append(combined_list[0]) # put the first entire recipe into trimmed_list 
+     
     previous_recipe=trimmed_list[0]          
     recipe_counter = 1
     # I designed my for loop to use the sortedness (done above) which groups the duplicate recipes together
@@ -51,14 +69,13 @@ def search_func(user_terms):
         previous_recipe = trimmed_list[-1] # now advance previous_recipe for the next time thru the loop  
     previous_recipe.append(', ' + str(recipe_counter)) # The last recipe needs its counter 
   
- 
+     
     # Now get the context ready for the template   
-    user_search_terms=""
-    for term in user_terms:
-        user_search_terms = user_search_terms + "<br>" + term
+    
     count=len(trimmed_list)  
     trimmed_list.sort(key=itemgetter(0)) # sort by secondary key which will alphabetize the search terms
     trimmed_list.sort(key=itemgetter(-1), reverse=True) # then, sort by primary key which will order the list by how many search terms were found for each recipe. We reverse this seond sort for relevance ranking
     context={'count': count, 'trimmed_list': trimmed_list, 'user_search_terms': user_search_terms}     
      
+
     return(context)

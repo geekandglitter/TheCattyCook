@@ -30,10 +30,7 @@ represents a Django view.  </p>
 	the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
 	Does not store them in a model.</small>  </li>
 
-	<li><b><a href="/feedparse">Find all Recipes, most recent first </a></b><br>
-	<small>	Get all the post urls from three RSS feeds, then store them each in one record in a model (a mysql database). It does not use Google Blogger API.
-	</small></li>	 
-
+	 
 
 
 
@@ -42,7 +39,7 @@ represents a Django view.  </p>
 <br><br>
 <h1>For Developers</h1>
 <h2>And don't worry if you break something</h2>
-<span style="font-size:15px">
+<span style="font-size:10px">
 <ol> 			
 	<li><a href="/count-words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
 	Google Adsense, as they expect a minium of around 300 characters.</small></li>    
@@ -64,12 +61,13 @@ represents a Django view.  </p>
 	(a mysql or postgres database).</small></li>
 
 	<li><a href = "/scrapecontents">Scrape all post contents and stuff them in a model.</a><small>
-	<br>This will create a searchable database from which I can do search
-	queries. Hopefully this will result in being able to rewrite a faster search. This view relies on the recipes
-	retrieved in the above view.</small></li>    
+	<br>This is a simple crawler that crawls the entire recipe blog periodically. It then stores the results in 
+	model. The new faster search at the top of this page searches the model rather than the actual pages on my blog. This 
+	is called an index search, and it's a lot faster than a rifle search. An index search is how google works. This view
+	 relies on the recipes retrieved in the above view.</small></li>    
 
     <li><a href="/suggestions">Select ingredients from suggestions</a><br>
-	(This is a slow rifle search for demo purposes only.)<br>
+	(This is a slow rifle search for demo purpose only.)<br>
 	<small>Shows all database keywords with checkboxes. Results are ordered by relevance 
 	(number of search criteria met). </small> </li>
  		

@@ -360,7 +360,7 @@ def get_and_store_view(request):
     return render(request, 'recipes/get-and-store', {'allofit': newstring, 'count': counter})
 
 ####################################################
-# FEEDPARSE_VIEW
+# FEEDPARSE_VIEW (no longer on a link on the home page)
 ###################################################
 
 
@@ -613,20 +613,27 @@ def modelsearch_view(request):
     ''' 
     
     form = RecipeForm(request.POST)       
-    if request.method == 'POST': # this means the user has filled out the form       
+    if request.method == 'POST': # this means the user has filled out the form    
+        
+               
         user_terms=""
         if form.is_valid():     
-            try:        
+            try:      
+                
                 cd = form.cleaned_data  # Clean the user input
                 user_terms = cd['user_search_terms']  # See forms.py
                 user_terms = [each_string.lower() for each_string in user_terms] # I like them to all be lowercase               
-                context = search_func(user_terms) # The function does all the query heavy lifting                 
+                context = search_func(user_terms) # The function does all the query heavy lifting    
+                           
                 context.update({'form': form}) 
+                 
             except:
-                pass
+                
+                pass 
         else:
-            
+           
             context = {'form': form} 
+         
         return render(request, 'recipes/modelsearch', context)    
              
     else: # This code executes the first time this view is run   
