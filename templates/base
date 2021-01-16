@@ -232,7 +232,7 @@
       
      {% else %}
         <span style="font-size: 24x; font-style: italic"><a href="/">Return to main menu</a></span>
-        <p></p>
+    <br><br><br>
         
      {% endif %}    
     {% block content %}

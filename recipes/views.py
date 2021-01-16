@@ -616,24 +616,45 @@ def modelsearch_view(request):
     if request.method == 'POST': # this means the user has filled out the form    
         
                
-        user_terms=""
-        if form.is_valid():     
-            try:      
-                
-                cd = form.cleaned_data  # Clean the user input
-                user_terms = cd['user_search_terms']  # See forms.py
-                user_terms = [each_string.lower() for each_string in user_terms] # I like them to all be lowercase               
-                context = search_func(user_terms) # The function does all the query heavy lifting    
-                           
-                context.update({'form': form}) 
-                 
-            except:
-                
-                pass 
-        else:
+        user_terms=""   
+        form.data = form.data.copy()  # Make a mutable copy
+        if form.data['user_search_terms'][-1] == ",": # Ditch any trailing commas             
            
+            form.data['user_search_terms'] = form.data['user_search_terms'][:-1]
+            i = 1
+            while True:
+                if form.data['user_search_terms'][-1] == ",":
+                    form.data['user_search_terms'] = form.data['user_search_terms'][:-1]
+                else:
+                    break    
+                 
+        # Note: I think also have to handle any double commas or other spurious chars? 
+        # Do it like this: check for each instance of comma, and slice it to one if more than one
+        # if form.data['user_search_terms']  contains more than one comma in a row
+ 
+
+
+
+ 
+               
+
+        if form.is_valid():                       
+            print("in the try so therefore it's valid")
+            cd = form.cleaned_data  # Clean the user input
+            user_terms = cd['user_search_terms']  # See forms.py
+            user_terms = [each_string.lower() for each_string in user_terms] # I like them to all be lowercase               
+            context = search_func(user_terms) # The function does all the query heavy lifting                               
+            context.update({'form': form}) 
+            
+        else:
+            print("in the else, therefore not valid")
+            #form = '''<tr><th></th><td><ul class="errorlist"><li>Item Linda in the array did not validate: This field is required.</li></ul><input type="text" name="user_search_terms" value="chicken," placeholder="examples: chicken, olive oil, food processor" id="id_user_search_terms"></td></tr>'''
+            
             context = {'form': form} 
-         
+
+            print("form is now", form)
+            print("form type is", type(form))
+             
         return render(request, 'recipes/modelsearch', context)    
              
     else: # This code executes the first time this view is run   

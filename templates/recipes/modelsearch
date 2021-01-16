@@ -1,9 +1,11 @@
 {% extends "base" %}
 
 {% block content %}
+ 
  <form action="" method="post" validate>
-   {{ form }}
-  &nbsp;
+ 
+   <p>{{ form }}</p>
+ 
   <input style=float: right; type="submit" value="Search"> 
 
  {% csrf_token %}

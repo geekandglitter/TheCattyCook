@@ -13,8 +13,10 @@ class RecipeForm(forms.ModelForm):
         } 
         ### NOTE ####
         # I haven't figured out yet how to have both of these widgets combined
+        
+      
         widgets = { # this makes the text input box longer
-          'user_search_terms': forms.Textarea(attrs={'rows':1, 'cols':20}),
+          'user_search_terms': forms.Textarea(attrs={'rows':1, 'cols':40}),
         }
         widgets = { # this provides a placeholder
             'user_search_terms': forms.TextInput(attrs={'placeholder': 'examples: chicken, olive oil, food processor'}),

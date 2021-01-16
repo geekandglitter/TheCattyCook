@@ -4,6 +4,7 @@ from .models import AllContents
 
 
 def search_func(user_terms): 
+    print("in search function")
     num_terms = len(user_terms) 
     user_search_terms=""
     for term in user_terms:
