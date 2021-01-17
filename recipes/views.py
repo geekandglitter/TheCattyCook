@@ -631,11 +631,6 @@ def modelsearch_view(request):
         # Note: I think also have to handle any double commas or other spurious chars? 
         # Do it like this: check for each instance of comma, and slice it to one if more than one
         # if form.data['user_search_terms']  contains more than one comma in a row
- 
-
-
-
- 
                
 
         if form.is_valid():                       
