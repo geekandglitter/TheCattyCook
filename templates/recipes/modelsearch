@@ -4,10 +4,10 @@
  
  <form action="" method="post" validate>
  
-   <p>{{ form }}</p>
- 
+   <p>{{ form }}
+  &nbsp; &nbsp;
   <input style=float: right; type="submit" value="Search"> 
-
+ </p>
  {% csrf_token %}
  </form> 
    
