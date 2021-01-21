@@ -632,7 +632,8 @@ def modelsearch_view(request):
         user_string_parts = [part.strip() for part in user_string_parts ]
         while("" in user_string_parts) : 
             user_string_parts.remove("")         
-        form.data['user_search_terms'] = (', '.join(user_string_parts) )  
+        form.data['user_search_terms'] = (', '.join(user_string_parts) )   
+
 
         # Next, run it thorugh modelform validation, then call my search_func to do all the query heavy lifting
         if form.is_valid():    

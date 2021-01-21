@@ -4,7 +4,7 @@ from .models import AllContents
 
 def search_func(user_terms):     
  
-    # Notse: 
+    # Notes: 
     # 1) to get an "and" condition instead of "or", just add one filter after another.
     # However, what I really want is an "or" condition which I will later rank
     # in order of number of search hits for each recipe.
@@ -14,19 +14,80 @@ def search_func(user_terms):
 
     # Find out how many search terms the user inputted, and get two lists ready for them
     num_terms = len(user_terms)    
-    q=[None] * num_terms # rather than start with an empty list, initialize it with None
+    queryset=[None] * num_terms # rather than start with an empty list, initialize it with None
     q_converted=[None] * num_terms  # this will be for when we convert from list of tuples to list of lists
+    listset = [None] * num_terms
+    # Now I want to add function to allow excludes   
+    # First, I want to see what the user typed. If the search term starts with a minus,
+    # then I have to write exclude code 
+    # Maybe like this: MyModel.objects.exclude(id__in=[id1,id2,id3 ])
+
+
+
+
+
+
+  
 
     # Now set up the query. A side effect of using icontains is that if the user searches for a word such as "bed," 
     # there will be search hits, such as "cubed." But I don't care. 
-    for i, term in enumerate(user_terms):
-        q[i] = list(AllContents.objects.filter(fullpost__icontains=term).values_list('hyperlink', 'title'))       
-  
-    # So now we have q which contains a list of tuples. We need to convert to a list of lists.
-    for j in range(0, num_terms): # convert to a list of lists
-        q_converted[j]=list(map(list, q[j]))       
+    """
+    # FROM STACKOVERFLOW:
+    # I found a solution to the problem by doing it in two steps:
 
-    # Now stick the search term(s) we found into each query result so that we can later show the user all the terms satisfied by each recipe
+    # Get the queryset with all advisories
+    queryset = Advisory.objects.all()
+    # Find the products the customer doesn't care about
+    blacklist = Customer.objects.get(pk=customer_id).blacklist.all()
+    # Build a whitelist of products excluding the blacklist from the customer
+    whitelist = Product.objects.all().exclude(id__in=blacklist)
+    # And filter the queryset with the new whitelist
+    queryset = queryset.filter(product_names__in=whitelist).distinct()
+    ###########################
+    ## THIS IS MY OLD CODE #### 
+    exclude_term = "caper"    
+    for i, term in enumerate(user_terms):
+        q[i] = list(AllContents.objects.filter(fullpost__icontains=term)
+                                        .exclude(fullpost__icontains=exclude_term) 
+                                        .values_list('hyperlink', 'title')  
+                    ) 
+    ###########################
+    """
+    exclude_term = 'wine'
+    i=0
+    for i, term in enumerate(user_terms):
+        queryset[i] = AllContents.objects.filter(fullpost__icontains=term)\
+                                         .values_list('hyperlink', 'title')   # We now have a list of querysets
+    
+    print("queryset is")
+    print(queryset)
+
+    # now for each of the querysets above, I want to filter out the negative (assuming for now there's only one)
+    neg_terms = "capers" 
+    unwanted_ingredients = ["capers", "wine", "ginger"]
+    for neg_term in unwanted_ingredients:
+        for j in range(0,num_terms):
+            queryset[j] = queryset[j].exclude(fullpost__icontains=neg_term)  
+            listset[j] = list(queryset[j])
+ 
+              
+    # Now we have a list of lists
+    
+    print("listset is")
+    print(listset)
+    print("type of listset is")
+    print(type(listset))
+    print("and now the loop")
+    for stuff in listset:
+        print(type(stuff))
+        print(stuff)
+    
+
+    # So now we have querysets which each contains a list of tuples. We need to convert to a list of lists.
+    for j in range(0, num_terms): # convert to a list of lists
+        q_converted[j]=list(map(list, listset[j]))       
+
+    # Now stick the search term(s) we found intoeach query result so that we can later show the user all the terms satisfied by each recipe
     for i, term in enumerate(user_terms): # this shows the search terms in the user's order
         for recipe in q_converted[i]:
             recipe.insert(0, term)     
