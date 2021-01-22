@@ -614,39 +614,40 @@ def modelsearch_view(request):
     
     form = RecipeForm(request.POST)       
     if request.method == 'POST': # this means the user has filled out the form     
-               
-        user_terms=""   
-        form.data = form.data.copy()  # Make a mutable copy
-        if form.data['user_search_terms'][-1] == ",": # Ditch any trailing commas          
+        try:           
+            user_terms=""   
+            form.data = form.data.copy()  # Make a mutable copy
+            if form.data['user_search_terms'][-1] == ",": # Ditch any trailing commas          
            
-            form.data['user_search_terms'] = form.data['user_search_terms'][:-1]
-            i = 1
-            while True:
-                if form.data['user_search_terms'][-1] == ",":
-                    form.data['user_search_terms'] = form.data['user_search_terms'][:-1]
-                else:
-                    break    
+                form.data['user_search_terms'] = form.data['user_search_terms'][:-1]
+                i = 1
+                while True:
+                    if form.data['user_search_terms'][-1] == ",":
+                        form.data['user_search_terms'] = form.data['user_search_terms'][:-1]
+                    else:
+                        break    
                  
-        # Now I also have to handle any duplicate commas           
-        user_string_parts = form.data['user_search_terms'].split(',') 
-        user_string_parts = [part.strip() for part in user_string_parts ]
-        while("" in user_string_parts) : 
-            user_string_parts.remove("")         
-        form.data['user_search_terms'] = (', '.join(user_string_parts) )   
+            # Now I also have to handle any duplicate commas           
+            user_string_parts = form.data['user_search_terms'].split(',') 
+            user_string_parts = [part.strip() for part in user_string_parts ]
+            while("" in user_string_parts) : 
+                user_string_parts.remove("")         
+            form.data['user_search_terms'] = (', '.join(user_string_parts) )   
 
 
-        # Next, run it thorugh modelform validation, then call my search_func to do all the query heavy lifting
-        if form.is_valid():    
-            cd = form.cleaned_data  # Clean the user input
-            user_terms = cd['user_search_terms']  # See forms.py
-            user_terms = [each_string.lower() for each_string in user_terms] # I like them to all be lowercase               
-            context = search_func(user_terms) # The function does all the query heavy lifting                               
-            context.update({'form': form}) 
+            # Next, run it thorugh modelform validation, then call my search_func to do all the query heavy lifting
+            if form.is_valid():    
+                cd = form.cleaned_data  # Clean the user input
+                user_terms = cd['user_search_terms']  # See forms.py
+                user_terms = [each_string.lower() for each_string in user_terms] # I like them to all be lowercase               
+                context = search_func(user_terms) # The function does all the query heavy lifting                               
+                context.update({'form': form}) 
             
-        else:    
-            context = {'form': form}       
-        return render(request, 'recipes/modelsearch', context)    
-             
+            else:    
+                context = {'form': form}       
+            return render(request, 'recipes/modelsearch', context)    
+        except IndexError:
+            context = {'form': form}         
     else: # This code executes the first time this view is run. It shows an empty form to the user  
         context = {'form': form}     
     return render(request, 'recipes/modelsearch', context)   

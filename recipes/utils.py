@@ -74,19 +74,11 @@ def search_func(user_terms):
     for neg_term in unwanted_ingredients:
         for j in range(0,num_terms):
             queryset[j] = queryset[j].exclude(fullpost__icontains=neg_term)  
-            print("queryset is", queryset)
-    listset = list(queryset)
-    print("listset is", listset)
- 
-              
-    # Now we have a list of lists
-    
-  
-    
+             
+    listset = list(queryset)   
 
     # So now we have querysets which each contains a list of tuples. We need to convert to a list of lists.
-    print(num_terms)
-    print(q_converted)
+     
     for j in range(0, num_terms): # convert to a list of lists
 
         q_converted[j]=list(map(list, listset[j]))     
