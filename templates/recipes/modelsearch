@@ -3,7 +3,7 @@
 {% block content %}
  
  <form action="" method="post" validate>
- 
+   <p style="font-size: 16px">Separate your search terms with a comma, and use a minus to omit ingredients</p>
    <p>{{ form }}
   &nbsp; &nbsp;
   <input style=float: right; type="submit" value="Search"> 
@@ -13,7 +13,7 @@
    
   <h1>{{the_title}}</h1>
  
- 
+
   <p>
   {% for item in trimmed_list%}
      
