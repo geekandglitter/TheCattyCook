@@ -53,39 +53,44 @@ def search_func(user_terms):
                     ) 
     ###########################
     """
-    exclude_term = 'wine'
+    unwanted_ingredients = []
+    for term in user_terms:
+        if term[0]=="-":
+            unwanted_ingredients.append(term[1:]) 
+  
+     
     i=0
     for i, term in enumerate(user_terms):
         queryset[i] = AllContents.objects.filter(fullpost__icontains=term)\
                                          .values_list('hyperlink', 'title')   # We now have a list of querysets
     
-    print("queryset is")
-    print(queryset)
+     
 
     # now for each of the querysets above, I want to filter out the negative (assuming for now there's only one)
-    neg_terms = "capers" 
-    unwanted_ingredients = ["capers", "wine", "ginger"]
+     
+
+    # Right here is where I look for unwanted ingredients. But there might not be any.
+    #unwanted_ingredients = ["capers", "wine", "ginger"]
     for neg_term in unwanted_ingredients:
         for j in range(0,num_terms):
             queryset[j] = queryset[j].exclude(fullpost__icontains=neg_term)  
-            listset[j] = list(queryset[j])
+            print("queryset is", queryset)
+    listset = list(queryset)
+    print("listset is", listset)
  
               
     # Now we have a list of lists
     
-    print("listset is")
-    print(listset)
-    print("type of listset is")
-    print(type(listset))
-    print("and now the loop")
-    for stuff in listset:
-        print(type(stuff))
-        print(stuff)
+  
     
 
     # So now we have querysets which each contains a list of tuples. We need to convert to a list of lists.
+    print(num_terms)
+    print(q_converted)
     for j in range(0, num_terms): # convert to a list of lists
-        q_converted[j]=list(map(list, listset[j]))       
+
+        q_converted[j]=list(map(list, listset[j]))     
+ 
 
     # Now stick the search term(s) we found intoeach query result so that we can later show the user all the terms satisfied by each recipe
     for i, term in enumerate(user_terms): # this shows the search terms in the user's order

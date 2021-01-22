@@ -16,7 +16,9 @@ class RecipeForm(forms.ModelForm):
         
         # This will make the default input box longer, and will include a placeholder 
         widgets = {  
-                    'user_search_terms': forms.Textarea(attrs={'rows':2, 'cols':80,'placeholder': 'examples: chicken, olive oil, food processor'}),
+                    'user_search_terms': 
+                    forms.Textarea
+                    (attrs={'rows':2, 'cols':100,'placeholder': 'examples: sugar snap peas, -wine, -capers, pesto '}),
                      
                   }
       

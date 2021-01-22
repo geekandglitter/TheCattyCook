@@ -11,7 +11,7 @@ class AllRecipes(models.Model):
     anchortext = models.TextField(max_length=500, null=True, blank=True)
     hyperlink = models.TextField(max_length=500, null=True, blank=True)
     
-    user_search_terms = ArrayField(models.CharField(max_length=50), null=True, blank=True)
+    user_search_terms = ArrayField(models.CharField(max_length=200), null=True, blank=True)
     url=models.TextField(max_length=500, null=True, blank=True )
     
     
