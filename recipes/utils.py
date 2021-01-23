@@ -25,13 +25,11 @@ def search_func(user_terms):
     # See if the user has requested one or more ingredients to be excluded. They would do this with a minus sign.
     unwanted_ingredients = []
     for term in user_terms:
-        if term[0]=="-":
+        if term[0]=="-": # If the first character is a minus sign, this means the user wants no recipes with this term in it
             unwanted_ingredients.append(term[1:]) 
-            # RIGHT HERE REMOVE THE UNWANTED TERMS FROM USER_TERMS 
-    # Note: Looking at the above code, I think I'm being slightly wasteful because I'm including the unwanted, and then
-    # below, I am taking the unwanted back out. It would be better to remove the unwanted terms from user_terms
+            term='' # we can now remove that term from user_terms because we have set it aside in unwanted_ingredients   
      
-    # Now get all the recipes that match all the user search terms
+    # Now get all the recipes that match all the remaining user search terms
     for i, term in enumerate(user_terms):
         queryset[i] = AllContents.objects.filter(fullpost__icontains=term)\
                                          .values_list('hyperlink', 'title')   # We now have a list of querysets  
