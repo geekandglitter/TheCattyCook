@@ -14,10 +14,12 @@
 
   <p>
   {% for item in trimmed_list%}
-     
-    <span style="margin-bottom: 25px"><b>{{item.0}}</b><br><a href= "{{item.1}}"> {{item.2}}</a> <br></span> <br>
-     
-    {% endfor %}
+    {% if item.0|lower|slice:-1 in item.2|lower %}
+       <span style="margin-bottom: 25px"><b>{{item.0}}</b><br><a href= "{{item.1}}"> <b>{{item.2}}</b></a> <br></span> <br>
+    {% else %}  
+       <span style="margin-bottom: 25px"><b>{{item.0}}</b><br><a href= "{{item.1}}"> {{item.2}}</a> <br></span> <br>
+    {% endif %} 
+  {% endfor %}
    </p> 
   
  </p>

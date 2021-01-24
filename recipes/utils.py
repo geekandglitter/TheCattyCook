@@ -33,7 +33,7 @@ def search_func(user_terms):
     for i, term in enumerate(user_terms):
         queryset[i] = AllContents.objects.filter(fullpost__icontains=term)\
                                          .values_list('hyperlink', 'title')   # We now have a list of querysets  
-
+    # NOTE: Change coming -- use __istartswith instead of __icontains or __iexact
     # Loop through any unwanted ingredients and exclude them    
     for neg_term in unwanted_ingredients:
         for j in range(0,num_terms):
