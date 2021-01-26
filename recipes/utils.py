@@ -14,6 +14,7 @@ def search_func(user_terms):
 
     # Find out how many search terms the user inputted, and get three lists ready for them, 
     # as we have 3 ways we need to massage the data
+    # Known bugs: if I type in sugar snap peas as input, it doesn't come up in bol
     num_terms = len(user_terms)    
     queryset=[None] * num_terms # rather than start with an empty list, initialize it with None
     q_converted=[None] * num_terms  # this will be for when we convert from list of tuples to list of lists
@@ -93,11 +94,14 @@ def search_func(user_terms):
      
     for term_str in trimmed_list:     
         term_lis = term_str[0].split(',')
-        for one_term in term_lis:      
-
-           
-            one_term_stripped = one_term.strip()    
+        for one_term in term_lis:    
              
+            if one_term[-1]=="s":
+                
+                one_term_stripped = one_term[:-1].strip()    
+            else:    
+                one_term_stripped = one_term.strip()  
+              
             if one_term_stripped.lower() in term_str[2].lower(): 
                 # Now we'll make the word bold in the title using string.replace(old, new)   
                 # Note: what's already in the title may or may not be capitalized, so run the replace twice.
