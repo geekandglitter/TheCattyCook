@@ -3,26 +3,21 @@ import sys
 from .models import AllContents
 
 def search_func(user_terms):     
-   
-    # Notes: 
-    # 1) to get an "and" condition instead of "or", just add one filter after another.
-    # However, what I really want is an "or" condition which I will later rank
-    # in order of number of search hits for each recipe.
-    # 2) values() would have produced a dictionary. Instead I used values_list
-    # 3) I could have used an "or" pipe character with just one filter, but then I can't easily retrieve which search hits
-    # were found. So instead I am doing multiple queries, one for each search term.
+    """
+    # Notes:
+    1) to get an "and" condition instead of "or", just add one filter after another.
+    2) But what I want is an "or" condition which I will later rank in order of number of search hits for each recipe.
+    3) values() would have produced a dictionary. Instead I used values_list
+    4) I couldn't used the or char with just one filter, as that would incur loss of which search terms were found
+    5) So instead I am doing multiple queries, one for each search term. Thus the search terms are in a loop     
+    # Known bugs: 
+    1) If I type in sugar snap peas as input, it doesn't come up in bold
+    2) Type in "pie" and you get too many results with "piece" or "bed" produces "cubed"
+    """
+    num_terms = len(user_terms) # How many search terms did the user input       
+    queryset=[None] * num_terms # Initialize queryset list with None    
+    q_converted=[None] * num_terms # q_converted is for when we convert from list of tuples to list of lists   
 
-    # Find out how many search terms the user inputted, and get three lists ready for them, 
-    # as we have 3 ways we need to massage the data
-    # Known bugs: if I type in sugar snap peas as input, it doesn't come up in bol
-    num_terms = len(user_terms)    
-    queryset=[None] * num_terms # rather than start with an empty list, initialize it with None
-    q_converted=[None] * num_terms  # this will be for when we convert from list of tuples to list of lists
-    listset = [None] * num_terms 
-
-    # Now set up the query. A side effect of using icontains is that if the user searches for a word such as "bed," 
-    # there will be search hits, such as "cubed." But I don't care.  
-    
     # See if the user has requested one or more ingredients to be excluded. They would do this with a minus sign.
     unwanted_ingredients = []
     for term in user_terms:
@@ -38,13 +33,13 @@ def search_func(user_terms):
     # Loop through any unwanted ingredients and exclude them    
     for neg_term in unwanted_ingredients:
         for j in range(0,num_terms):
-            queryset[j] = queryset[j].exclude(fullpost__icontains=neg_term)               
-    listset = list(queryset)   
+            queryset[j] = queryset[j].exclude(fullpost__icontains=neg_term)     
+ 
 
     # So now we have one or more querysets (one queryset for each search term)
     # each of which each contains a list of tuples. We need to convert the list(s) of tuples to list(s) of lists.     
     for j in range(0, num_terms): # convert to a list of lists
-        q_converted[j]=list(map(list, listset[j]))     
+        q_converted[j]=list(map(list, queryset[j]))     
 
     # Now stick the search term(s) we found into each query result so that we can later show the user all the terms
     # satisfied by each recipe
