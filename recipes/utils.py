@@ -86,29 +86,53 @@ def search_func(user_terms):
      
     for term_str in trimmed_list:     
         term_lis = term_str[0].split(',')
-        for one_term in term_lis:    
-             
+       
+        for one_term in term_lis:       
+            '''     
             if one_term[-1]=="s": 
                 one_term_stripped = one_term[:-1].strip()    
             else:    
-                one_term_stripped = one_term.strip()  
+                one_term_stripped = one_term.strip()    
+            '''      
+            one_term_stripped = one_term.strip()          
+            if (one_term_stripped.lower() in term_str[2].lower())|\
+               (one_term_stripped[-1].lower() in term_str[2].lower()):
+                #print(term_str[2])
+                 # See if search term exists in the title
+                # Make the search term bold in the title
+                # What's already in the title may or may not be capitalized, so run the replace twice. 
+                #if one_term_stripped[-1] == "s" and term_str[2][-1]!="s":
+                 #   term_str[2] = term_str[2].replace(one_term_stripped[:-1], "<b>" + one_term_stripped.capitalize() + "</b>")
+                  #  term_str[2] = term_str[2].replace(one_term_stripped[:-1].capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")
+                #elif one_term_stripped[-1] != "s"and term_str[2][-1]=="s":
+                 #   term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped.capitalize() + "</b>")
+                #    term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")
+                
               
-            if one_term_stripped.lower() in term_str[2].lower(): 
-                # Now we'll make the word bold in the title using string.replace(old, new)   
-                # Note: what's already in the title may or may not be capitalized, so run the replace twice.
-                # That way, it catches both possiblities         
-                term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped.capitalize() + "</b>")
-                term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")
-     
-    # Now get the context ready for returning to the view
+                if (term_str[2][-1].lower() == "s") & (one_term_stripped[:-1].lower()== "s"):
+                    term_str[2] = term_str[2].replace(one_term_stripped[:-1], "<b>" + one_term_stripped + "</b>")                 
+                    term_str[2] = term_str[2].replace(one_term_stripped[:-1].capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")    
+                
+                elif (term_str[2][-1] == "s") & (one_term_stripped[:-1].lower() != "s"):
+                    term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped + "</b>")                 
+                    term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")    
+
+                elif (term_str[2][-1] != "s") & (one_term_stripped[:-1].lower() != "s"):
+                    term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped + "</b>")                 
+                    term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>") 
+
+                else: 
+                    term_str[2] = term_str[2].replace(one_term_stripped[:-1], "<b>" + one_term_stripped + "</b>")                 
+                    term_str[2] = term_str[2].replace(one_term_stripped[:-1].capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>") 
+    
+                 
+                
+    # Now get the context ready for returning to the view. Sort the results by relevancy, which is how many terms found
     count=len(trimmed_list)     
-    trimmed_list.sort(key=itemgetter(-1), reverse=True) # Sort by primary key to order the list by # of search terms found for each recipe.
-                                                        # We reverse this seond sort for relevance ranking
+    trimmed_list.sort(key=itemgetter(-1), reverse=True) # Order and reverse the list 
     trimmed_list.sort(key=itemgetter(0)) # Sort by secondary key which will alphabetize the search terms
-    trimmed_list.sort(key=itemgetter(-1), reverse=True) # Sort by primary key to order the list by # of search terms found for each recipe.
-                                                        # We reverse this seond sort for relevance ranking
-    context={'count': count, 'trimmed_list': trimmed_list} 
-     
+    trimmed_list.sort(key=itemgetter(-1), reverse=True) # Order and reverse the list 
+    context={'count': count, 'trimmed_list': trimmed_list}      
     return(context)
 
    
