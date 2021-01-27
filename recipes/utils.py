@@ -12,7 +12,7 @@ def search_func(user_terms):
     5) So instead I am doing multiple queries, one for each search term. Thus the search terms are in a loop     
     # Known bugs: 
     1) If I type in sugar snap peas as input, it doesn't come up in bold
-    2) Type in "pie" and you get too many results with "piece" or "bed" produces "cubed"
+    2) Type in "pie" and you get too many results with "piece" or "bed" produces "cubed", "tart" leads to "start" and "starting"
     """
     num_terms = len(user_terms) # How many search terms did the user input       
     queryset=[None] * num_terms # Initialize queryset list with None    
@@ -33,16 +33,15 @@ def search_func(user_terms):
     # Loop through any unwanted ingredients and exclude them    
     for neg_term in unwanted_ingredients:
         for j in range(0,num_terms):
-            queryset[j] = queryset[j].exclude(fullpost__icontains=neg_term)     
- 
+            queryset[j] = queryset[j].exclude(fullpost__icontains=neg_term)   
 
     # So now we have one or more querysets (one queryset for each search term)
     # each of which each contains a list of tuples. We need to convert the list(s) of tuples to list(s) of lists.     
     for j in range(0, num_terms): # convert to a list of lists
         q_converted[j]=list(map(list, queryset[j]))     
 
-    # Now stick the search term(s) we found into each query result so that we can later show the user all the terms
-    # satisfied by each recipe
+    # Now stuff the search term(s) we found into each query result so that we can later show the user all the terms
+    # satisfied by each recipe. We're putting them at position zero.
     for i, term in enumerate(user_terms): # this shows the search terms in the user's order
         for recipe in q_converted[i]:
             recipe.insert(0, term)     
@@ -52,16 +51,14 @@ def search_func(user_terms):
     for i in range(0,num_terms):
         combined_list = combined_list + q_converted[i] 
 
-    # This will be the html formatted version of the user's search terms
-    user_search_terms=""
-    for term in user_terms:
-        user_search_terms = user_search_terms + "<br>" + term
+     
 
     # If the combined list is empty, then we can go ahead and return now, and tell user there are no results   
     if not combined_list:
+        print("here")
         count = 0         
         trimmed_list = [['None']]
-        context={'count': count, 'trimmed_list': trimmed_list, 'user_search_terms': user_search_terms}   
+        context={'count': count, 'trimmed_list': trimmed_list}   
         return(context)      
      
     # Now sort the query results list by url so that the duplicates are grouped together   
@@ -91,8 +88,7 @@ def search_func(user_terms):
         term_lis = term_str[0].split(',')
         for one_term in term_lis:    
              
-            if one_term[-1]=="s":
-                
+            if one_term[-1]=="s": 
                 one_term_stripped = one_term[:-1].strip()    
             else:    
                 one_term_stripped = one_term.strip()  
@@ -100,13 +96,10 @@ def search_func(user_terms):
             if one_term_stripped.lower() in term_str[2].lower(): 
                 # Now we'll make the word bold in the title using string.replace(old, new)   
                 # Note: what's already in the title may or may not be capitalized, so run the replace twice.
-                # That way, it catches both possiblities             
-                 
+                # That way, it catches both possiblities         
                 term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped.capitalize() + "</b>")
                 term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")
-                 
-            
-
+     
     # Now get the context ready for returning to the view
     count=len(trimmed_list)     
     trimmed_list.sort(key=itemgetter(-1), reverse=True) # Sort by primary key to order the list by # of search terms found for each recipe.
@@ -114,13 +107,9 @@ def search_func(user_terms):
     trimmed_list.sort(key=itemgetter(0)) # Sort by secondary key which will alphabetize the search terms
     trimmed_list.sort(key=itemgetter(-1), reverse=True) # Sort by primary key to order the list by # of search terms found for each recipe.
                                                         # We reverse this seond sort for relevance ranking
-    context={'count': count, 'trimmed_list': trimmed_list, 'user_search_terms': user_search_terms} 
+    context={'count': count, 'trimmed_list': trimmed_list} 
+     
     return(context)
 
-    """
-    old     = "stuff"
-    new    = "banana" 
-    tr = lambda x, y: ''.join([i[0].upper() if i[1] else i[0].lower() for i in zip_longest(y, [c.isupper() for c in x], fillvalue=(lambda : '' if len(x)>len(y) else x[-1].isupper())())])
-    re.sub(old, lambda m: tr(m.group(0), new), term_str[2], flags=re.I)
-    """
+   
  
