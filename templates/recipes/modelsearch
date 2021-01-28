@@ -18,7 +18,7 @@
   <p style="font-size: 16px">Notice that if your search term is in the title, it's in bold</p>  
   {% for item in trimmed_list %}
     
-       <span style="margin-bottom: 25px"><b>{{item.0 | safe}}</b><br><a href= "{{item.1 | safe}}"> {{item.2 | safe}}</a> <br></span> <br>
+       <span style="margin-bottom: 25px"><b>{{item.0 | safe}}</b><br><a href= "{{item.1 | safe}}"> {{item.2 | title | safe}}</a> <br></span> <br>
      
      
   {% endfor %}
