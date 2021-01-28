@@ -93,13 +93,14 @@ def search_func(user_terms):
             if (one_term_stripped.lower() in recipe_title.lower()):     
                 # if title and term (sadly, I also have to use a module called title. Two different things.)
                 # Note: sugar snap peas is not meeting the first if. Instead it's meeting the last else     
-                recipe_title = recipe_title.lower().replace(one_term_stripped.lower(), "<b>" + one_term_stripped.lower() + "</b>")    
-                term_str[2]=recipe_title
-                       
+                recipe_title = recipe_title.lower().replace(one_term_stripped.lower(), "<b>" + one_term_stripped.title() + "</b>")    
+                recipe_title = recipe_title.title() # when I add this, then I get the Capital S problem back
+                term_str[2]=recipe_title # restore the less user-friendly name
+
     # Now get the context ready for returning to the view. Sort the results by relepvancy, which is how many terms found
     count=len(trimmed_list)     
      
-    trimmed_list.sort(key=itemgetter(-1), reverse=True) # Order and reverse the list 
+    trimmed_list.sort(key=itemgetter(-1), reverse=True) # Order and reverse the list title
     trimmed_list.sort(key=itemgetter(0)) # Sort by secondary key which will alphabetize the search terms
     trimmed_list.sort(key=itemgetter(-1), reverse=True) # Order and reverse the list 
     context={'count': count, 'trimmed_list': trimmed_list}      
