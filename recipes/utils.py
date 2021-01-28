@@ -49,13 +49,10 @@ def search_func(user_terms):
     # We currently have one query result for each search term. So next, combine all the query results into one list
     combined_list=[] 
     for i in range(0,num_terms):
-        combined_list = combined_list + q_converted[i] 
-
-     
+        combined_list = combined_list + q_converted[i]  
 
     # If the combined list is empty, then we can go ahead and return now, and tell user there are no results   
-    if not combined_list:
-        print("here")
+    if not combined_list: 
         count = 0         
         trimmed_list = [['None']]
         context={'count': count, 'trimmed_list': trimmed_list}   
@@ -69,7 +66,7 @@ def search_func(user_terms):
     trimmed_list.append(combined_list[0]) # put the first entire recipe into trimmed_list      
     previous_recipe=trimmed_list[0]          
     recipe_counter = 1
-    # Now we use a loop to remove the duplicate recipes, all the while preserving the search hits found for each recipe.
+    # Now remove duplicate recipes, while preserving the search hits found for each recipe.
     # I designed my for loop to leverage the sortedness (done above) which grouped the duplicate recipes together
     for next_recipe in combined_list[1:]: # we need to start at the second element; that's the url
         if next_recipe[1] == previous_recipe[1]: # compare the urls
@@ -84,51 +81,24 @@ def search_func(user_terms):
         previous_recipe = trimmed_list[-1] # now advance previous_recipe for the next time thru the loop  
     previous_recipe.append(str(recipe_counter)) # The last recipe needs its counter    
      
-    for term_str in trimmed_list:     
-        term_lis = term_str[0].split(',')
-       
+
+    for term_str in trimmed_list:  
+        recipe_title = term_str[2]  # this is a more user-friendly name 
+        term_lis = term_str[0].split(',')       
         for one_term in term_lis:       
-            '''     
-            if one_term[-1]=="s": 
-                one_term_stripped = one_term[:-1].strip()    
-            else:    
-                one_term_stripped = one_term.strip()    
-            '''      
-            one_term_stripped = one_term.strip()          
-            if (one_term_stripped.lower() in term_str[2].lower())|\
-               (one_term_stripped[-1].lower() in term_str[2].lower()):
-                #print(term_str[2])
-                 # See if search term exists in the title
-                # Make the search term bold in the title
-                # What's already in the title may or may not be capitalized, so run the replace twice. 
-                #if one_term_stripped[-1] == "s" and term_str[2][-1]!="s":
-                 #   term_str[2] = term_str[2].replace(one_term_stripped[:-1], "<b>" + one_term_stripped.capitalize() + "</b>")
-                  #  term_str[2] = term_str[2].replace(one_term_stripped[:-1].capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")
-                #elif one_term_stripped[-1] != "s"and term_str[2][-1]=="s":
-                 #   term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped.capitalize() + "</b>")
-                #    term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")
-                
-              
-                if (term_str[2][-1].lower() == "s") & (one_term_stripped[:-1].lower()== "s"):
-                    term_str[2] = term_str[2].replace(one_term_stripped[:-1], "<b>" + one_term_stripped + "</b>")                 
-                    term_str[2] = term_str[2].replace(one_term_stripped[:-1].capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")    
-                
-                elif (term_str[2][-1] == "s") & (one_term_stripped[:-1].lower() != "s"):
-                    term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped + "</b>")                 
-                    term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>")    
-
-                elif (term_str[2][-1] != "s") & (one_term_stripped[:-1].lower() != "s"):
-                    term_str[2] = term_str[2].replace(one_term_stripped, "<b>" + one_term_stripped + "</b>")                 
-                    term_str[2] = term_str[2].replace(one_term_stripped.capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>") 
-
-                else: 
-                    term_str[2] = term_str[2].replace(one_term_stripped[:-1], "<b>" + one_term_stripped + "</b>")                 
-                    term_str[2] = term_str[2].replace(one_term_stripped[:-1].capitalize(), "<b>" + one_term_stripped.capitalize() + "</b>") 
-    
-                 
-                
-    # Now get the context ready for returning to the view. Sort the results by relevancy, which is how many terms found
+               
+            one_term_stripped = one_term.strip()    
+            if one_term_stripped[-1] == "s":
+                one_term_stripped = one_term_stripped[:-1]   
+            if (one_term_stripped.lower() in recipe_title.lower()):     
+                # if title and term (sadly, I also have to use a module called title. Two different things.)
+                # Note: sugar snap peas is not meeting the first if. Instead it's meeting the last else     
+                recipe_title = recipe_title.lower().replace(one_term_stripped.lower(), "<b>" + one_term_stripped.lower() + "</b>")    
+                term_str[2]=recipe_title
+                       
+    # Now get the context ready for returning to the view. Sort the results by relepvancy, which is how many terms found
     count=len(trimmed_list)     
+     
     trimmed_list.sort(key=itemgetter(-1), reverse=True) # Order and reverse the list 
     trimmed_list.sort(key=itemgetter(0)) # Sort by secondary key which will alphabetize the search terms
     trimmed_list.sort(key=itemgetter(-1), reverse=True) # Order and reverse the list 
