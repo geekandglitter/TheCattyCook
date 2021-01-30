@@ -630,8 +630,8 @@ def modelsearch_view(request):
             # Now I also have to handle any duplicate commas           
             user_string_parts = form.data['user_search_terms'].split(',') 
             user_string_parts = [part.strip() for part in user_string_parts ]
-            while("" in user_string_parts) : 
-                user_string_parts.remove("")         
+            #while("" in user_string_parts) :  # THis while loop doesn't look necessary
+            #    user_string_parts.remove("")                
             form.data['user_search_terms'] = (', '.join(user_string_parts) )   
 
 
