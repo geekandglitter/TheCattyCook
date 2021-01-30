@@ -95,8 +95,31 @@ def search_func(user_terms):
                 # Note: sugar snap peas is not meeting the first if. Instead it's meeting the last else     
                 recipe_title = recipe_title.lower().replace(one_term_stripped.lower(), "<b>" + one_term_stripped.title() + "</b>")    
                 recipe_title = recipe_title.title() # when I add this, then I get the Capital S problem back
-                term_str[2]=recipe_title # restore the less user-friendly name
-
+        # The next ifs are bandaid code. What I'm trying to write is a very simple search engine, which is actually beyond
+        # my ability. So I'm leaving the bandaid code for now, as at least it makes the results look better. 
+        if "</B>S" in recipe_title:             
+            recipe_title=recipe_title.replace("</B>S", "s</B>")              
+        if "'S" in recipe_title:            
+            recipe_title=recipe_title.replace("'S","'s") 
+        if "</B>'s" in recipe_title:
+            recipe_title=recipe_title.replace("</B>'s", "'s</B>")   
+        if "A" in recipe_title:
+            recipe_title=recipe_title.replace("A", "a")
+        if "And" in recipe_title:
+            recipe_title=recipe_title.replace("And", "and")
+        if "For" in recipe_title:
+            recipe_title=recipe_title.replace("For", "for")
+        if "With" in recipe_title:
+            recipe_title=recipe_title.replace("With", "with")    
+        if "The" in recipe_title:
+            recipe_title=recipe_title.replace("The", "the")    
+        if "In" in recipe_title:
+            recipe_title=recipe_title.replace("In", "in")    
+        if "Or " in recipe_title:
+            recipe_title=recipe_title.replace("Or ", "or ")  
+        if "From" in recipe_title:
+            recipe_title=recipe_title.replace("From", "from")        
+        term_str[2]=recipe_title # restore the less user-friendly name
     # Now get the context ready for returning to the view. Sort the results by relepvancy, which is how many terms found
     count=len(trimmed_list)     
      
