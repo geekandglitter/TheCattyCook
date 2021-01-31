@@ -26,14 +26,8 @@ def search_func(user_terms):
             term='' # we can now remove that term from user_terms because we have set it aside in unwanted_ingredients   
      
     # Now get all the recipes that match all the remaining user search terms
-
-    #'\y' +    someWord + '\y'
-
-
-
-    
     for i, term in enumerate(user_terms):
-        queryset[i] = AllContents.objects.filter(fullpost__icontains=' ' + term + ' ')\
+        queryset[i] = AllContents.objects.filter(fullpost__icontains=term)\
                                          .values_list('hyperlink', 'title')   # We now have a list of querysets  
     # NOTE: Change coming -- use __istartswith instead of __icontains or __iexact
     # Loop through any unwanted ingredients and exclude them    
@@ -109,8 +103,8 @@ def search_func(user_terms):
             recipe_title=recipe_title.replace("'S","'s") 
         if "</B>'s" in recipe_title:
             recipe_title=recipe_title.replace("</B>'s", "'s</B>")   
-        if " A " in recipe_title:
-            recipe_title=recipe_title.replace(" A ", " a ")
+        if "A" in recipe_title:
+            recipe_title=recipe_title.replace("A", "a")
         if "And" in recipe_title:
             recipe_title=recipe_title.replace("And", "and")
         if "For" in recipe_title:
