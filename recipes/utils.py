@@ -15,21 +15,28 @@ def search_func(user_terms):
     2) Type in "pie" and you get too many results with "piece" or "bed" produces "cubed", "tart" leads to "start" and "starting"
     """
     num_terms = len(user_terms) # How many search terms did the user input       
-    queryset=[None] * num_terms # Initialize queryset list with None    
+    
     q_converted=[None] * num_terms # q_converted is for when we convert from list of tuples to list of lists   
 
     # See if the user has requested one or more ingredients to be excluded. They would do this with a minus sign.
+    '''
+    OLD CODE
     unwanted_ingredients = []
     for term in user_terms:
         if term[0]=="-": # If the first character is a minus sign, this means the user wants no recipes with this term in it
-            unwanted_ingredients.append(term[1:]) 
-            term='' # we can now remove that term from user_terms because we have set it aside in unwanted_ingredients   
-     
-    # Now get all the recipes that match all the remaining user search terms
+            unwanted_ingredients.append(term[1:])              
+     '''
+    # NEW CODE
+    unwanted_ingredients = [term[1:]  for term in user_terms if term[0]=="-" ]   
+
+    # Now get all the recipes that match all the remaining user search terms 
+    queryset=[None] * num_terms # Initialize queryset list with None    
     for i, term in enumerate(user_terms):
         queryset[i] = AllContents.objects.filter(fullpost__icontains=term)\
                                          .values_list('hyperlink', 'title')   # We now have a list of querysets  
-    # NOTE: Change coming -- use __istartswith instead of __icontains or __iexact
+    
+
+     
     # Loop through any unwanted ingredients and exclude them    
     for neg_term in unwanted_ingredients:
         for j in range(0,num_terms):
