@@ -50,7 +50,7 @@ APPSEARCH_INDEXING_ENABLED = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['stayathomegeek.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['stayathomegeek.pythonanywhere.com', '127.0.0.1', 'thecattycook.geekandglitter.repl.co']
 
 # Application definition
 
@@ -67,6 +67,13 @@ INSTALLED_APPS = [
   
 
 ]
+'''
+Can be erased:
+ALLOWED_HOSTS = ['stayathomegeek.pythonanywhere.com', '127.0.0.1', 
+                 '* @geekandglitter', '.localhost', '[::1]', '[*]',
+                 '1944af39-b599-40cf-a6ba-c1a9f3897dcc.id.replitusercontent.com', 
+                 'thecattycook.geekandglitter.repl.co']
+'''
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
