@@ -21,7 +21,7 @@ import os
 
 
 from .models import AllContents
-from recipes.utils import search_func # this function does the model query heavy lifting for modelsearch_view    
+from recipes.utils import search_func # this function does the model query heavy lifting for modelsearch_viecw    
 ###################################################
 # Home (Index page)
 ################################################### 
@@ -579,7 +579,7 @@ def scrapecontents_view(request):
     '''
     # First, get all the urls from AllRecipes
     instance = AllRecipes.objects.filter().values_list('url', 'anchortext')
-
+    from django.db import IntegrityError
     # For now, I'm starting over each time, by emptying out AllContents
     AllContents.objects.all().delete()  # clear the table 
     for hyper, title in instance: 
@@ -590,13 +590,17 @@ def scrapecontents_view(request):
         stripped = title + soup_contents.get_text()
         stripped=stripped.replace('\n',' ') # need to replace newline with a blank
         stripped = ' '.join(stripped.split()) # remove all multiple blanks, leave single blanks      
-         
-        newrec = AllContents.objects.create(
-            fullpost=stripped,       
-            hyperlink=hyper,
-            title=title
-        )
+        try: 
+            newrec = AllContents.objects.create(
+                fullpost=stripped,       
+                hyperlink=hyper,
+                title=title
+            )
+        except IntegrityError:
+            return render(request, 'recipes/error_page')    
         newrec.save()
+      
+
              
     return render(request, 'recipes/scrapecontents')
 
