@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from django.shortcuts import render
 from django.views.generic.list import ListView
  
-from django.http import HttpResponseRedirect
+ 
 import sys
 #from recipes.forms import SimpleForm
 from .models import AllRecipes
@@ -11,13 +11,13 @@ from operator import itemgetter
 import json
 import requests
 import datetime as d
-from requests.utils import requote_uri
+ 
 import ast
 
 from .models import SearchTerms
 import feedparser
 from .forms import RecipeForm
-import os   
+  
 
 
 from .models import AllContents
