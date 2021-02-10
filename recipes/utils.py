@@ -1,5 +1,5 @@
 from operator import itemgetter
-import sys    
+    
 from .models import AllContents
 
 def search_func(user_terms):     

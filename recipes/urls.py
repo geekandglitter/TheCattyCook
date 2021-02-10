@@ -1,10 +1,7 @@
  
 from django.contrib import admin
-from django.urls import path
-from django.conf.urls import url
-from django.contrib import admin
-from recipes import views
-from django.urls import path
+from django.urls import path 
+from recipes import views 
 from .views import ModelList # this is for the new class-based view
 from recipes.models import AllRecipes
 
