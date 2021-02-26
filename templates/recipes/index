@@ -23,7 +23,7 @@ represents a Django view.  </p>
  <ol>
     <li><b><a href="/modelsearch">Fast Search! Type in any word(s), separated by commas</a></b>	 
 	<br><small>Shows results in order of relevance, which is based on number of criteria met. Can type ingredients or even
-	 kitchen tools. Note: this is a work in progress. If you add a trailing comma, it will crap out.
+	 kitchen tools.  
 	</small></li>
 
     <li><a href="/get"><b>Find all Recipes Alphabetically </b>  </a><br><small>Uses Google Blogger API and requests to get 

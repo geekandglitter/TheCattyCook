@@ -9,11 +9,15 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
+from .site_packages_setup import move_site_packages
+from dotenv import load_dotenv
+load_dotenv()
 
+move_site_packages()
 import json  # we will use json to build an external secrets file that stays untracked
 import os  # this python package's functions allow interface with the OS: Windows, Mac or Linux to access to the path
 from django.core.exceptions import ImproperlyConfigured  # used by get_secret
-
+ 
 # BASE_DIR: This is always needed in settings. Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # this line is always needed in settings.py.
 # It shows where manage.py is.
@@ -22,6 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # this l
 
 
 # OPEN SECRETS: This loads the secret json file. Found this solution on SO.###############
+'''
 with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
     secrets = json.load(secrets_file)
 
@@ -34,7 +39,9 @@ def get_secret(setting, my_secrets=secrets):  # Get secret setting or fail with 
 
 
 SECRET_KEY = get_secret("SECRET_KEY")  # SECRET_KEY is always in settings.py. Get its contents
+'''
 
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 APPSEARCH_USE_HTTPS = False
 APPSEARCH_HOST = 'localhost:3002'
@@ -50,7 +57,7 @@ APPSEARCH_INDEXING_ENABLED = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['stayathomegeek.pythonanywhere.com', '127.0.0.1', 'thecattycook.geekandglitter.repl.co']
+#ALLOWED_HOSTS = ['stayathomegeek.pythonanywhere.com', '127.0.0.1', 'thecattycook.geekandglitter.repl.co']
 
 
 INSTALLED_APPS = [
@@ -108,31 +115,20 @@ DATABASES = {
     }
 }
 """
+pw=os.getenv('DB_PASSWORD')
+ 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'gxillviv',
         'USER': 'gxillviv',
-        'PASSWORD': get_secret('DB_PASSWORD'), # this is in secrets file
+        'PASSWORD': pw,
         'HOST': 'pellefant.db.elephantsql.com',
         'PORT': '5432',
     }
 }
 
 """
-
-
-
-
-
-
-
-
-
-
-
-
- 
 DATABASES = {
    ‘default’: {
       ‘ENGINE’: ‘djongo’,
@@ -183,7 +179,7 @@ STATICFILES_DIRS = (   # tells your devserver where the static files are
 ''' 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 '''
-
+X_FRAME_OPTIONS = '*'
 
 
 
