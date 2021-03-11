@@ -57,6 +57,7 @@ represents a Django view.  </p>
 	</small></li>    
 
   <hr>
+  <hr>
 
 	<li><a href="/get-and-store">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
 	all the post urls from Google Blogger API,  then store them each in one record in a model
@@ -68,6 +69,7 @@ represents a Django view.  </p>
 	is called an index search, and it's a lot faster than a rifle search. An index search is how google works. This view
 	 relies on the recipes retrieved in the above view.</small></li>   
    <hr> 
+   <hr>
 
     <li><a href="/suggestions">Select ingredients from suggestions</a><br>
 	(This is a slow rifle search for demo purpose only.)<br>
