@@ -56,15 +56,18 @@ represents a Django view.  </p>
 	view has no path, so it's "retrieve-recipes-classbased". Note that class-based is faster than functional.
 	</small></li>    
 
+  <hr>
+
 	<li><a href="/get-and-store">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
 	all the post urls from Google Blogger API,  then store them each in one record in a model
 	(a mysql or postgres database).</small></li>
 
-	<li><a href = "/scrapecontents">Scrape all post contents and stuff them in a model.</a><small>
+	<li><a href = "/scrapecontents">Scrape all post contents and stuff them in a model.</a><b>Do not run this until you have run "Find all Recipes" above</b><small>
 	<br>This is a simple crawler that crawls the entire recipe blog periodically. It then stores the results in 
 	model. The new faster search at the top of this page searches the model rather than the actual pages on my blog. This 
 	is called an index search, and it's a lot faster than a rifle search. An index search is how google works. This view
-	 relies on the recipes retrieved in the above view.</small></li>    
+	 relies on the recipes retrieved in the above view.</small></li>   
+   <hr> 
 
     <li><a href="/suggestions">Select ingredients from suggestions</a><br>
 	(This is a slow rifle search for demo purpose only.)<br>
