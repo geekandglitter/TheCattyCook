@@ -597,7 +597,7 @@ def scrapecontents_view(request):
                 title=title
             )
         except IntegrityError:
-            return render(request, 'recipes/error_page')    
+            return render(request, 'recipes/error')    
         newrec.save()
       
 
