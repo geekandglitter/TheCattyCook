@@ -59,7 +59,7 @@ represents a Django view.  </p>
   <hr>
   <hr>
 
-	<li><a href="/get-and-store">Find all Recipes in alphabetical order </a></b><br><small>Uses requests to get
+	<li><a href="/get-and-store">Find all Recipes from the blog, store them in the database, and then display them in alphabetical order </a></b><br><small>Uses requests to get
 	all the post urls from Google Blogger API,  then store them each in one record in a model
 	(a mysql or postgres database).</small></li>
 
