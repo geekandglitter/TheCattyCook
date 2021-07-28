@@ -18,7 +18,7 @@ class RecipeForm(forms.ModelForm):
         widgets = {  
                     'user_search_terms': 
                     forms.Textarea
-                    (attrs={'rows':2, 'cols':60,'placeholder': 'examples: sugar snap peas, -wine, -capers, pesto '}),
+                    (attrs={'rows':2, 'cols':60,'placeholder': 'examples: easy, butter chicken, sugar snap peas, -wine, -capers, pesto '}),
                      
                   }
       
