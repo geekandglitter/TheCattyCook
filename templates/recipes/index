@@ -2,17 +2,6 @@
 
 {% block content %}
 <div style=width:600px;>
-<p><b>For Cooks</b><br>
-Use this interface to my recipe blog. The links in bold will be most useful to you.
-Find what you want, click through, and you can print the recipes on your printer, or include your laptop as a kitchen item. 
-Note: Just as this web app is under development, so are my recipes.</p>
-
-<p><b>For Developers (which can, of course, include cooks)</b><br>
- 
-I'm both a cook and a nerd. I wrote this Python/Django web app to experiment with scraping, RSS Feeds and API's. Those are three different
-ways to get content from a website or blog. Its concept is that it serves as a front end to allow various ways to 
-find recipes in my blogspot recipe blog, <a href="https://thecattycook.blogspot.com/">The Catty Cook</a>. Each link here
-represents a Django view.  </p>
 
 <p>
 
@@ -21,12 +10,12 @@ represents a Django view.  </p>
 <h1>    For Cooks</h1>
  <span style="font-size:15px">
  <ol>
-    <li><b><a href="/modelsearch">Fast Search! Type in any word(s), separated by commas</a></b>	 
-	<br><small>Shows results in order of relevance, which is based on number of criteria met. Can type ingredients or even
+    <li><b><a href="/modelsearch">Search for a recipe</b></a>	 
+	<br><small>Type in any word(s), separated by commas. Shows results in order of relevance, which is based on number of criteria met. Can type ingredients or even
 	 kitchen tools.  
 	</small></li>
 
-    <li><a href="/get"><b>Find all Recipes Alphabetically </b>  </a><br><small>Uses Google Blogger API and requests to get 
+    <li><a href="/get"><b>See all recipes alphabetically </b>  </a><br><small>Uses Google Blogger API and requests to get 
 	the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
 	Does not store them in a model.</small>  </li>
 
@@ -79,6 +68,19 @@ represents a Django view.  </p>
  
 </ol>
 </span> 
+<br><br>
+<h1>Explanation</h1>
+<p><b>For Cooks</b><br>
+Use this interface to my recipe blog. The links in bold will be most useful to you.
+Find what you want, click through, and you can print the recipes on your printer, or include your laptop as a kitchen item. 
+Note: Just as this web app is under development, so are my recipes.</p>
+
+<p><b>For Developers (which can, of course, include cooks)</b><br>
+ 
+I'm both a cook and a nerd. I wrote this Python/Django web app to experiment with scraping, RSS Feeds and API's. Those are three different
+ways to get content from a website or blog. Its concept is that it serves as a front end to allow various ways to 
+find recipes in my blogspot recipe blog, <a href="https://thecattycook.blogspot.com/">The Catty Cook</a>. Each link here
+represents a Django view.  </p>
 
 </div>
 {% endblock content %}
