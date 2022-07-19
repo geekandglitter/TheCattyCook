@@ -144,11 +144,12 @@ def getchron_view(request):
 
     counter = 0
     newstring = " "
+    accum_list.reverse()
     for mylink in accum_list:
         counter += 1
         newstring = "<a href=" + mylink['url'] + ">" + \
             mylink['title'] + "</a>" + "<br>" + newstring
-
+  
     return render(request, 'recipes/getchron', {'allofit': newstring, 'count': counter})
  
 ###################################################

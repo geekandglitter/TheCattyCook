@@ -4,7 +4,7 @@
 
   <h1>I Stay Home and Bake Cookies</h1>
   <h2>{{count}} Posts from Google Blogger API Json Chronological</h2>
-  <p>The recipes I just cooked or just printed to cook are at the bottom. I am just starting to add pictures and to fully test these recipes
+  <p>The recipes I cooked most recently are at the top.  
    </p>
 
   <p>{{allofit  | safe}}</p>

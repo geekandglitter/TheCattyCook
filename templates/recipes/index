@@ -14,6 +14,7 @@
 	<br><small>Type in any word(s), separated by commas. Shows results in order of relevance, which is based on number of criteria met. Can type ingredients or even
 	 kitchen tools.  
 	</small></li>
+	<li><b><a href="/getchron">View all Recipes chronologically  </a></b><br><small>My most recent recipes are first</small> </li>
 
     <li><a href="/get"><b>See all recipes alphabetically </b>  </a><br><small>Uses Google Blogger API and requests to get 
 	the feed, one year at a time to prevent a timeout, then loads the json alphabetically. 
@@ -33,7 +34,7 @@
 	<li><a href="/count-words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
 	Google Adsense, as they expect a minium of around 300 characters.</small></li>    
 
-	<li><a href="/getchron">View all Recipes Chronologically  </a><br><small>Uses Google Blogger API and requests
+	<li><a href="/getchron">View all Recipes chronologically  </a><br><small>Uses Google Blogger API and requests
 	to get the feed, one year at a time to prevent a timeout, then loads the json chronologically.</small> </li>
 
 	<li><a href="/scrape">View Recipes scraped from the home page  </a><br><small>Uses requests and beautifulSoup to scrape
