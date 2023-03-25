@@ -34,7 +34,7 @@ def home(request):
 def scrape_view(request):
     """ Demonstrates scraping posts from the home page"""
     try:
-        r = requests.get("https://thecattycook.blogspot.com")
+        r = requests.get("https://longcovidmind.blogspot.com")
         soup = BeautifulSoup(r.text, 'html.parser')
 
         anchor_links = sorted(soup.find_all('a'), key=lambda elem: elem.text)
@@ -71,7 +71,7 @@ def get_view(request):
         # Initially I did the entire request at once, but I had to chunk it into years because it was timing out in
         # windows.
 
-        url_part_1 = "https://www.googleapis.com/blogger/v3/blogs/639737653225043728/posts?endDate="
+        url_part_1 = "https://www.googleapis.com/blogger/v3/blogs/4571701310225125829/posts?endDate="
         url_part_2 = edate + "&fetchBodies=false&maxResults=500&startDate=" + sdate
         url_part_3 = "&status=live&view=READER&fields=items(title%2Curl)&key=AIzaSyDleLQNXOzdCSTGhu5p6CPyBm92we3balg"
         url = url_part_1 + url_part_2 + url_part_3
@@ -122,7 +122,7 @@ def getchron_view(request):
     def request_by_year(edate, sdate):
         # Initially I did the entire request at once, but I had to chunk it into years because it was timing out in windows.
 
-        url = "https://www.googleapis.com/blogger/v3/blogs/639737653225043728/posts?endDate=" + edate + "&fetchBodies=false&maxResults=500&startDate=" + \
+        url = "https://www.googleapis.com/blogger/v3/blogs/4571701310225125829/posts?endDate=" + edate + "&fetchBodies=false&maxResults=500&startDate=" + \
             sdate + \
             "&status=live&view=READER&fields=items(title%2Curl)&key=AIzaSyDleLQNXOzdCSTGhu5p6CPyBm92we3balg"
         r = requests.get(url, stream=True)
@@ -175,10 +175,10 @@ def searchboxes_view(request):
             new_search_term.append(newdict[key])
     
     search_term=new_search_term
-    url1 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
-    url2 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
-    url3 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
-    url4 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=451&max-results=150"
+    url1 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
+    url2 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
+    url3 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
+    url4 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=451&max-results=150"
     feed1 = (feedparser.parse(url1))                
     feed2 = (feedparser.parse(url2))
     feed3 = (feedparser.parse(url3))
@@ -281,7 +281,7 @@ def count_words_view(request):
     '''
 
     feed = (feedparser.parse(
-        'https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=1000'))
+        'https://longcovidmind.blogspot.com/feeds/posts/default?start-index=1&max-results=1000'))
     feed_html = ""
     newfeed = list(feed.entries)
 
@@ -317,7 +317,7 @@ def get_and_store_view(request):
     def request_by_year(edate, sdate):
         # Initially I did the entire request at once, but I had to chunk it into years because it was timing out in windows.
 
-        url = "https://www.googleapis.com/blogger/v3/blogs/639737653225043728/posts?endDate=" + edate + "&fetchBodies=false&maxResults=500&startDate=" + \
+        url = "https://www.googleapis.com/blogger/v3/blogs/4571701310225125829/posts?endDate=" + edate + "&fetchBodies=false&maxResults=500&startDate=" + \
             sdate + \
             "&status=live&view=READER&fields=items(title%2Curl)&key=AIzaSyDleLQNXOzdCSTGhu5p6CPyBm92we3balg"
 
@@ -377,13 +377,13 @@ def feedparse_view(request):
     global i
 
     feed1 = (feedparser.parse(
-        "https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=150"	))
+        "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=1&max-results=150"	))
     newfeed1 = list(feed1.entries)
     feed2 = (feedparser.parse(
-        "https://thecattycook.blogspot.com/feeds/posts/default?start-index=151&max-results=150"))
+        "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=151&max-results=150"))
     newfeed2 = list(feed2.entries)
     feed3 = (feedparser.parse(
-        "https://thecattycook.blogspot.com/feeds/posts/default?start-index=301&max-results=150"))
+        "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=301&max-results=150"))
     newfeed3 = list(feed3.entries)
 
     feed_html = ""
@@ -425,10 +425,10 @@ def searchinput_view(request):
      
     ''' 
     # Below is some setup
-    url1 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
-    url2 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
-    url3 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
-    url4 = "https://thecattycook.blogspot.com/feeds/posts/default?start-index=451&max-results=150"
+    url1 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=1&max-results=150"
+    url2 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=151&max-results=150"
+    url3 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=301&max-results=150"
+    url4 = "https://longcovidmind.blogspot.com/feeds/posts/default?start-index=451&max-results=150"
   
     final_list = []
     count = 0
@@ -529,7 +529,7 @@ def suggestions_view(request):
     try:
         results_list = "<table><br><br>"
         results_list = results_list + '<input type="submit" value="Search"><br><br>'  
-        r = requests.get("https://thecattycook.blogspot.com")
+        r = requests.get("https://longcovidmind.blogspot.com")
         soup = BeautifulSoup(r.text, 'html.parser')
         update_the_database_with_labels(soup) # this line can be turned off
         dictmap = dict()       

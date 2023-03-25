@@ -5,7 +5,7 @@
   
 <head>
     <meta charset="UTF-8">
-    <title>The Catty Cook by Linda (Driver) Moran</title>
+    <title>Long Covid Mind by Linda (Driver) Moran</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
   
@@ -111,15 +111,15 @@
     <div id='header-inner'>
     <div class='titlewrapper'>
     <h1 class='title'>
-    <a href='https://thecattycook.blogspot.com/'>
-    The Catty Cook
+    <a href='https://longcovidmind.blogspot.com/'>
+    Long Covid Mind
     </a>
     </h1>
-    <span style="font-size: 24x; font-style: italic">Recipe blog extension written in Python/Django
+    <span style="font-size: 24x; font-style: italic">Long Covid Mind blog extension written in Python/Django
         because that's my idea of a good time. Extend me some grace; I am a backend developer trying to create 
         a fullstack web app. (In plain English, I don't specialize in how things look on the screen.)
 
-           <br> <br><a href="https://thecattycook.blogspot.com/">Go directly to the Catty Cook blog</a></span>
+           <br> <br><a href="https://longcovidmind.blogspot.com/">Go directly to Long Covid Mind blog</a></span>
     </div>
 
     </div>
