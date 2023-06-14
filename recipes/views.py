@@ -17,6 +17,7 @@ import ast
 from .models import SearchTerms
 import feedparser
 from .forms import RecipeForm
+from django.contrib.auth.decorators import user_passes_test
   
 
 
@@ -655,4 +656,12 @@ def modelsearch_view(request):
             context = {'form': form}         
     else: # This code executes the first time this view is run. It shows an empty form to the user  
         context = {'form': form}     
-    return render(request, 'recipes/modelsearch', context)   
+    return render(request, 'recipes/modelsearch', context)  
+
+############# 
+ 
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
+def admin_home(request):
+  return render(request, "recipes/admin_home.html", {})
+
+############# 

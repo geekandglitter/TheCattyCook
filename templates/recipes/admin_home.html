@@ -1,0 +1,82 @@
+{% extends "base" %} 
+ 
+
+{% block content %}
+<div style=width:600px;>
+
+ 
+<br>
+   
+
+
+  <hr>
+  <hr>
+<big>
+<h1>Admin Tasks</h1>  
+<h1>For Developers</h1>
+<h2>And don't worry if you break something</h2>
+<span style="font-size:10px">
+<ol> 			
+	<li><a href="/count-words">Find pages with too little content</a><br><small> This is helpful for monetizing through 
+	Google Adsense, as they expect a minium of around 300 characters.</small></li>    
+
+	<li><a href="/getchron">View all Recipes chronologically  </a><br><small>Uses Google Blogger API and requests
+	to get the feed, one year at a time to prevent a timeout, then loads the json chronologically.</small> </li>
+
+	<li><a href="/scrape">View Recipes scraped from the home page  </a><br><small>Uses requests and beautifulSoup to scrape
+	recipes only from the home page. The results are limited.</small></li>     
+
+	<! --  The next two views are attempting to be the same. The first is a functional view; the second a class-based view -->
+    <li><a href="/retrieve-recipes">Retrieve the URL's from the model</a><br><small>Uses a functional view.</small></li>   
+	<li><a href="retrieve-recipes-classbased">Retrieve the URL's from the model</a> <br><small>Uses a class based view. This 
+	view has no path, so it's "retrieve-recipes-classbased". Note that class-based is faster than functional.
+	</small></li>    
+
+  <hr>
+  <hr>
+
+	<li><a href="/get-and-store">Find all Recipes from the blog, store them in the database, and then display them in alphabetical order </a></b><br><small>Uses requests to get
+	all the post urls from Google Blogger API,  then store them each in one record in a model
+	(a mysql or postgres database).</small></li>
+  <span><b>Allow a few minutes between finding and scraping</b></span>
+	<li><a href = "/scrapecontents">Scrape all post contents and stuff them in a model.</a><b> Do not run this until you have run "Find all Recipes" above</b><small>
+	<br>This is a simple crawler that crawls the entire recipe blog periodically. It then stores the results in the
+	model. The new faster search at the top of this page searches the model rather than the actual pages on my blog. This 
+	is called an index search, and it's a lot faster than a rifle search. An index search is how google works. This view
+	 relies on the recipes retrieved in the above view.</small></li>   
+   <hr> 
+   <hr>
+
+    <li><a href="/suggestions">Select ingredients from suggestions</a><br>
+	(This is a slow rifle search for demo purpose only.)<br>
+	<small>Shows all database keywords with checkboxes. Results are ordered by relevance 
+	(number of search criteria met). </small> </li>
+ 		
+ 
+</ol>
+</span> 
+  
+ 
+   <hr> 
+   <hr>
+
+ 
+  
+    
+ 
+ 
+</big> 
+ 
+<br><br>
+  
+ 
+ 
+
+</div>
+{% endblock content %}
+
+
+
+
+
+ 

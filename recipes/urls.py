@@ -24,6 +24,7 @@ urlpatterns = [
   path('searchinput', views.searchinput_view),    # No longer in use
   path('scrapecontents', views.scrapecontents_view),
   path('modelsearch', views.modelsearch_view),
+  path("admin_home", views.admin_home),   
   
 ]
 
