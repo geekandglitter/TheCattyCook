@@ -3,11 +3,8 @@
 {% block content %}
 <div style=width:600px;>
 
-<p>
-
-</p>
-<br>
-<h1>    For Cooks</h1>
+  
+ 
  <span style="font-size:15px">
  <ol>
     <li><b><a href="/modelsearch">Search for a recipe</b></a>	 
@@ -27,12 +24,12 @@
 </ol>   
 </span>   
  
-<br><br>
+<br><br><br><br><br><br>
 <hr><hr>
-<p><small>Admin only tasks <a href="/admin_home"> update search index</a></small></p>  
-<p><small>Note: you have to be logged in to superuser </small></p>    
+<p><small>Admin only tasks <a href="/admin_home"> update search index</a> (Note: you have to be logged in to superuser) </small></p>    
 
 <hr><hr>
+
 
 
 

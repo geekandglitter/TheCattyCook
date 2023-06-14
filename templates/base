@@ -115,11 +115,15 @@
     The Catty Cook
     </a>
     </h1>
-    <span style="font-size: 24x; font-style: italic">Recipe blog extension written in Python/Django
+    <span style="font-size: 26x;"><b>Nerd Speak:</b> Recipe blog extension written in Python/Django
         because that's my idea of a good time. Extend me some grace; I am a backend developer trying to create 
         a fullstack web app. (In plain English, I don't specialize in how things look on the screen.)
 
-           <br> <br><a href="https://thecattycook.blogspot.com/">Go directly to the Catty Cook blog</a></span>
+           <br> <br>
+<b>Mere Mortal Speak:</b> I have a blog called <b>Catty Cook</b> that has all of my recipes, but it's hard to search. So I created this website that finds what you're looking for.
+  <br> <br>
+
+<a href="https://thecattycook.blogspot.com/">Or go directly to the Catty Cook blog instead</a></span>
     </div>
 
     </div>
