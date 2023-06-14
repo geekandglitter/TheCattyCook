@@ -1,5 +1,6 @@
 # Linda added
 secrets.json
+.envdeprecated
 .idea/
 .vscode/
 *migrations*
