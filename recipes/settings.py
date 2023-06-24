@@ -11,19 +11,19 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 from .site_packages_setup import move_site_packages
 from dotenv import load_dotenv
+
 load_dotenv()
 
 move_site_packages()
 import json  # we will use json to build an external secrets file that stays untracked
 import os  # this python package's functions allow interface with the OS: Windows, Mac or Linux to access to the path
 from django.core.exceptions import ImproperlyConfigured  # used by get_secret
- 
+
 # BASE_DIR: This is always needed in settings. Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # this line is always needed in settings.py.
+BASE_DIR = os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))  # this line is always needed in settings.py.
 # It shows where manage.py is.
 #print("The BASE_DIR is", BASE_DIR)
-
-
 
 # OPEN SECRETS: This loads the secret json file. Found this solution on SO.###############
 '''
@@ -48,17 +48,11 @@ APPSEARCH_HOST = 'localhost:3002'
 APPSEARCH_API_KEY = 'private-key'
 APPSEARCH_CHUNK_SIZE = 50
 APPSEARCH_INDEXING_ENABLED = True
- 
-
-
-
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 #ALLOWED_HOSTS = ['stayathomegeek.pythonanywhere.com', '127.0.0.1', 'thecattycook.geekandglitter.repl.co']
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -69,11 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'recipes',
-  
-  
-
 ]
- 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,8 +105,8 @@ DATABASES = {
     }
 }
 """
-pw=os.getenv('DB_PASSWORD')
- 
+pw = os.getenv('DB_PASSWORD')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -127,7 +117,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 """
 DATABASES = {
    ‘default’: {
@@ -141,16 +130,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -172,14 +165,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
- 
-STATICFILES_DIRS = (   # tells your devserver where the static files are
+STATICFILES_DIRS = (  # tells your devserver where the static files are
     os.path.join(BASE_DIR, 'static'),  # Linda added this
 )
 ''' 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 '''
 X_FRAME_OPTIONS = '*'
-
-
-

@@ -581,11 +581,17 @@ def scrapecontents_view(request):
     '''
     # First, get all the urls from AllRecipes
     instance = AllRecipes.objects.filter().values_list('url', 'anchortext')
+    print("type of instance:", type(instance))
+    #print("instance: ", instance)
+   
+    
     from django.db import IntegrityError
     # For now, I'm starting over each time, by emptying out AllContents
     AllContents.objects.all().delete()  # clear the table 
     for hyper, title in instance: 
-         
+        print("hyper: ", hyper ) 
+        print( "title: ", title )
+        sys.exit()
         getpost = requests.get(hyper)
         soup = BeautifulSoup(getpost.text, 'html.parser')            
         soup_contents = soup.find("div", class_="post-body entry-content") 
