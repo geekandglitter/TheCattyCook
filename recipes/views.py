@@ -32,6 +32,7 @@ def home(request):
 ###################################################
 # Uses beautifulsoup, only to scrape the homepage
 ###################################################
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
 def scrape_view(request):
     """ Demonstrates scraping posts from the home page"""
     try:
@@ -119,6 +120,7 @@ def get_view(request):
 #
 # Note: I was able to improve the api call to fetchbodies = false, which speeds up the loading to some degree. Now I can allow for 200 posts
 # instead of 100 posts.
+ 
 def getchron_view(request):
     def request_by_year(edate, sdate):
         # Initially I did the entire request at once, but I had to chunk it into years because it was timing out in windows.
@@ -273,6 +275,7 @@ class ModelList(ListView): # ListView doesn't have a template
     # The default template becomes allrecipes_list.html
  
 ##########################################
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
 def count_words_view(request):
     '''
     # get the recipes from the RSS feed
@@ -310,7 +313,7 @@ def count_words_view(request):
 ####################################################
 # This view uses the blogger API to get all the posts and stores them in the db
 ###################################################
-
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
 def get_and_store_view(request):
     '''
     Uses the blogger API and the requests module to get all the posts, and stores one recipe per record in the database   
@@ -519,6 +522,7 @@ def searchinput_view(request):
 ########################################################
 # Show Label List plus all other search terms that have been stored by the user
 ########################################################
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
 def suggestions_view(request):
     def update_the_database_with_labels(soup):        
         somehtml = soup.find("div", {"class": "widget Label"})      
@@ -566,6 +570,7 @@ def suggestions_view(request):
  
 
 #############
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
 def scrapecontents_view(request):
     '''
     Scrape the contents of every recipe post
